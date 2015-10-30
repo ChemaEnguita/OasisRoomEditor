@@ -1,0 +1,9 @@
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe.config
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.pdb
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csprojResolveAssemblyReference.cache
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.Properties.Resources.resources
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csproj.GenerateResource.Cache
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.exe
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.pdb
+c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.EditorMain.resources
