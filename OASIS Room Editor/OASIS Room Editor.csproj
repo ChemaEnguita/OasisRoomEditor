@@ -46,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveAttributes.cs" />
     <Compile Include="EditorMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditorMain.Designer.cs">
       <DependentUpon>EditorMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="OricPicture.cs" />
     <Compile Include="PixelBox.cs">
       <SubType>Component</SubType>
       <CustomToolNamespace>OASIS_Room_Editor</CustomToolNamespace>

@@ -47,36 +47,23 @@ namespace OASIS_Room_Editor
             this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
         }
 
-        protected ActiveAttributes AttributeMap=new ActiveAttributes();
         protected float ZoomLevel = 2;
         protected bool ShowGrid = true;
+        private OricPicture TheOricPic;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            TheOricPic = new OricPicture(768 / 6, 136);
+
 
             // For testing set alternating ink colors
-            for (int j = 0; j < PictureDefinitions.MaxLines; j++)
+            for (int j = 0; j < TheOricPic.nRows; j++)
             {
-                AttributeMap.SetInk(j % 8, 0, j);
-                AttributeMap.SetPaper((j+1) % 8, 1, j);
+                TheOricPic.SetInk(j % 8, 0, j);
+                TheOricPic.SetPaper((j + 1) % 8, 1, j);
             }
 
-            // Create an empty bitmap for the size of the largest room
-            var bmp = new Bitmap(768, 136);
-            using (var g = Graphics.FromImage(bmp))
-            {
-                g.PixelOffsetMode = PixelOffsetMode.Half;
-                g.FillRectangle(new SolidBrush(Color.Black), 0, 0, bmp.Width, bmp.Height);
-                for(int i=0;i<128;i++)
-                    for(int j=0;j<136;j++)
-                    {
-                        for (int k = 0; k < 6; k++)
-                            bmp.SetPixel(i*6 + k, j, PictureDefinitions.ListColors[AttributeMap.CurrentPaper[i, j]]);
-                    }
-
-
-            }
-            HiresPictureBox.Image = bmp;
+            HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
         }
 
@@ -105,54 +92,15 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs != null)
             {
-                var bmp = HiresPictureBox.Image;
-                var locx = (int)(mouseEventArgs.X / ZoomLevel);
-                var locy = (int)(mouseEventArgs.Y / ZoomLevel);
-                var scan =  locx/ 6;
-                var line = locy;
-
-                int ink, paper;
-
-                // Avoid drawing over attributes
-                if (AttributeMap.isInkAttribute[scan, line] || AttributeMap.isPaperAttribute[scan, line])
-                {
-                    return;
-                }
-
-                // Get the colors for this scan
-                ink = AttributeMap.CurrentInk[scan, line];
-                paper = AttributeMap.CurrentPaper[scan, line];
-
-                // If inverse bit is on, calculate the inverse color
-                if (AttributeMap.isInverse[scan, line])
-                {
-                    ink = (ink ^ 0xff) & (0x07);
-                    paper = (paper ^ 0xff) & (0x07);
-                }
-
-                Color brushColor;
-
                 if (mouseEventArgs.Button == MouseButtons.Right)
                 {
-                    // Draw in paper color
-                    brushColor = PictureDefinitions.ListColors[paper];
-                    // And set bit to 0 in bitmap
+                    TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
                 }
                 else
                 {
-                    // Draw in ink color
-                    brushColor = PictureDefinitions.ListColors[ink];
-                    // And set bit to 1 in bitmap
+                    TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
                 }
 
-                // Do the actual drawing
-                using (Brush b = new SolidBrush(brushColor))
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    //g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.FillRectangle(b, locx, locy, 1, 1);
-                }
-                
                 HiresPictureBox.Invalidate(); // Trigger redraw of the control.
             }
 
@@ -236,25 +184,27 @@ namespace OASIS_Room_Editor
 
         private void DrawAttribLabels(Graphics g)
         {
-             for(int i=0; i< PictureDefinitions.MaxScans; i++)
-                for (int j = 0; j < PictureDefinitions.MaxLines; j++)
+             for(int i=0; i< TheOricPic.nScans; i++)
+                for (int j = 0; j < TheOricPic.nRows; j++)
                 {
-                    if (AttributeMap.isInkAttribute[i, j] || AttributeMap.isPaperAttribute[i, j])
+                    if (TheOricPic.isAttribute(i, j))
                     {
-                        int ink = Inverse(AttributeMap.CurrentPaper[i, j]);
+                        int ink = TheOricPic.GetInverse(TheOricPic.GetScanPaperCode(i, j));
                         String aString = "";
 
-                        if (AttributeMap.isInkAttribute[i, j])
-                            aString = "Ink: " + AttributeMap.CurrentInk[i, j];
+                        if (TheOricPic.isInkAttribute(i, j))
+                            aString = "Ink: " + TheOricPic.GetScanInkCode(i, j);
                         else
-                            aString = "Paper: " + AttributeMap.CurrentPaper[i, j];
+                            aString = "Paper: " + TheOricPic.GetScanPaperCode(i, j);
+
+                        if (TheOricPic.isInverse(i, j))
+                            aString += " (i)";
 
                         using (Font aFont = new Font("Calibri", 6*ZoomLevel/8))
-                        using (Pen aPen = new Pen(PictureDefinitions.ListColors[ink], 1))
-                        using (SolidBrush aBrush = new SolidBrush(PictureDefinitions.ListColors[ink]))
+                        using (Pen aPen = new Pen(TheOricPic.ListColors[ink], 1))
+                        using (SolidBrush aBrush = new SolidBrush(TheOricPic.ListColors[ink]))
                         {
-
-                            g.DrawString(aString, aFont, aBrush, i*6*ZoomLevel+10,j*ZoomLevel);
+                            g.DrawString(aString, aFont, aBrush, i*6* ZoomLevel + 10, j * ZoomLevel);
                         }
                     }
                 }
