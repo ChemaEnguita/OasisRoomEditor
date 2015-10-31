@@ -276,6 +276,27 @@ namespace OASIS_Room_Editor
         {
             // Set the scan as Inverse
             Attributes[scan, line].isInverse = value;
+
+            // Repaint the pixels
+            var cInk = Attributes[scan, line].CurrentInk;
+            var cPaper = Attributes[scan, line].CurrentPaper;
+
+            if(value)
+            {
+                cInk = GetInverse(cInk);
+                cPaper = GetInverse(cPaper);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                // Do the actual drawing
+                Color brushColor = ListColors[isPixelInk[scan * 6 + i, line] ? cInk : cPaper];
+                using (Brush b = new SolidBrush(brushColor))
+                using (var g = Graphics.FromImage(theBitmap))
+                {
+                    g.FillRectangle(b, scan * 6 + i, line, 1, 1);
+                }
+            }
         }
 
         // Remove the attribute 
@@ -289,32 +310,35 @@ namespace OASIS_Room_Editor
 
         public int GetScanPaperCode(int scan, int line)
         {
-            var attr = Attributes[scan, line];
-
-            if (attr.isInverse)
-                return GetInverse(attr.CurrentPaper);
-            else
-                return attr.CurrentPaper;
+            return Attributes[scan, line].CurrentPaper;
         }
 
         public Color GetScanPaperColor(int scan, int line)
         {
-            return ListColors[GetScanPaperCode(scan, line)];
+            var attr = Attributes[scan, line];
+            var c = GetScanPaperCode(scan, line);
+
+            if (attr.isInverse)
+                c = GetInverse(c);
+
+            return ListColors[c];
         }
 
         public int GetScanInkCode(int scan, int line)
         {
-            var attr = Attributes[scan, line];
 
-            if (attr.isInverse)
-                return GetInverse(attr.CurrentInk);
-            else
-                return attr.CurrentInk;
+            return Attributes[scan, line].CurrentInk;
         }
 
         public Color GetScanInkColor(int scan, int line)
         {
-            return ListColors[GetScanInkCode(scan, line)];
+            var attr = Attributes[scan, line];
+            var c = GetScanInkCode(scan, line);
+
+            if (attr.isInverse)
+                c = GetInverse(c);
+
+            return ListColors[c];
         }
 
         public bool isInverse(int scan, int line)

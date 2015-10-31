@@ -47,9 +47,15 @@ namespace OASIS_Room_Editor
             this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
         }
 
-        protected float ZoomLevel = 2;
-        protected bool ShowGrid = true;
+        private float ZoomLevel = 2;
+        private bool ShowGrid = true;
+        private Color GridColor= Color.MediumPurple;
+        private Color MiniGridColor= Color.OrangeRed;
         private OricPicture TheOricPic;
+        
+        enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}
+        private DrawTools CurrentTool = DrawTools.Cursor;
+        Point WhereClicked;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -90,18 +96,33 @@ namespace OASIS_Room_Editor
         private void HiresPictureBox_Click(object sender, EventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
-            if (mouseEventArgs != null)
-            {
-                if (mouseEventArgs.Button == MouseButtons.Right)
-                {
-                    TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                }
-                else
-                {
-                    TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                }
+            if (mouseEventArgs == null) return;
 
-                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            switch(CurrentTool)
+            {
+                case DrawTools.Pen:
+                    if (mouseEventArgs.Button == MouseButtons.Right)
+                    {
+                        TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                    }
+                    else
+                    {
+                        TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                    }
+
+                    HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                    break;
+                case DrawTools.Cursor:
+                    if(mouseEventArgs.Button == MouseButtons.Right)
+                    {
+                        WhereClicked.X = (int) (mouseEventArgs.X/ZoomLevel);
+                        WhereClicked.Y = (int) (mouseEventArgs.Y/ZoomLevel);
+                        contextMenuAttributes.Show(MousePosition);
+                        //contextMenuAttributes.Show(this,new Point(mouseEventArgs.X, mouseEventArgs.Y)); 
+                    }
+                    
+                    break;
+
             }
 
         }
@@ -127,7 +148,7 @@ namespace OASIS_Room_Editor
         {
             int columnCount = (int) (HiresPictureBox.Width/(ZoomLevel * 6));
             int rowCount = (int) (HiresPictureBox.Height/(ZoomLevel * 8));
-            using (Pen myPen = new Pen(Color.OrangeRed, ZoomLevel > 8 ? 3 : 1))
+            using (Pen myPen = new Pen(GridColor, ZoomLevel > 8 ? 3 : 1))
             { 
                 for (int xPos = 1; xPos < columnCount; xPos++)
                 {
@@ -135,16 +156,16 @@ namespace OASIS_Room_Editor
                     {
                         g.DrawLine(
                             myPen,
-                            xPos * (6 * ZoomLevel),// this.HiresPictureBox.Width / columnCount,
+                            xPos * (6 * ZoomLevel),
                             0,
-                            xPos * (6 * ZoomLevel),//this.HiresPictureBox.Width / columnCount,
+                            xPos * (6 * ZoomLevel),
                             this.HiresPictureBox.Height);
                         g.DrawLine(
                             myPen,
                             0,
-                            yPos * (8 * ZoomLevel),//this.HiresPictureBox.Height / rowCount, 
+                            yPos * (8 * ZoomLevel),
                             this.HiresPictureBox.Width,
-                            yPos * (8 * ZoomLevel)); //this.HiresPictureBox.Height / rowCount);
+                            yPos * (8 * ZoomLevel));
                     }
                 }
             }
@@ -154,7 +175,7 @@ namespace OASIS_Room_Editor
         {
             int columnCount = (int)(HiresPictureBox.Width / (ZoomLevel ));
             int rowCount = (int)(HiresPictureBox.Height / (ZoomLevel ));
-            using (Pen myPen = new Pen(Color.MediumPurple, 1))
+            using (Pen myPen = new Pen(MiniGridColor, 1))
             {
                 for (int xPos = 1; xPos < columnCount; xPos++)
                 {
@@ -162,24 +183,19 @@ namespace OASIS_Room_Editor
                     {
                         g.DrawLine(
                             myPen,
-                            xPos * (ZoomLevel),// this.HiresPictureBox.Width / columnCount,
+                            xPos * (ZoomLevel),
                             0,
-                            xPos * (ZoomLevel),//this.HiresPictureBox.Width / columnCount,
+                            xPos * (ZoomLevel),
                             this.HiresPictureBox.Height);
                         g.DrawLine(
                             myPen,
                             0,
-                            yPos * (ZoomLevel),//this.HiresPictureBox.Height / rowCount, 
+                            yPos * (ZoomLevel),
                             this.HiresPictureBox.Width,
-                            yPos * (ZoomLevel)); //this.HiresPictureBox.Height / rowCount);
+                            yPos * (ZoomLevel));
                     }
                 }
             }
-        }
-
-        private int Inverse(int n)
-        {
-            return (n ^ 0xff) & (0x07);
         }
 
         private void DrawAttribLabels(Graphics g)
@@ -191,6 +207,9 @@ namespace OASIS_Room_Editor
                     {
                         int ink = TheOricPic.GetInverse(TheOricPic.GetScanPaperCode(i, j));
                         String aString = "";
+
+                        if (TheOricPic.isInverse(i, j))
+                            ink = TheOricPic.GetInverse(ink);
 
                         if (TheOricPic.isInkAttribute(i, j))
                             aString = "Ink: " + TheOricPic.GetScanInkCode(i, j);
@@ -204,12 +223,21 @@ namespace OASIS_Room_Editor
                         using (Pen aPen = new Pen(TheOricPic.ListColors[ink], 1))
                         using (SolidBrush aBrush = new SolidBrush(TheOricPic.ListColors[ink]))
                         {
-                            g.DrawString(aString, aFont, aBrush, i*6* ZoomLevel + 10, j * ZoomLevel);
+                            g.DrawString(aString, aFont, aBrush, i*6* ZoomLevel + 10, j * ZoomLevel-4);
                         }
                     }
                 }
         }
 
+        private void toggleInverseFlagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var scan = WhereClicked.X / 6;
+            var row = WhereClicked.Y;
+
+            TheOricPic.SetInverse(!TheOricPic.isInverse(scan, row), scan, row);
+            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+        }
     }
 }
 
