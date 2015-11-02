@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace OASIS_Room_Editor
 {
@@ -27,7 +28,7 @@ namespace OASIS_Room_Editor
     }
     class OricPicture
     {
-        public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.Green, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
+        public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.GreenYellow, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
         public readonly int nScans=40;
         public readonly int nRows = 200;
         public readonly Attribute[,] Attributes;
@@ -214,7 +215,9 @@ namespace OASIS_Room_Editor
                 for (int k = 0; k < 6; k++)
                 {
                     // Do the actual drawing
-                    Color brushColor = ListColors[isPixelInk[scan * 6 + k, line] ? cInk : cPaper];
+                    var cb=isPixelInk[scan * 6 + k, line] ? cInk : cPaper;
+                    cb = isInverse(scan, line) ? GetInverse(cb) : cb;
+                    Color brushColor = ListColors[cb];
                     using (Brush b = new SolidBrush(brushColor))
                     using (var g = Graphics.FromImage(theBitmap))
                     {
@@ -361,8 +364,62 @@ namespace OASIS_Room_Editor
             return (isPaperAttribute(scan, line) || isInkAttribute(scan, line));
         }
 
-
         #endregion
+
+        #region file I/O
+
+        private void DecodeAttribute(byte val, int scan, int line)
+        {
+            val = (byte)(val & ~0x80);
+
+            if (val < 8)
+                SetInk(val, scan, line);
+            else
+                SetPaper((val&0x7), scan, line);
+        } 
+
+        internal void ReadHiresData(string fileName)
+        {
+            // Create the reader for data.
+            var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            BinaryReader r = new BinaryReader(fs);
+            
+            // Read data
+            for (int line=0; line<nRows;line++)
+                for (int scan = 0; scan < nScans; scan++)
+                {
+                    // Read one byte
+                    var b=r.ReadByte();
+                                    
+                      
+                    if ((b & 0x40) == 0) 
+                        DecodeAttribute(b, scan, line); // It is an attribute
+                    else
+                    {
+                        // Pixel values...
+                        int mask = 1;
+                        for (int k = 1; k < 7; k++)
+                        {
+                            SetPixelToValue(scan*6+6-k, line, b & mask);
+                            mask = mask *2;
+                        }
+                    }
+
+                    // Set the inverse mode
+                    if ((b & 0x80) !=0)
+                        SetInverse(true, scan, line);
+                    else
+                        SetInverse(false, scan, line);
+
+                }
+            ResetAllAttributes();
+
+            // Close the reader
+            r.Close();
+
+        }
+        #endregion
+
 
     }
 

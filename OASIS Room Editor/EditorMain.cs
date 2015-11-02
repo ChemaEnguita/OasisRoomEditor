@@ -59,18 +59,26 @@ namespace OASIS_Room_Editor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            TheOricPic = new OricPicture(768 / 6, 136);
 
+            //TheOricPic = new OricPicture(40, 200);// 768 / 6, 136);
+
+            //TheOricPic.ReadHiresData("d:\\dbug_1337_logo.hir");
 
             // For testing set alternating ink colors
-            for (int j = 0; j < TheOricPic.nRows; j++)
+            /*for (int j = 0; j < TheOricPic.nRows; j++)
             {
                 TheOricPic.SetInk(j % 8, 0, j);
                 TheOricPic.SetPaper((j + 1) % 8, 1, j);
             }
+            /*
+            HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
+            HiresPictureBox.Width= (int)(TheOricPic.nScans*6 * ZoomLevel);
 
             HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
+            */
+            HiresPictureBox.Enabled = false;
+
         }
 
         private void HiresPictureBox_MouseWheel(object sender, MouseEventArgs e)
@@ -237,6 +245,160 @@ namespace OASIS_Room_Editor
 
             TheOricPic.SetInverse(!TheOricPic.isInverse(scan, row), scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+        }
+
+        private void ButtonCursor_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Cursor;
+        }
+
+        private void ButtonPen_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Pen;
+        }
+
+        private void removeAttributeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var scan = WhereClicked.X / 6;
+            var row = WhereClicked.Y;
+
+            TheOricPic.RemoveAttribute(scan, row);
+            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+
+        }
+
+        private void flipAllBitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var scan = WhereClicked.X / 6;
+            var row = WhereClicked.Y;
+
+            if (TheOricPic.isAttribute(scan, row)) return;
+
+            for (int i = 0; i < 6; i++)
+                TheOricPic.SetPixelToValue(scan * 6 + i, row, TheOricPic.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
+            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+        }
+
+        private void doSetPaper(int color)
+        {
+            var scan = WhereClicked.X / 6;
+            var row = WhereClicked.Y;
+
+            TheOricPic.SetPaper(color, scan, row);
+            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+        }
+
+        private void paperBlackMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(0);
+        }
+
+        private void paperRedMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(1);
+        }
+
+        private void paperGreenMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(2);
+        }
+
+        private void paperYellowMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(3);
+        }
+
+        private void paperBlueMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(4);
+        }
+
+        private void paperMagentaMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(5);
+        }
+
+        private void paperCyanMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(6);
+        }
+
+        private void paperWhiteMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetPaper(7);
+        }
+
+        private void doSetInk(int color)
+        {
+            var scan = WhereClicked.X / 6;
+            var row = WhereClicked.Y;
+
+            TheOricPic.SetInk(color, scan, row);
+            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+        }
+
+        private void inkBlackMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(0);
+        }
+
+        private void inkRedMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(1);
+        }
+
+        private void inkGreenMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(2);
+        }
+
+        private void inkYellowMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(3);
+        }
+
+        private void inkBlueMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(4);
+        }
+
+        private void inkMagentaMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(5);
+        }
+
+        private void inkCyanMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(6);
+        }
+
+        private void inkWhiteMenuItem_Click(object sender, EventArgs e)
+        {
+            doSetInk(7);
+        }
+
+        private void importHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "HIRES Files|*.hir";
+            openFileDialog1.Title = "Select a HIRES image File";
+            openFileDialog1.FileName="*.hir";
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (HiresPictureBox.Image != null)
+                    HiresPictureBox.Image.Dispose();
+
+                TheOricPic = new OricPicture(40, 200);
+                TheOricPic.ReadHiresData(openFileDialog1.FileName);
+
+                if(HiresPictureBox.Enabled==false)
+                    HiresPictureBox.Enabled = true;
+                HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
+                HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
+                HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
+                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;              
+            }
+
         }
     }
 }
