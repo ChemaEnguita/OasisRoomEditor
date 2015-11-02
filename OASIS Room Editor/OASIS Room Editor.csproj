@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogSizeHires.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogSizeHires.Designer.cs">
+      <DependentUpon>DialogSizeHires.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditorMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DialogSizeHires.resx">
+      <DependentUpon>DialogSizeHires.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditorMain.resx">
       <DependentUpon>EditorMain.cs</DependentUpon>
     </EmbeddedResource>

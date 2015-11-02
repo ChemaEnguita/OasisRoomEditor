@@ -56,6 +56,8 @@ namespace OASIS_Room_Editor
         enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}
         private DrawTools CurrentTool = DrawTools.Cursor;
         Point WhereClicked;
+        Point startDrag, endDrag;
+        private bool SelectingPixels=false;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -85,20 +87,22 @@ namespace OASIS_Room_Editor
         {
             int numberOfTextLinesToMove = e.Delta;
 
+            /*
             if (e.Delta > 0 && ZoomLevel<32)
             {
                 HiresPictureBox.Scale(new SizeF(2f, 2f));
                 ZoomLevel *= 2;
-                HiresPictureBox.Location = new Point(0, 0);
+                //HiresPictureBox.Location = new Point(0, 0);
                 HiresPictureBox.Invalidate();
             }
             if (e.Delta < 0 && ZoomLevel > 2)
             {
                 HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
                 ZoomLevel /= 2;
-                HiresPictureBox.Location = new Point(0, 0);
+                //HiresPictureBox.Location = new Point(0, 0);
                 HiresPictureBox.Invalidate();
             }
+            */
          }
 
         private void HiresPictureBox_Click(object sender, EventArgs e)
@@ -128,9 +132,17 @@ namespace OASIS_Room_Editor
                         contextMenuAttributes.Show(MousePosition);
                         //contextMenuAttributes.Show(this,new Point(mouseEventArgs.X, mouseEventArgs.Y)); 
                     }
-                    
+                    else
+                    {
+                        var x = (int)(mouseEventArgs.X / ZoomLevel);
+                        var y = (int)(mouseEventArgs.Y / ZoomLevel);
+                        if (TheOricPic.GetPixel(x, y) == 1)
+                            TheOricPic.ClearPixel(x, y);
+                        else
+                            TheOricPic.SetPixel(x, y);
+                        HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                    }
                     break;
-
             }
 
         }
@@ -211,7 +223,7 @@ namespace OASIS_Room_Editor
              for(int i=0; i< TheOricPic.nScans; i++)
                 for (int j = 0; j < TheOricPic.nRows; j++)
                 {
-                    if (TheOricPic.isAttribute(i, j))
+                    if (TheOricPic.isAttribute(i, j)||TheOricPic.isInverse(i, j))
                     {
                         int ink = TheOricPic.GetInverse(TheOricPic.GetScanPaperCode(i, j));
                         String aString = "";
@@ -221,11 +233,12 @@ namespace OASIS_Room_Editor
 
                         if (TheOricPic.isInkAttribute(i, j))
                             aString = "Ink: " + TheOricPic.GetScanInkCode(i, j);
-                        else
+
+                        if (TheOricPic.isPaperAttribute(i, j))
                             aString = "Paper: " + TheOricPic.GetScanPaperCode(i, j);
 
                         if (TheOricPic.isInverse(i, j))
-                            aString += " (i)";
+                            aString += " [i]";
 
                         using (Font aFont = new Font("Calibri", 6*ZoomLevel/8))
                         using (Pen aPen = new Pen(TheOricPic.ListColors[ink], 1))
@@ -237,6 +250,7 @@ namespace OASIS_Room_Editor
                 }
         }
 
+        #region COMMANDS OVER PICTURE
         private void toggleInverseFlagToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -247,15 +261,6 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
 
-        private void ButtonCursor_Click(object sender, EventArgs e)
-        {
-            CurrentTool = DrawTools.Cursor;
-        }
-
-        private void ButtonPen_Click(object sender, EventArgs e)
-        {
-            CurrentTool = DrawTools.Pen;
-        }
 
         private void removeAttributeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -377,6 +382,57 @@ namespace OASIS_Room_Editor
             doSetInk(7);
         }
 
+        #endregion
+
+        #region TOOLBAR
+        private void ButtonCursor_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Cursor;
+            HiresPictureBox.Cursor = Cursors.Default;
+        }
+
+        private void ButtonPen_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Pen;
+            HiresPictureBox.Cursor = Cursors.Hand;
+        }
+
+
+        private void ButtonSelection_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.SelectPixels;
+            HiresPictureBox.Cursor = Cursors.Cross;
+        }
+
+
+        private void ButtonZoomIn_Click(object sender, EventArgs e)
+        {
+            if (ZoomLevel == 32) return;
+            HiresPictureBox.Scale(new SizeF(2f, 2f));
+            ZoomLevel *= 2;
+            //HiresPictureBox.Location = new Point(0, 0);
+            HiresPictureBox.Invalidate();
+        }
+  
+        private void ButtonZoomOut_Click(object sender, EventArgs e)
+        {
+            if (ZoomLevel == 2) return;
+            HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
+            ZoomLevel /= 2;
+            //HiresPictureBox.Location = new Point(0, 0);
+            HiresPictureBox.Invalidate();
+        }
+
+        private void ButtonGrid_Click(object sender, EventArgs e)
+        {
+            ShowGrid = !ShowGrid;
+            HiresPictureBox.Invalidate();
+        }
+
+
+        #endregion
+
+        #region MAIN MENU
         private void importHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "HIRES Files|*.hir";
@@ -385,10 +441,18 @@ namespace OASIS_Room_Editor
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                var DS = new DialogSizeHires();
+                if (DS.ShowDialog()== System.Windows.Forms.DialogResult.Cancel)
+                {
+                    return;
+                }
+
+
                 if (HiresPictureBox.Image != null)
                     HiresPictureBox.Image.Dispose();
 
-                TheOricPic = new OricPicture(40, 200);
+                this.Cursor = Cursors.WaitCursor;
+                TheOricPic = new OricPicture(DS.picWidth/6, DS.picHeight);
                 TheOricPic.ReadHiresData(openFileDialog1.FileName);
 
                 if(HiresPictureBox.Enabled==false)
@@ -396,7 +460,71 @@ namespace OASIS_Room_Editor
                 HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
                 HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
                 HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
-                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;              
+                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+                this.Cursor = Cursors.Default;
+            }
+
+        }
+
+        #endregion
+
+        private void HiresPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs == null) return;
+
+            switch (CurrentTool)
+            {
+                case DrawTools.SelectPixels:
+                    startDrag = new Point(e.X,e.Y);
+                    endDrag = new Point(e.X, e.Y);
+                    WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
+                    WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
+                    HiresPictureBox.Capture = true;
+                    SelectingPixels = true;
+                 break;
+            }
+        }
+
+        private void HiresPictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (SelectingPixels)
+            {
+                using (var g = Graphics.FromImage(HiresPictureBox.Image))
+                {
+                    Point dst = ((Control)sender).PointToScreen(endDrag);
+                    Point org = ((Control)sender). PointToScreen(startDrag);
+                    ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
+                    endDrag = new Point(e.X, e.Y);
+                    dst= ((Control)sender).PointToScreen(endDrag);
+                    ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
+                }
+            }
+        }
+
+        private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs == null) return;
+
+            if (SelectingPixels)
+            {
+                HiresPictureBox.Capture = false;
+                SelectingPixels = false;
+
+                Point dst = ((Control)sender).PointToScreen(endDrag);
+                Point org = ((Control)sender).PointToScreen(startDrag);
+                ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
+
+                /* User selected a region in the bitmap from 
+                    WhereClicked.X
+                    WhereClicked.Y
+
+                    to
+
+                    (int)(mouseEventArgs.X / ZoomLevel);
+                    (int)(mouseEventArgs.Y / ZoomLevel);
+                 */
             }
 
         }
