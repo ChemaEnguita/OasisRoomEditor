@@ -76,14 +76,14 @@
             this.DrawingTools = new System.Windows.Forms.ToolStrip();
             this.ButtonCursor = new System.Windows.Forms.ToolStripButton();
             this.ButtonPen = new System.Windows.Forms.ToolStripButton();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.ButtonSelection = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonZoomIn = new System.Windows.Forms.ToolStripButton();
             this.ButtonZoomOut = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.panel1.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
@@ -112,7 +112,7 @@
             this.panel1.Controls.Add(this.HiresPictureBox);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 294);
+            this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
             // 
             // contextMenuAttributes
@@ -489,32 +489,6 @@
             this.ButtonPen.Text = "Pen";
             this.ButtonPen.Click += new System.EventHandler(this.ButtonPen_Click);
             // 
-            // toolStripContainer1
-            // 
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(696, 306);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // toolStripContainer1.LeftToolStripPanel
-            // 
-            this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.DrawingTools);
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(720, 331);
-            this.toolStripContainer1.TabIndex = 5;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.MainMenuTools);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // ButtonSelection
             // 
             this.ButtonSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -568,13 +542,39 @@
             this.ButtonGrid.Text = "toolStripButton1";
             this.ButtonGrid.Click += new System.EventHandler(this.ButtonGrid_Click);
             // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(696, 306);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // toolStripContainer1.LeftToolStripPanel
+            // 
+            this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.DrawingTools);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(720, 331);
+            this.toolStripContainer1.TabIndex = 5;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.MainMenuTools);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // HiresPictureBox
             // 
             this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
             this.HiresPictureBox.ErrorImage = null;
             this.HiresPictureBox.InitialImage = null;
             this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.HiresPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.HiresPictureBox.Location = new System.Drawing.Point(0, -9);
             this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.HiresPictureBox.Name = "HiresPictureBox";
             this.HiresPictureBox.Size = new System.Drawing.Size(1536, 272);
