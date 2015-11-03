@@ -85,73 +85,7 @@ namespace OASIS_Room_Editor
 
         }
 
-        private void HiresPictureBox_MouseWheel(object sender, MouseEventArgs e)
-        {
-           /* int numberOfTextLinesToMove = e.Delta;
-      
-            if (e.Delta > 0 && ZoomLevel<32)
-            {
-                HiresPictureBox.Scale(new SizeF(2f, 2f));
-                ZoomLevel *= 2;
-                //HiresPictureBox.Location = new Point(0, 0);
-                HiresPictureBox.Invalidate();
-            }
-            if (e.Delta < 0 && ZoomLevel > 2)
-            {
-                HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
-                ZoomLevel /= 2;
-                //HiresPictureBox.Location = new Point(0, 0);
-                HiresPictureBox.Invalidate();
-            }
-            */
-         }
-
-        private void HiresPictureBox_Click(object sender, EventArgs e)
-        {
-            var mouseEventArgs = e as MouseEventArgs;
-            if (mouseEventArgs == null) return;
-
-            switch(CurrentTool)
-            {
-                case DrawTools.Pen:
-                    if (mouseEventArgs.Button == MouseButtons.Right)
-                    {
-                        TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                    }
-                    else
-                    {
-                        TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                    }
-
-                    HiresPictureBox.Invalidate(); // Trigger redraw of the control.
-                    break;
-                case DrawTools.Cursor:
-                    if(mouseEventArgs.Button == MouseButtons.Right)
-                    {
-                        WhereClicked.X = (int) (mouseEventArgs.X/ZoomLevel);
-                        WhereClicked.Y = (int) (mouseEventArgs.Y/ZoomLevel);
-                        contextMenuAttributes.Show(MousePosition);
-                        //contextMenuAttributes.Show(this,new Point(mouseEventArgs.X, mouseEventArgs.Y)); 
-                    }
-                    else
-                    {
-                        var x = (int)(mouseEventArgs.X / ZoomLevel);
-                        var y = (int)(mouseEventArgs.Y / ZoomLevel);
-                        if (TheOricPic.GetPixel(x, y) == 1)
-                            TheOricPic.ClearPixel(x, y);
-                        else
-                            TheOricPic.SetPixel(x, y);
-                        HiresPictureBox.Invalidate(); // Trigger redraw of the control.
-                    }
-                    break;
-            }
-
-        }
-
-        private void HiresPictureBox_MouseHover(object sender, EventArgs e)
-        {
-            HiresPictureBox.Focus();
-        }
+        
 
         private void HiresPictureBox_Paint(object sender, PaintEventArgs e)
         {
@@ -471,6 +405,76 @@ namespace OASIS_Room_Editor
 
         #endregion
 
+        #region MOUSE AND EVENT HANDLERS
+
+        private void HiresPictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            /* int numberOfTextLinesToMove = e.Delta;
+
+             if (e.Delta > 0 && ZoomLevel<32)
+             {
+                 HiresPictureBox.Scale(new SizeF(2f, 2f));
+                 ZoomLevel *= 2;
+                 //HiresPictureBox.Location = new Point(0, 0);
+                 HiresPictureBox.Invalidate();
+             }
+             if (e.Delta < 0 && ZoomLevel > 2)
+             {
+                 HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
+                 ZoomLevel /= 2;
+                 //HiresPictureBox.Location = new Point(0, 0);
+                 HiresPictureBox.Invalidate();
+             }
+             */
+        }
+
+        private void HiresPictureBox_Click(object sender, EventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs == null) return;
+
+            switch (CurrentTool)
+            {
+                case DrawTools.Pen:
+                    if (mouseEventArgs.Button == MouseButtons.Right)
+                    {
+                        TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                    }
+                    else
+                    {
+                        TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                    }
+
+                    HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                    break;
+                case DrawTools.Cursor:
+                    if (mouseEventArgs.Button == MouseButtons.Right)
+                    {
+                        WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
+                        WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
+                        contextMenuAttributes.Show(MousePosition);
+                        //contextMenuAttributes.Show(this,new Point(mouseEventArgs.X, mouseEventArgs.Y)); 
+                    }
+                    else
+                    {
+                        var x = (int)(mouseEventArgs.X / ZoomLevel);
+                        var y = (int)(mouseEventArgs.Y / ZoomLevel);
+                        if (TheOricPic.GetPixel(x, y) == 1)
+                            TheOricPic.ClearPixel(x, y);
+                        else
+                            TheOricPic.SetPixel(x, y);
+                        HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                    }
+                    break;
+            }
+
+        }
+
+        private void HiresPictureBox_MouseHover(object sender, EventArgs e)
+        {
+            HiresPictureBox.Focus();
+        }
+
         private void HiresPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
@@ -531,6 +535,8 @@ namespace OASIS_Room_Editor
             }
 
         }
+
+        #endregion
     }
 }
 
