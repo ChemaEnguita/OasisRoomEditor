@@ -79,15 +79,16 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
             */
+            //HiresPictureBox.Anchor = AnchorStyles.Top;
             HiresPictureBox.Enabled = false;
+            //HiresPictureBox.Location = new Point(0, 0);
 
         }
 
         private void HiresPictureBox_MouseWheel(object sender, MouseEventArgs e)
         {
-            int numberOfTextLinesToMove = e.Delta;
-
-            /*
+           /* int numberOfTextLinesToMove = e.Delta;
+      
             if (e.Delta > 0 && ZoomLevel<32)
             {
                 HiresPictureBox.Scale(new SizeF(2f, 2f));
@@ -410,6 +411,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel == 32) return;
             HiresPictureBox.Scale(new SizeF(2f, 2f));
             ZoomLevel *= 2;
+            //panel1.SetAutoScrollMargin(HiresPictureBox.Width, HiresPictureBox.Height);
             //HiresPictureBox.Location = new Point(0, 0);
             HiresPictureBox.Invalidate();
         }
@@ -419,6 +421,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel == 2) return;
             HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
             ZoomLevel /= 2;
+            //panel1.SetAutoScrollMargin(HiresPictureBox.Width, HiresPictureBox.Height);
             //HiresPictureBox.Location = new Point(0, 0);
             HiresPictureBox.Invalidate();
         }
