@@ -496,7 +496,7 @@
             this.ButtonSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonSelection.Name = "ButtonSelection";
             this.ButtonSelection.Size = new System.Drawing.Size(22, 20);
-            this.ButtonSelection.Text = "toolStripButton1";
+            this.ButtonSelection.Text = "Select Pixels";
             this.ButtonSelection.Click += new System.EventHandler(this.ButtonSelection_Click);
             // 
             // toolStripSeparator4
@@ -511,7 +511,7 @@
             this.ButtonZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomIn.Name = "ButtonZoomIn";
             this.ButtonZoomIn.Size = new System.Drawing.Size(22, 20);
-            this.ButtonZoomIn.Text = "toolStripButton1";
+            this.ButtonZoomIn.Text = "Zoom In";
             this.ButtonZoomIn.Click += new System.EventHandler(this.ButtonZoomIn_Click);
             // 
             // ButtonZoomOut
@@ -521,7 +521,7 @@
             this.ButtonZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomOut.Name = "ButtonZoomOut";
             this.ButtonZoomOut.Size = new System.Drawing.Size(22, 20);
-            this.ButtonZoomOut.Text = "toolStripButton2";
+            this.ButtonZoomOut.Text = "Zoom Out";
             this.ButtonZoomOut.Click += new System.EventHandler(this.ButtonZoomOut_Click);
             // 
             // toolStripSeparator5
@@ -539,7 +539,7 @@
             this.ButtonGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonGrid.Name = "ButtonGrid";
             this.ButtonGrid.Size = new System.Drawing.Size(22, 20);
-            this.ButtonGrid.Text = "toolStripButton1";
+            this.ButtonGrid.Text = "Grid";
             this.ButtonGrid.Click += new System.EventHandler(this.ButtonGrid_Click);
             // 
             // toolStripContainer1
