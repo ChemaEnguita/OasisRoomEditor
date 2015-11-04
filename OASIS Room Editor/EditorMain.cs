@@ -403,6 +403,40 @@ namespace OASIS_Room_Editor
 
         }
 
+        private void importPictureFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Image files (*.bmp; *.jpg; *.jpeg,*.png, *.tiff)| *.BMP; *.JPG; *.JPEG; *.PNG; *.TIFF; *.TIF";
+            openFileDialog1.Title = "Select an image File";
+            openFileDialog1.FileName = "";
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var bmp = new Bitmap(openFileDialog1.FileName);
+                if (bmp == null)
+                    return;
+
+                var s = bmp.Size;
+
+                if (HiresPictureBox.Image != null)
+                    HiresPictureBox.Image.Dispose();
+
+                this.Cursor = Cursors.WaitCursor;
+                TheOricPic = new OricPicture(s.Width / 6, s.Height);
+                TheOricPic.ReadBMPData(bmp);
+
+                bmp.Dispose();
+
+                if (HiresPictureBox.Enabled == false)
+                    HiresPictureBox.Enabled = true;
+                HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
+                HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
+                HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
+                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+                this.Cursor = Cursors.Default;
+            }
+
+        }
+
         #endregion
 
         #region MOUSE AND EVENT HANDLERS
@@ -508,6 +542,8 @@ namespace OASIS_Room_Editor
                 }
             }
         }
+
+
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
