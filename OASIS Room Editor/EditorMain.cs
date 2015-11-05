@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 /*
 public class Globals
@@ -55,9 +56,14 @@ namespace OASIS_Room_Editor
         
         enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}
         private DrawTools CurrentTool = DrawTools.Cursor;
-        Point WhereClicked;
-        Point startDrag, endDrag;
-        private bool SelectingPixels=false;
+
+        Point WhereClicked;                         // Position the user clicked on the picture
+        Point startDrag, endDrag;                   // used when dragging 
+        private bool SelectingPixels=false;         // true if the user is selecting an area
+        private bool SelectionValid = false;        // true if there is an area selected
+        private Rectangle SelectedRect;             // The area the user selected
+        private PixelBox PastePictureBox = null;    // PictureBox used for pasting
+        private bool MovingPastedPic = false;       // Is the user moving the pasted clip?
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -97,6 +103,16 @@ namespace OASIS_Room_Editor
             }
             if (ZoomLevel > 4)
                 DrawAttribLabels(e.Graphics);
+
+            if (SelectionValid)
+            {
+                using (var aPen = new Pen(Color.PaleGoldenrod,ZoomLevel))
+                {
+                    aPen.DashPattern = new float[] { 4.0F, 2.0F, 1.0F, 3.0F };
+                    e.Graphics.DrawRectangle(aPen, new Rectangle((int)(SelectedRect.X*ZoomLevel), (int)(SelectedRect.Y*ZoomLevel),
+                        (int)(SelectedRect.Width*ZoomLevel), (int)(SelectedRect.Height*ZoomLevel)));
+                }
+            }
         }
 
         private void DrawGrid(Graphics g)
@@ -391,6 +407,101 @@ namespace OASIS_Room_Editor
 
         #endregion
 
+        #region COMMON TOOLBAR
+
+        private void copiarToolStripButton_Click(object sender, EventArgs e)
+        {
+            CopyCommand();
+        }
+
+        private void cortarToolStripButton_Click(object sender, EventArgs e)
+        {
+            CutCommand();
+        }
+
+        private void pegarToolStripButton_Click(object sender, EventArgs e)
+        {
+            PasteCommand();
+        }
+
+
+        #endregion
+
+        private void PasteCommand()
+        {
+            // Do nothing if the clipboard doesn't hold an image.
+            if (!Clipboard.ContainsImage()) return;
+
+            var bmp = new Bitmap(Clipboard.GetImage());
+            PastePictureBox = new PixelBox();
+
+            PastePictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
+            PastePictureBox.Parent = HiresPictureBox;
+            PastePictureBox.Size = new Size((int)(bmp.Width*ZoomLevel), (int)(bmp.Height*ZoomLevel));
+            PastePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            PastePictureBox.Location = HiresPictureBox.PointToScreen(HiresPictureBox.Location);
+            PastePictureBox.Image = bmp;
+            PastePictureBox.Visible = true;
+
+            PastePictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseDown);
+            PastePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseMove);
+            PastePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseUp);
+
+            PastePictureBox.Invalidate();
+
+        }
+
+        private void PastePictureBox_MouseDown(object sender, EventArgs e)
+        {
+            MovingPastedPic = true;
+            PastePictureBox.Capture=true;
+        }
+
+        private void PastePictureBox_MouseMove(object sender, EventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs == null) return;
+
+            if (MovingPastedPic)
+                PastePictureBox.Location = new Point(mouseEventArgs.X, mouseEventArgs.Y);
+                
+        }
+
+        private void PastePictureBox_MouseUp(object sender, EventArgs e)
+        {
+            MovingPastedPic = false;
+        }
+
+        private void CutCommand()
+        {
+            CopyCommand();
+            for (int x = 0; x < SelectedRect.Width; x++)
+                for (int y = 0; y < SelectedRect.Height; y++)
+                {
+                    TheOricPic.ClearPixel(SelectedRect.X + x, SelectedRect.Y + y);
+                }
+
+            HiresPictureBox.Invalidate();
+        }
+
+        private void CopyCommand()
+        {
+            if (!SelectionValid) return;
+
+            using (var bmpCopy = new Bitmap(SelectedRect.Width, SelectedRect.Height))
+            {
+                for (int x = 0; x < SelectedRect.Width; x++)
+                    for (int y = 0; y < SelectedRect.Height; y++)
+                    {
+                        if (TheOricPic.GetPixel(SelectedRect.X + x, SelectedRect.Y + y) == 1)
+                            bmpCopy.SetPixel(x, y, Color.White);
+                        else
+                            bmpCopy.SetPixel(x, y, Color.Black);
+                    }
+                Clipboard.SetImage(bmpCopy);
+            }
+        }
+
         #region MAIN MENU
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -422,12 +533,7 @@ namespace OASIS_Room_Editor
                 TheOricPic = new OricPicture(DS.picWidth/6, DS.picHeight);
                 TheOricPic.ReadHiresData(openFileDialog1.FileName);
 
-                if(HiresPictureBox.Enabled==false)
-                    HiresPictureBox.Enabled = true;
-                HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
-                HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
-                HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
-                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+                ReloadActions();
                 this.Cursor = Cursors.Default;
             }
 
@@ -456,14 +562,27 @@ namespace OASIS_Room_Editor
 
                 bmp.Dispose();
 
-                if (HiresPictureBox.Enabled == false)
-                    HiresPictureBox.Enabled = true;
-                HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
-                HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
-                HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
-                HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+                ReloadActions();
                 this.Cursor = Cursors.Default;
             }
+
+        }
+
+        private void ReloadActions()
+        {
+            if (HiresPictureBox.Enabled == false)
+                HiresPictureBox.Enabled = true;
+            HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
+            HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
+            HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
+            HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+
+            if (PastePictureBox != null)
+            {
+                PastePictureBox.Dispose();
+                PastePictureBox = null;
+            }
+            SelectionValid = false;
 
         }
 
@@ -497,6 +616,8 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
+            SelectionValid = false;
+
             switch (CurrentTool)
             {
                 case DrawTools.Pen:
@@ -516,8 +637,10 @@ namespace OASIS_Room_Editor
                     {
                         WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
                         WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
+
+                        removeAttributeToolStripMenuItem.Enabled = TheOricPic.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
+                        flipAllBitsToolStripMenuItem.Enabled = !TheOricPic.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
                         contextMenuAttributes.Show(MousePosition);
-                        //contextMenuAttributes.Show(this,new Point(mouseEventArgs.X, mouseEventArgs.Y)); 
                     }
                     else
                     {
@@ -544,7 +667,7 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
-             switch (CurrentTool)
+            switch (CurrentTool)
             {
                 case DrawTools.SelectPixels:
                     startDrag = new Point(e.X,e.Y);
@@ -575,7 +698,7 @@ namespace OASIS_Room_Editor
                 using (var g = Graphics.FromImage(HiresPictureBox.Image))
                 {
                     Point dst = ((Control)sender).PointToScreen(endDrag);
-                    Point org = ((Control)sender). PointToScreen(startDrag);
+                    Point org = ((Control)sender).PointToScreen(startDrag);
                     ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
                     endDrag = new Point(e.X, e.Y);
                     dst= ((Control)sender).PointToScreen(endDrag);
@@ -613,6 +736,17 @@ namespace OASIS_Room_Editor
                     (int)(mouseEventArgs.X / ZoomLevel);
                     (int)(mouseEventArgs.Y / ZoomLevel);
                  */
+
+                Point trueDest = new Point((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                if (Control.ModifierKeys == Keys.Shift)
+                {
+                    WhereClicked.X = (int)(WhereClicked.X / 6) * 6;
+                    trueDest.X = (int)(trueDest.X / 6) * 6;
+                }
+
+                SelectedRect = new Rectangle(WhereClicked, new Size(trueDest.X - WhereClicked.X, trueDest.Y - WhereClicked.Y));
+                SelectionValid = true;
+                HiresPictureBox.Invalidate();
             }
 
         }

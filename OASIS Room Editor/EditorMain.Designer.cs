@@ -33,7 +33,6 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripScanLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.contextMenuAttributes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setPaperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paperBlackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +64,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.importHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPictureFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuTools = new System.Windows.Forms.ToolStrip();
             this.nuevoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.abrirToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -87,11 +88,9 @@
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.MainMenuTools.SuspendLayout();
@@ -100,6 +99,7 @@
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -131,27 +131,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
-            // 
-            // HiresPictureBox
-            // 
-            this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
-            this.HiresPictureBox.ErrorImage = null;
-            this.HiresPictureBox.InitialImage = null;
-            this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.HiresPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.HiresPictureBox.Name = "HiresPictureBox";
-            this.HiresPictureBox.Size = new System.Drawing.Size(1536, 272);
-            this.HiresPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.HiresPictureBox.TabIndex = 2;
-            this.HiresPictureBox.TabStop = false;
-            this.HiresPictureBox.Click += new System.EventHandler(this.HiresPictureBox_Click);
-            this.HiresPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.HiresPictureBox_Paint);
-            this.HiresPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseDown);
-            this.HiresPictureBox.MouseLeave += new System.EventHandler(this.HiresPictureBox_MouseLeave);
-            this.HiresPictureBox.MouseHover += new System.EventHandler(this.HiresPictureBox_MouseHover);
-            this.HiresPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseMove);
-            this.HiresPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseUp);
             // 
             // contextMenuAttributes
             // 
@@ -395,6 +374,18 @@
             this.importPictureFromFileToolStripMenuItem.Text = "&Import picture from file...";
             this.importPictureFromFileToolStripMenuItem.Click += new System.EventHandler(this.importPictureFromFileToolStripMenuItem_Click);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // MainMenuTools
             // 
             this.MainMenuTools.Dock = System.Windows.Forms.DockStyle.None;
@@ -412,7 +403,7 @@
             this.MainMenuTools.Location = new System.Drawing.Point(3, 0);
             this.MainMenuTools.Name = "MainMenuTools";
             this.MainMenuTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.MainMenuTools.Size = new System.Drawing.Size(208, 25);
+            this.MainMenuTools.Size = new System.Drawing.Size(239, 25);
             this.MainMenuTools.TabIndex = 1;
             this.MainMenuTools.Text = "toolStrip1";
             // 
@@ -465,6 +456,7 @@
             this.cortarToolStripButton.Name = "cortarToolStripButton";
             this.cortarToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.cortarToolStripButton.Text = "Cort&ar";
+            this.cortarToolStripButton.Click += new System.EventHandler(this.cortarToolStripButton_Click);
             // 
             // copiarToolStripButton
             // 
@@ -474,6 +466,7 @@
             this.copiarToolStripButton.Name = "copiarToolStripButton";
             this.copiarToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.copiarToolStripButton.Text = "&Copiar";
+            this.copiarToolStripButton.Click += new System.EventHandler(this.copiarToolStripButton_Click);
             // 
             // pegarToolStripButton
             // 
@@ -483,6 +476,7 @@
             this.pegarToolStripButton.Name = "pegarToolStripButton";
             this.pegarToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.pegarToolStripButton.Text = "&Pegar";
+            this.pegarToolStripButton.Click += new System.EventHandler(this.pegarToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -616,17 +610,26 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // toolStripSeparator6
+            // HiresPictureBox
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.exitToolStripMenuItem.Text = "&Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.HiresPictureBox.ErrorImage = null;
+            this.HiresPictureBox.InitialImage = null;
+            this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.HiresPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
+            this.HiresPictureBox.Name = "HiresPictureBox";
+            this.HiresPictureBox.Size = new System.Drawing.Size(1536, 272);
+            this.HiresPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.HiresPictureBox.TabIndex = 2;
+            this.HiresPictureBox.TabStop = false;
+            this.HiresPictureBox.Click += new System.EventHandler(this.HiresPictureBox_Click);
+            this.HiresPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.HiresPictureBox_Paint);
+            this.HiresPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseDown);
+            this.HiresPictureBox.MouseLeave += new System.EventHandler(this.HiresPictureBox_MouseLeave);
+            this.HiresPictureBox.MouseHover += new System.EventHandler(this.HiresPictureBox_MouseHover);
+            this.HiresPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseMove);
+            this.HiresPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseUp);
             // 
             // EditorMain
             // 
@@ -643,7 +646,6 @@
             this.StatusBar.ResumeLayout(false);
             this.StatusBar.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).EndInit();
             this.contextMenuAttributes.ResumeLayout(false);
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -658,6 +660,7 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
