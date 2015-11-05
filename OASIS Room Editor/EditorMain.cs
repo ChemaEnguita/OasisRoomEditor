@@ -345,8 +345,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel == 32) return;
             HiresPictureBox.Scale(new SizeF(2f, 2f));
             ZoomLevel *= 2;
-            //panel1.SetAutoScrollMargin(HiresPictureBox.Width, HiresPictureBox.Height);
-            //HiresPictureBox.Location = new Point(0, 0);
+            HiresPictureBox.Location = panel1.AutoScrollPosition;
             HiresPictureBox.Invalidate();
         }
   
@@ -355,8 +354,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel == 2) return;
             HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
             ZoomLevel /= 2;
-            //panel1.SetAutoScrollMargin(HiresPictureBox.Width, HiresPictureBox.Height);
-            //HiresPictureBox.Location = new Point(0, 0);
+            HiresPictureBox.Location = panel1.AutoScrollPosition;
             HiresPictureBox.Invalidate();
         }
 

@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorMain));
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.contextMenuAttributes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setPaperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paperBlackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +62,7 @@
             this.saveRoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.importHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPictureFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuTools = new System.Windows.Forms.ToolStrip();
             this.nuevoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.abrirToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -85,9 +85,8 @@
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.importPictureFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.MainMenuTools.SuspendLayout();
@@ -96,6 +95,7 @@
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -108,33 +108,17 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.AutoScrollMinSize = new System.Drawing.Size(1, 1);
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.HiresPictureBox);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
-            // 
-            // HiresPictureBox
-            // 
-            this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
-            this.HiresPictureBox.ErrorImage = null;
-            this.HiresPictureBox.InitialImage = null;
-            this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.HiresPictureBox.Location = new System.Drawing.Point(0, -9);
-            this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.HiresPictureBox.Name = "HiresPictureBox";
-            this.HiresPictureBox.Size = new System.Drawing.Size(1536, 272);
-            this.HiresPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.HiresPictureBox.TabIndex = 2;
-            this.HiresPictureBox.TabStop = false;
-            this.HiresPictureBox.Click += new System.EventHandler(this.HiresPictureBox_Click);
-            this.HiresPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.HiresPictureBox_Paint);
-            this.HiresPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseDown);
-            this.HiresPictureBox.MouseHover += new System.EventHandler(this.HiresPictureBox_MouseHover);
-            this.HiresPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseMove);
-            this.HiresPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseUp);
             // 
             // contextMenuAttributes
             // 
@@ -369,6 +353,13 @@
             this.importHIRESPictureToolStripMenuItem.Text = "Import &HIRES picture...";
             this.importHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.importHIRESPictureToolStripMenuItem_Click);
             // 
+            // importPictureFromFileToolStripMenuItem
+            // 
+            this.importPictureFromFileToolStripMenuItem.Name = "importPictureFromFileToolStripMenuItem";
+            this.importPictureFromFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.importPictureFromFileToolStripMenuItem.Text = "&Import picture from file...";
+            this.importPictureFromFileToolStripMenuItem.Click += new System.EventHandler(this.importPictureFromFileToolStripMenuItem_Click);
+            // 
             // MainMenuTools
             // 
             this.MainMenuTools.Dock = System.Windows.Forms.DockStyle.None;
@@ -590,12 +581,25 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // importPictureFromFileToolStripMenuItem
+            // HiresPictureBox
             // 
-            this.importPictureFromFileToolStripMenuItem.Name = "importPictureFromFileToolStripMenuItem";
-            this.importPictureFromFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.importPictureFromFileToolStripMenuItem.Text = "&Import picture from file...";
-            this.importPictureFromFileToolStripMenuItem.Click += new System.EventHandler(this.importPictureFromFileToolStripMenuItem_Click);
+            this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.HiresPictureBox.ErrorImage = null;
+            this.HiresPictureBox.InitialImage = null;
+            this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.HiresPictureBox.Location = new System.Drawing.Point(0, -9);
+            this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
+            this.HiresPictureBox.Name = "HiresPictureBox";
+            this.HiresPictureBox.Size = new System.Drawing.Size(1536, 272);
+            this.HiresPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.HiresPictureBox.TabIndex = 2;
+            this.HiresPictureBox.TabStop = false;
+            this.HiresPictureBox.Click += new System.EventHandler(this.HiresPictureBox_Click);
+            this.HiresPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.HiresPictureBox_Paint);
+            this.HiresPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseDown);
+            this.HiresPictureBox.MouseHover += new System.EventHandler(this.HiresPictureBox_MouseHover);
+            this.HiresPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseMove);
+            this.HiresPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseUp);
             // 
             // EditorMain
             // 
@@ -610,7 +614,6 @@
             this.Text = "OASIS Room Editor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).EndInit();
             this.contextMenuAttributes.ResumeLayout(false);
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -625,6 +628,7 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
