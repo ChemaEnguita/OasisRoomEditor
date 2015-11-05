@@ -343,18 +343,42 @@ namespace OASIS_Room_Editor
         private void ButtonZoomIn_Click(object sender, EventArgs e)
         {
             if (ZoomLevel == 32) return;
+
+            // Enlarge the Picture box
             HiresPictureBox.Scale(new SizeF(2f, 2f));
             ZoomLevel *= 2;
+
+            // This is needed to keep picture always aligned at top left.
             HiresPictureBox.Location = panel1.AutoScrollPosition;
+
+            // This is needed to try to mantain the area we are 
+            // watching when zooming in
+            var p = panel1.AutoScrollPosition;
+            p.X *= -2;  // The position is retreived as <0, while should be set >0
+            p.Y *= -2;
+            panel1.AutoScrollPosition = p;
+
             HiresPictureBox.Invalidate();
         }
   
         private void ButtonZoomOut_Click(object sender, EventArgs e)
         {
             if (ZoomLevel == 2) return;
+
+            // This is needed to try to mantain the area we are 
+            // watching when zooming out
+            var p = panel1.AutoScrollPosition;
+            p.X /= -2;  // The position is retreived as <0, while should be set >0
+            p.Y /= -2;
+            panel1.AutoScrollPosition = p;
+
+            // Shrink the Picture box
             HiresPictureBox.Scale(new SizeF(0.5f, 0.5f));
             ZoomLevel /= 2;
+
+            // This is needed to keep picture always aligned at top left.
             HiresPictureBox.Location = panel1.AutoScrollPosition;
+
             HiresPictureBox.Invalidate();
         }
 
@@ -368,6 +392,14 @@ namespace OASIS_Room_Editor
         #endregion
 
         #region MAIN MENU
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
+
+
+
         private void importHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "HIRES Files|*.hir";
@@ -512,7 +544,7 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
-            switch (CurrentTool)
+             switch (CurrentTool)
             {
                 case DrawTools.SelectPixels:
                     startDrag = new Point(e.X,e.Y);
@@ -523,10 +555,21 @@ namespace OASIS_Room_Editor
                     SelectingPixels = true;
                  break;
             }
+
+
         }
 
         private void HiresPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs == null) return;
+
+            var x = (int)(mouseEventArgs.X / ZoomLevel);
+            var y = (int)(mouseEventArgs.Y / ZoomLevel);
+
+            toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x/6 + "," + y/8 + ")" ;
+            StatusBar.Update();
+
             if (SelectingPixels)
             {
                 using (var g = Graphics.FromImage(HiresPictureBox.Image))
@@ -541,6 +584,10 @@ namespace OASIS_Room_Editor
             }
         }
 
+        private void HiresPictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripScanLabel.Text = "Outside drawing area";
+        }
 
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
