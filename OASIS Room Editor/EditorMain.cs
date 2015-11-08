@@ -48,13 +48,15 @@ namespace OASIS_Room_Editor
             this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
         }
 
-        private float ZoomLevel = 2;
-        private bool ShowGrid = true;
-        private Color GridColor= Color.MediumPurple;
-        private Color MiniGridColor= Color.OrangeRed;
-        private OricPicture TheOricPic;
+        private float ZoomLevel = 2;                    // Level of zoom
+        private bool ShowGrid = true;                   // Is the grid showing?
+        private Color GridColor= Color.MediumPurple;    // Default Grid color
+        private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
+
+        private OricPicture TheOricPic;                 // Holds the Oric picture     
         
-        enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}
+        // Possible drawing tools and current one selected from the toolbar
+        enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}    
         private DrawTools CurrentTool = DrawTools.Cursor;
 
         Point WhereClicked;                         // Position the user clicked on the picture
@@ -65,11 +67,12 @@ namespace OASIS_Room_Editor
         private PixelBox PastePictureBox = null;    // PictureBox used for pasting
         private bool MovingPastedPic = false;       // Is the user moving the pasted clip?
 
+        private Point MouseDownLocation;            // Location where the user pressed the mouse button to start dragging the clip
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
             //TheOricPic = new OricPicture(40, 200);// 768 / 6, 136);
-
             //TheOricPic.ReadHiresData("d:\\dbug_1337_logo.hir");
 
             // For testing set alternating ink colors
@@ -81,29 +84,33 @@ namespace OASIS_Room_Editor
             /*
             HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
             HiresPictureBox.Width= (int)(TheOricPic.nScans*6 * ZoomLevel);
-
             HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
             */
-            //HiresPictureBox.Anchor = AnchorStyles.Top;
-            HiresPictureBox.Enabled = false;
-            //HiresPictureBox.Location = new Point(0, 0);
 
+            // Start with the HiresPictureBox disabled
+            HiresPictureBox.Enabled = false;
         }
 
         
 
         private void HiresPictureBox_Paint(object sender, PaintEventArgs e)
         {
+            // If the grid is showing, just draw it.
+            // If zoom level is beyond 8 also draw the mini grid
             if (ShowGrid)
             {
                 DrawGrid(e.Graphics);
                 if (ZoomLevel > 8)
                     DrawMiniGrid(e.Graphics);
             }
+
+            // If zoom level is beyond 4, also draw attribute labels
             if (ZoomLevel > 4)
                 DrawAttribLabels(e.Graphics);
 
+            // If there is a valid selection, draw the selection rectangle
+            // This handles when the user dragged to select a picture area
             if (SelectionValid)
             {
                 using (var aPen = new Pen(Color.PaleGoldenrod,ZoomLevel))
@@ -115,6 +122,7 @@ namespace OASIS_Room_Editor
             }
         }
 
+        // Method for drawing the grid
         private void DrawGrid(Graphics g)
         {
             int columnCount = (int) (HiresPictureBox.Width/(ZoomLevel * 6));
@@ -142,6 +150,7 @@ namespace OASIS_Room_Editor
             }
         }
 
+        // ... and the mini grid
         private void DrawMiniGrid(Graphics g)
         {
             int columnCount = (int)(HiresPictureBox.Width / (ZoomLevel ));
@@ -169,6 +178,8 @@ namespace OASIS_Room_Editor
             }
         }
 
+
+        //... and the labes for attributes
         private void DrawAttribLabels(Graphics g)
         {
              for(int i=0; i< TheOricPic.nScans; i++)
@@ -201,7 +212,22 @@ namespace OASIS_Room_Editor
                 }
         }
 
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch(keyData)
+            {
+                case (Keys.Control | Keys.C):
+                    break;
+                case (Keys.Control | Keys.X):
+                    break;
+
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         #region COMMANDS OVER PICTURE
+
         private void toggleInverseFlagToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -432,7 +458,14 @@ namespace OASIS_Room_Editor
             // Do nothing if the clipboard doesn't hold an image.
             if (!Clipboard.ContainsImage()) return;
 
+            // Put back cursor as current toos
+            CurrentTool = DrawTools.Cursor;
+            HiresPictureBox.Cursor = Cursors.Default;
+            
+            // Create a new bitmap with the clipboard data
             var bmp = new Bitmap(Clipboard.GetImage());
+
+            // And draw it into a newly created floating picture box
             PastePictureBox = new PixelBox();
 
             PastePictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -446,48 +479,133 @@ namespace OASIS_Room_Editor
             PastePictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseDown);
             PastePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseMove);
             PastePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PastePictureBox_MouseUp);
+            PastePictureBox.Leave += new System.EventHandler(this.PastePictureBox_Leave);
 
+            PastePictureBox.Location=new Point(0 - panel1.AutoScrollPosition.X, 0 - panel1.AutoScrollPosition.Y);
             PastePictureBox.Invalidate();
 
         }
 
-        private void PastePictureBox_MouseDown(object sender, EventArgs e)
+        private void PastePictureBox_MouseDown(object sender, MouseEventArgs e /*EventArgs e*/)
         {
             MovingPastedPic = true;
             PastePictureBox.Capture=true;
+            MouseDownLocation = e.Location;
         }
 
-        private void PastePictureBox_MouseMove(object sender, EventArgs e)
+        private void PastePictureBox_MouseMove(object sender, MouseEventArgs e /*EventArgs e*/)
         {
-            var mouseEventArgs = e as MouseEventArgs;
-            if (mouseEventArgs == null) return;
-
             if (MovingPastedPic)
-                PastePictureBox.Location = new Point(mouseEventArgs.X, mouseEventArgs.Y);
-                
+            {
+                var x = e.X + PastePictureBox.Left - MouseDownLocation.X;
+                var y = e.Y + PastePictureBox.Top - MouseDownLocation.Y;
+
+                if (Control.ModifierKeys == Keys.Shift || Control.ModifierKeys == Keys.Control)
+                {
+                    x = (int)(Math.Round((double) x / (6*ZoomLevel)) * (6*ZoomLevel));
+                }
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    y = (int)(Math.Round((double)y / (8*ZoomLevel)) * (8*ZoomLevel));
+                }
+                PastePictureBox.Top = y;
+                PastePictureBox.Left = x;
+
+            }
+
+
         }
 
         private void PastePictureBox_MouseUp(object sender, EventArgs e)
         {
             MovingPastedPic = false;
+            PastePictureBox.Capture = false;
         }
 
-        private void CutCommand()
+        private void PastePictureBox_Leave(object sender, EventArgs e)
         {
-            CopyCommand();
+ 
+        }
+
+
+        private void CommonPasteCommand()
+        {
+            // Common actions after pasting or abort pasting
+            MovingPastedPic = false;
+            PastePictureBox.Dispose();
+            PastePictureBox = null;
+
+            HiresPictureBox.Invalidate();
+        }
+
+        private void abortPasteCommand()
+        {
+            // An action aborted pasting the picture
+            CommonPasteCommand();
+        }
+
+        private void PerformPasting()
+        {
+            // Do the actual copy of the bitmap contents to the
+            // Oric picture 
+            using (var bmp = new Bitmap(PastePictureBox.Image))
+            {
+                var ini_y = (int)((PastePictureBox.Top /*- panel1.AutoScrollPosition.Y*/) / ZoomLevel);
+                var ini_x = (int)((PastePictureBox.Left/* - panel1.AutoScrollPosition.X*/) / ZoomLevel);
+
+            
+                for (int i = 0; i < bmp.Width; i++)
+                    for (int j = 0; j < bmp.Height; j++)
+                    {
+                        var val = bmp.GetPixel(i, j).GetBrightness() > 0.2 ? 1 : 0;
+                        var p = new Point(i + ini_x, j + ini_y);
+                        if((p.X>0)&&(p.Y>0))
+                            TheOricPic.SetPixelToValue(p, val);
+                    }
+            }
+            // Run the common actions for pasting or abort pasting (basically getting rid of
+            // the picture box, invalidating, ...
+            CommonPasteCommand();
+        }
+
+        private void DeleteCommand()
+        {
+            // If there is no valid selection ignore command
+            if (!SelectionValid) return;
+
             for (int x = 0; x < SelectedRect.Width; x++)
                 for (int y = 0; y < SelectedRect.Height; y++)
                 {
                     TheOricPic.ClearPixel(SelectedRect.X + x, SelectedRect.Y + y);
                 }
 
+            SelectionValid = false;
             HiresPictureBox.Invalidate();
+
+        }
+
+        private void CutCommand()
+        {
+            // If there is no valid selection ignore command
+            if (!SelectionValid) return;
+
+            // Basically call CopyCommand and then clear the
+            // original image in the corresponding area
+            CopyCommand();
+            SelectionValid = true; // Trick the delete command
+            DeleteCommand();
         }
 
         private void CopyCommand()
         {
+            // If there is no valid selection ignore command
             if (!SelectionValid) return;
 
+            // Put back cursor as current toos
+            CurrentTool = DrawTools.Cursor;
+            HiresPictureBox.Cursor = Cursors.Default;
+
+            // Create a bitmap holding the picture data inside the selection rectangle
             using (var bmpCopy = new Bitmap(SelectedRect.Width, SelectedRect.Height))
             {
                 for (int x = 0; x < SelectedRect.Width; x++)
@@ -498,8 +616,13 @@ namespace OASIS_Room_Editor
                         else
                             bmpCopy.SetPixel(x, y, Color.Black);
                     }
+
+                // And pass it to the clipboard
                 Clipboard.SetImage(bmpCopy);
             }
+
+            SelectionValid = false;
+            HiresPictureBox.Invalidate();
         }
 
         #region MAIN MENU
@@ -509,31 +632,36 @@ namespace OASIS_Room_Editor
             this.Dispose();
         }
 
-
-
         private void importHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // We are about to import an Oric HIRES picture.
+            // Prepare a dialog box for selecting the file
             openFileDialog1.Filter = "HIRES Files|*.hir";
             openFileDialog1.Title = "Select a HIRES image File";
             openFileDialog1.FileName="*.hir";
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                // HIRES files do not include width/height information, open
+                // a second dialog box to ask for it
                 var DS = new DialogSizeHires();
                 if (DS.ShowDialog()== System.Windows.Forms.DialogResult.Cancel)
                 {
                     return;
                 }
 
-
+                // If there is already a picture, get rid of it
                 if (HiresPictureBox.Image != null)
-                    HiresPictureBox.Image.Dispose();
+                    HiresPictureBox.Image.Dispose();    // not sure if setting it to null is enough
 
+                // Create a new OricPicture object and ask it to load the file
                 this.Cursor = Cursors.WaitCursor;
                 TheOricPic = new OricPicture(DS.picWidth/6, DS.picHeight);
                 TheOricPic.ReadHiresData(openFileDialog1.FileName);
 
+                // Call the common actions after reloading a file
                 ReloadActions();
+
                 this.Cursor = Cursors.Default;
             }
 
@@ -541,6 +669,8 @@ namespace OASIS_Room_Editor
 
         private void importPictureFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // We are about to import a picture from an image file
+            // Open a dialog requesting the file
             openFileDialog1.Filter = "Image files (*.bmp; *.jpg; *.jpeg,*.png, *.tiff)| *.BMP; *.JPG; *.JPEG; *.PNG; *.TIFF; *.TIF";
             openFileDialog1.Title = "Select an image File";
             openFileDialog1.FileName = "";
@@ -553,38 +683,106 @@ namespace OASIS_Room_Editor
 
                 var s = bmp.Size;
 
+                // Clear the current picture if any
                 if (HiresPictureBox.Image != null)
-                    HiresPictureBox.Image.Dispose();
+                    HiresPictureBox.Image.Dispose();  //not sure if setting it to null is enough
 
                 this.Cursor = Cursors.WaitCursor;
+                // Create a new OricPicture Object and ask it to read the data from 
+                // the bitmap object
                 TheOricPic = new OricPicture(s.Width / 6, s.Height);
                 TheOricPic.ReadBMPData(bmp);
 
+                // Get rid of the bitmap object
                 bmp.Dispose();
 
+                // Call the common actions after reloading an image
                 ReloadActions();
                 this.Cursor = Cursors.Default;
             }
 
         }
 
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CutCommand();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyCommand();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteCommand();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteCommand();
+        }
+
+        // Common actions after reloading a file
         private void ReloadActions()
         {
+            // Enable the PictureBox (really a PixelBox) control
             if (HiresPictureBox.Enabled == false)
                 HiresPictureBox.Enabled = true;
+
+            // default zoom level is 2
+            ZoomLevel = 2;
+
+            // Set the correcth size, interpolation mode and image
             HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
             HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
             HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
 
+            // If we were pasting remove the box
+            // The correct UI procedure is pasting over the new picture
             if (PastePictureBox != null)
             {
                 PastePictureBox.Dispose();
                 PastePictureBox = null;
             }
+
+            // And the selected area too
             SelectionValid = false;
 
         }
+
+
+        private void invertBitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int inix, iniy, nx, ny;
+
+            if (SelectionValid)
+            {
+                // Invert only in the selected rectangle
+                inix = SelectedRect.Left;
+                iniy = SelectedRect.Top;
+                nx = inix+SelectedRect.Width;
+                ny = iniy+SelectedRect.Height;
+            }
+            else
+            {
+                // Invert all image
+                inix = 0; iniy = 0;
+                nx = TheOricPic.nScans * 6;
+                ny = TheOricPic.nRows;
+            }
+
+            for(int i = inix; i < nx; i++)
+                for(int j = iniy; j < ny; j++)
+                {
+                    TheOricPic.SetPixelToValue(i, j, TheOricPic.GetPixel(i, j) == 0 ? 1 : 0);
+                }
+            HiresPictureBox.Invalidate();
+        }
+
+
 
         #endregion
 
@@ -616,11 +814,26 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
-            SelectionValid = false;
+            // If there is a selected area, invalidate it
+            if (SelectionValid)
+            { 
+                SelectionValid = false;
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }
 
+            // If there is a clip with data to paste, do it
+            if (PastePictureBox != null)
+            {
+                PerformPasting();
+                return;
+            }
+
+            // Act depending on the tool selected
             switch (CurrentTool)
             {
                 case DrawTools.Pen:
+                    // Pen sets/clears pixel depending on mouse button
+                    // this is not confortable to use, and may need modification
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
                         TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
@@ -633,6 +846,8 @@ namespace OASIS_Room_Editor
                     HiresPictureBox.Invalidate(); // Trigger redraw of the control.
                     break;
                 case DrawTools.Cursor:
+                    // Cursor toggles pixels with left button or shows context menu with
+                    // right button. Works quite nicely for basic editting
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
                         WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
@@ -667,9 +882,12 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
+            // button down
             switch (CurrentTool)
             {
                 case DrawTools.SelectPixels:
+                    // If the tool is the selection, take note of 
+                    // everything and capture the mouse
                     startDrag = new Point(e.X,e.Y);
                     endDrag = new Point(e.X, e.Y);
                     WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
@@ -690,9 +908,11 @@ namespace OASIS_Room_Editor
             var x = (int)(mouseEventArgs.X / ZoomLevel);
             var y = (int)(mouseEventArgs.Y / ZoomLevel);
 
+            // Update status bar
             toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x/6 + "," + y/8 + ")" ;
             StatusBar.Update();
 
+            // If the user is selecting an image area, update the selected rectangle
             if (SelectingPixels)
             {
                 using (var g = Graphics.FromImage(HiresPictureBox.Image))
@@ -712,17 +932,19 @@ namespace OASIS_Room_Editor
             toolStripScanLabel.Text = "Outside drawing area";
         }
 
-
+   
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
+            // Button up... If we were selecting an area, it is done
             if (SelectingPixels)
             {
                 HiresPictureBox.Capture = false;
                 SelectingPixels = false;
 
+                // Erase the frame
                 Point dst = ((Control)sender).PointToScreen(endDrag);
                 Point org = ((Control)sender).PointToScreen(startDrag);
                 ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
@@ -735,16 +957,36 @@ namespace OASIS_Room_Editor
 
                     (int)(mouseEventArgs.X / ZoomLevel);
                     (int)(mouseEventArgs.Y / ZoomLevel);
+
+                    Create this rectangle (SelectedRect) and mark it as valid. The Paint methods
+                    will draw it from now on
                  */
 
                 Point trueDest = new Point((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                if (Control.ModifierKeys == Keys.Shift)
+                if ((Control.ModifierKeys == Keys.Shift) || (Control.ModifierKeys == Keys.Control))
                 {
-                    WhereClicked.X = (int)(WhereClicked.X / 6) * 6;
-                    trueDest.X = (int)(trueDest.X / 6) * 6;
+                    WhereClicked.X = (int)Math.Round((double)WhereClicked.X / 6) * 6;
+                    trueDest.X = (int)Math.Round((double)trueDest.X / 6) * 6;
+                }
+
+                
+
+                if(Control.ModifierKeys == Keys.Control)
+                {
+                    WhereClicked.Y = (int)Math.Round((double)WhereClicked.Y / 8) * 8;
+                    trueDest.Y = (int)Math.Round((double)trueDest.Y / 8) * 8; ;
                 }
 
                 SelectedRect = new Rectangle(WhereClicked, new Size(trueDest.X - WhereClicked.X, trueDest.Y - WhereClicked.Y));
+
+                // If the selection rectangle has no heigtht or width, 
+                // mark it as invalid and return
+                if ((SelectedRect.Width == 0) || (SelectedRect.Height == 0))
+                {
+                    SelectionValid = false;
+                    return;
+                }
+
                 SelectionValid = true;
                 HiresPictureBox.Invalidate();
             }
