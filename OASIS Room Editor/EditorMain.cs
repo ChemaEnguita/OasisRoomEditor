@@ -932,7 +932,55 @@ namespace OASIS_Room_Editor
             toolStripScanLabel.Text = "Outside drawing area";
         }
 
-   
+        private void aICHelperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TheOricPic == null)
+                return;
+
+            var DAIC = new AICHelperDialog();
+
+            if (DAIC.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            var r = Math.Min(DAIC.Row2, TheOricPic.nRows-1);
+            for (int i=DAIC.Row1;i<=r;i+=2)
+            {
+                if (DAIC.Attrib1 < 8)
+                    TheOricPic.SetInk(DAIC.Attrib1, DAIC.Column, i);
+                else
+                    TheOricPic.SetPaper((DAIC.Attrib1 & 0x7), DAIC.Column, i);
+
+                TheOricPic.SetInverse(DAIC.Inverse1, DAIC.Column, i);
+
+                if (DAIC.Attrib2 < 8)
+                    TheOricPic.SetInk(DAIC.Attrib2, DAIC.Column, i+1);
+                else
+                    TheOricPic.SetPaper((DAIC.Attrib2 & 0x7), DAIC.Column, i+1);
+
+                TheOricPic.SetInverse(DAIC.Inverse2, DAIC.Column, i+1);
+            }
+            TheOricPic.ResetAllAttributes();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheOricPic.InsertColumnsRight(1);
+            // Call the common actions after reloading an image
+            ReloadActions();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheOricPic.InsertColumnsLeft(1);
+            // Call the common actions after reloading an image
+            ReloadActions();
+            HiresPictureBox.Invalidate();
+        }
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;

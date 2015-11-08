@@ -58,6 +58,12 @@
     <Compile Include="EditorMain.Designer.cs">
       <DependentUpon>EditorMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="AICHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AICHelper.Designer.cs">
+      <DependentUpon>AICHelper.cs</DependentUpon>
+    </Compile>
     <Compile Include="OricPicture.cs" />
     <Compile Include="PixelBox.cs">
       <SubType>Component</SubType>
@@ -70,6 +76,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditorMain.resx">
       <DependentUpon>EditorMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AICHelper.resx">
+      <DependentUpon>AICHelper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
