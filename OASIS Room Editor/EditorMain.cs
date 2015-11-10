@@ -90,6 +90,12 @@ namespace OASIS_Room_Editor
 
             // Start with the HiresPictureBox disabled
             HiresPictureBox.Enabled = false;
+
+            // Disable those menus which should not be enabled.
+            toolsToolStripMenuItem.Enabled = false;
+            editToolStripMenuItem.Enabled = false;
+            DrawingTools.Enabled = false;
+
         }
 
         
@@ -113,12 +119,26 @@ namespace OASIS_Room_Editor
             // This handles when the user dragged to select a picture area
             if (SelectionValid)
             {
-                using (var aPen = new Pen(Color.PaleGoldenrod,ZoomLevel))
+                using (var aPen = new Pen(Color.LightGray, ZoomLevel))
                 {
-                    aPen.DashPattern = new float[] { 4.0F, 2.0F, 1.0F, 3.0F };
+                    //aPen.DashPattern = new float[] { 4.0F, 2.0F, 1.0F, 3.0F };
                     e.Graphics.DrawRectangle(aPen, new Rectangle((int)(SelectedRect.X*ZoomLevel), (int)(SelectedRect.Y*ZoomLevel),
                         (int)(SelectedRect.Width*ZoomLevel), (int)(SelectedRect.Height*ZoomLevel)));
                 }
+
+                using (var aPen = new Pen(Color.DarkSlateGray, ZoomLevel-2))
+                {
+                   // aPen.DashPattern = new float[] { 4.0F, 2.0F, 1.0F, 3.0F };
+                    e.Graphics.DrawRectangle(aPen, new Rectangle((int)(SelectedRect.X * ZoomLevel), (int)(SelectedRect.Y * ZoomLevel),
+                        (int)(SelectedRect.Width * ZoomLevel), (int)(SelectedRect.Height * ZoomLevel)));
+                }
+
+
+                /* var r = new Rectangle((int)(SelectedRect.X * ZoomLevel), (int)(SelectedRect.Y * ZoomLevel),
+                         (int)(SelectedRect.Width * ZoomLevel), (int)(SelectedRect.Height * ZoomLevel));
+                 r = this.RectangleToScreen(r);
+                 ControlPaint.DrawReversibleFrame(r, this.BackColor, FrameStyle.Thick);
+                 */
             }
         }
 
@@ -491,6 +511,8 @@ namespace OASIS_Room_Editor
             MovingPastedPic = true;
             PastePictureBox.Capture=true;
             MouseDownLocation = e.Location;
+            toolStripScanLabel.Text = "Press SHIFT to snap to scan, CTRL to snap to tile";
+            StatusBar.Update();
         }
 
         private void PastePictureBox_MouseMove(object sender, MouseEventArgs e /*EventArgs e*/)
@@ -731,6 +753,11 @@ namespace OASIS_Room_Editor
             if (HiresPictureBox.Enabled == false)
                 HiresPictureBox.Enabled = true;
 
+            // Enable menus
+            toolsToolStripMenuItem.Enabled = true;
+            editToolStripMenuItem.Enabled = true;
+            DrawingTools.Enabled = true;
+
             // default zoom level is 2
             ZoomLevel = 2;
 
@@ -907,11 +934,7 @@ namespace OASIS_Room_Editor
 
             var x = (int)(mouseEventArgs.X / ZoomLevel);
             var y = (int)(mouseEventArgs.Y / ZoomLevel);
-
-            // Update status bar
-            toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x/6 + "," + y/8 + ")" ;
-            StatusBar.Update();
-
+                      
             // If the user is selecting an image area, update the selected rectangle
             if (SelectingPixels)
             {
@@ -924,7 +947,16 @@ namespace OASIS_Room_Editor
                     dst= ((Control)sender).PointToScreen(endDrag);
                     ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
                 }
+                // Update the Status bar including CTRL and SHIFT options
+                toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x / 6 + "," + y / 8 + ")" + " - Press SHIFT to snap to scan, CTRL to snap to tile";
             }
+            else
+            {
+                // Update status bar
+                toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x / 6 + "," + y / 8 + ")";
+            }
+
+            StatusBar.Update();
         }
 
         private void HiresPictureBox_MouseLeave(object sender, EventArgs e)
