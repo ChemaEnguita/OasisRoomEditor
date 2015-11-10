@@ -368,6 +368,7 @@ namespace OASIS_Room_Editor
 
         #region file I/O
 
+        // Decodes an attribute from a byte value in a scan,
         private void DecodeAttribute(byte val, int scan, int line)
         {
             val = (byte)(val & ~0x80);
@@ -419,19 +420,27 @@ namespace OASIS_Room_Editor
 
         }
 
-        internal void ReadBMPData(Bitmap bmp)
+        // Importing data from a Bitmap. I am using an object here, as opening a file
+        // to create it would be a bit restrictive, we may want to use this with an already-created
+        // bitmap object.
+        // Second param is the threshold (0-1) in brightness of a pixel to consider it ink or paper
+        // but b&w pictures are expected.
+        // Defaulted to 0.05, which seems to work ok.
+        internal void ReadBMPData(Bitmap bmp, double threshold=0.05)
         {
+            // Some (maybe silly defensive programming here)
             if (bmp == null) return;
 
             // Read data
             for (int line = 0; line < nRows; line++)
                 for (int x = 0; x < nScans * 6; x++)
                 {
-                    if (bmp.GetPixel(x, line).GetBrightness() < 0.05 )
+                    if (bmp.GetPixel(x, line).GetBrightness() < threshold)
                         ClearPixel(x, line);
                     else
                         SetPixel(x, line);
                 }
+            // This is not necessary (I think), but does no harm.
             ResetAllAttributes();
         }
 
