@@ -29,11 +29,11 @@ namespace OASIS_Room_Editor
     class OricPicture
     {
         public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.GreenYellow, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
-        public readonly int nScans = 40;
-        public readonly int nRows = 200;
-        public readonly Attribute[,] Attributes;
+        public int nScans { get; set; }
+        public int nRows { get; set; }
+        private Attribute[,] Attributes;
         private bool[,] isPixelInk;
-        public readonly Bitmap theBitmap;
+        public Bitmap theBitmap { get; set; }
 
         public OricPicture(int scans, int rows)
         {
@@ -76,6 +76,48 @@ namespace OASIS_Room_Editor
                 for (int j = 0; j < nRows; j++)
                     isPixelInk[i, j] = false;
         }
+
+        public void InsertColumnsLeft(int nColumns)
+        {
+            var aNewOricPic = new OricPicture(nScans + nColumns, nRows);
+
+            for (int i=0;i< nScans;i++)
+                for(int j=0;j<nRows; j++)
+                    aNewOricPic.Attributes[i+nColumns, j]=Attributes[i,j];
+            for (int i = 0; i < nScans * 6; i++)
+                for (int j = 0; j < nRows; j++)
+                    aNewOricPic.isPixelInk[i + (nColumns*6), j] = isPixelInk[i, j];
+            aNewOricPic.ResetAllAttributes();
+
+            Attributes = aNewOricPic.Attributes;
+            isPixelInk = aNewOricPic.isPixelInk;
+            theBitmap = aNewOricPic.theBitmap;
+            nScans+=nColumns;
+
+            aNewOricPic = null;
+        }
+
+
+        public void InsertColumnsRight(int nColumns)
+        {
+            var aNewOricPic = new OricPicture(nScans + nColumns, nRows);
+
+            for (int i = 0; i < nScans; i++)
+                for (int j = 0; j < nRows; j++)
+                    aNewOricPic.Attributes[i, j] = Attributes[i, j];
+            for (int i = 0; i < nScans * 6; i++)
+                for (int j = 0; j < nRows; j++)
+                    aNewOricPic.isPixelInk[i, j] = isPixelInk[i, j];
+            aNewOricPic.ResetAllAttributes();
+
+            Attributes = aNewOricPic.Attributes;
+            isPixelInk = aNewOricPic.isPixelInk;
+            theBitmap = aNewOricPic.theBitmap;
+            nScans += nColumns;
+
+            aNewOricPic = null;
+        }
+
 
         // Returns the inverse of a color
         public int GetInverse(int color)

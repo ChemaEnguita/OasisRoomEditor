@@ -27,3 +27,4 @@ C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_
 C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.EditorMain.resources
 C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.Properties.Resources.resources
 C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csproj.GenerateResource.Cache
+C:\Users\Chema\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.AICHelperDialog.resources

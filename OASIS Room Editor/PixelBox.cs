@@ -17,6 +17,7 @@ namespace OASIS_Room_Editor
         {
             // Set default.
             InterpolationMode = InterpolationMode.Default;
+            SetStyle(ControlStyles.Selectable, true);
         }
         #endregion
 
