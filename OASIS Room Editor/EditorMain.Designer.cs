@@ -103,6 +103,7 @@
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
@@ -143,7 +144,7 @@
             this.panel1.Controls.Add(this.HiresPictureBox);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(493, 294);
+            this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
             // 
             // HiresPictureBox
@@ -427,6 +428,7 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem,
             this.toolStripSeparator7,
             this.cutToolStripMenuItem,
             this.copyToolStripMenuItem,
@@ -444,6 +446,7 @@
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -655,7 +658,7 @@
             this.DrawingTools.Location = new System.Drawing.Point(0, 18);
             this.DrawingTools.Name = "DrawingTools";
             this.DrawingTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.DrawingTools.Size = new System.Drawing.Size(32, 180);
+            this.DrawingTools.Size = new System.Drawing.Size(24, 161);
             this.DrawingTools.TabIndex = 2;
             this.DrawingTools.Text = "Drawing Tools";
             // 
@@ -685,7 +688,7 @@
             this.ButtonSelection.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSelection.Image")));
             this.ButtonSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonSelection.Name = "ButtonSelection";
-            this.ButtonSelection.Size = new System.Drawing.Size(30, 20);
+            this.ButtonSelection.Size = new System.Drawing.Size(22, 20);
             this.ButtonSelection.Text = "Select pixels";
             this.ButtonSelection.Click += new System.EventHandler(this.ButtonSelection_Click);
             // 
@@ -700,7 +703,7 @@
             this.ButtonZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomIn.Image")));
             this.ButtonZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomIn.Name = "ButtonZoomIn";
-            this.ButtonZoomIn.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomIn.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomIn.Text = "Zoom in";
             this.ButtonZoomIn.Click += new System.EventHandler(this.ButtonZoomIn_Click);
             // 
@@ -710,7 +713,7 @@
             this.ButtonZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomOut.Image")));
             this.ButtonZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomOut.Name = "ButtonZoomOut";
-            this.ButtonZoomOut.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomOut.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomOut.Text = "Zoom out";
             this.ButtonZoomOut.Click += new System.EventHandler(this.ButtonZoomOut_Click);
             // 
@@ -738,7 +741,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(688, 306);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(696, 306);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -757,6 +760,14 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.redoToolStripMenuItem.Text = "&Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // EditorMain
             // 
@@ -868,6 +879,7 @@
         private System.Windows.Forms.ToolStripMenuItem atTherightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem atTheleftToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aICHelperToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }
 }
 

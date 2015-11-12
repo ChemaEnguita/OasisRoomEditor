@@ -64,6 +64,8 @@
     <Compile Include="AICHelper.Designer.cs">
       <DependentUpon>AICHelper.cs</DependentUpon>
     </Compile>
+    <Compile Include="MementoCaretaker.cs" />
+    <Compile Include="OASISRoom.cs" />
     <Compile Include="OricPicture.cs" />
     <Compile Include="PixelBox.cs">
       <SubType>Component</SubType>
@@ -71,6 +73,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoomMemento.cs" />
     <EmbeddedResource Include="DialogSizeHires.resx">
       <DependentUpon>DialogSizeHires.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +92,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

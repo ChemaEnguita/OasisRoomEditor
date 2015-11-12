@@ -9,6 +9,10 @@ using System.IO;
 
 namespace OASIS_Room_Editor
 {
+    // <summary>
+    // Class holding attribute information in a HIRES Oric picture
+    // <!summary>
+
     public class Attribute
     {
         public bool isPaperAttribute;
@@ -26,6 +30,9 @@ namespace OASIS_Room_Editor
             isInverse = false;
         }
     }
+    // <summary>
+    // Class representing a HIRES Oric picture
+    // <!summary>
     class OricPicture
     {
         public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.GreenYellow, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
@@ -371,7 +378,6 @@ namespace OASIS_Room_Editor
 
         public int GetScanInkCode(int scan, int line)
         {
-
             return Attributes[scan, line].CurrentInk;
         }
 

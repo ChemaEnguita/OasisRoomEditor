@@ -48,12 +48,12 @@ namespace OASIS_Room_Editor
             this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
         }
 
+        private OASISRoom theRoom;                     // Holds the room information    
+
         private float ZoomLevel = 2;                    // Level of zoom
         private bool ShowGrid = true;                   // Is the grid showing?
         private Color GridColor= Color.MediumPurple;    // Default Grid color
         private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
-
-        private OricPicture TheOricPic;                 // Holds the Oric picture     
         
         // Possible drawing tools and current one selected from the toolbar
         enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}    
@@ -69,22 +69,25 @@ namespace OASIS_Room_Editor
 
         private Point MouseDownLocation;            // Location where the user pressed the mouse button to start dragging the clip
 
+        // For multiple undo/redo using the memento design pattern
+        MementoCaretaker undoRedo=new MementoCaretaker();
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            //TheOricPic = new OricPicture(40, 200);// 768 / 6, 136);
-            //TheOricPic.ReadHiresData("d:\\dbug_1337_logo.hir");
+            //theRoom.roomImage = new OricPicture(40, 200);// 768 / 6, 136);
+            //theRoom.roomImage.ReadHiresData("d:\\dbug_1337_logo.hir");
 
             // For testing set alternating ink colors
-            /*for (int j = 0; j < TheOricPic.nRows; j++)
+            /*for (int j = 0; j < theRoom.roomImage.nRows; j++)
             {
-                TheOricPic.SetInk(j % 8, 0, j);
-                TheOricPic.SetPaper((j + 1) % 8, 1, j);
+                theRoom.roomImage.SetInk(j % 8, 0, j);
+                theRoom.roomImage.SetPaper((j + 1) % 8, 1, j);
             }
             /*
-            HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
-            HiresPictureBox.Width= (int)(TheOricPic.nScans*6 * ZoomLevel);
-            HiresPictureBox.Image = TheOricPic.theBitmap;// bmp;
+            HiresPictureBox.Height = (int)(theRoom.roomImage.nRows * ZoomLevel);
+            HiresPictureBox.Width= (int)(theRoom.roomImage.nScans*6 * ZoomLevel);
+            HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp;
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
             */
 
@@ -202,29 +205,29 @@ namespace OASIS_Room_Editor
         //... and the labes for attributes
         private void DrawAttribLabels(Graphics g)
         {
-             for(int i=0; i< TheOricPic.nScans; i++)
-                for (int j = 0; j < TheOricPic.nRows; j++)
+             for(int i=0; i< theRoom.roomImage.nScans; i++)
+                for (int j = 0; j < theRoom.roomImage.nRows; j++)
                 {
-                    if (TheOricPic.isAttribute(i, j)||TheOricPic.isInverse(i, j))
+                    if (theRoom.roomImage.isAttribute(i, j)||theRoom.roomImage.isInverse(i, j))
                     {
-                        int ink = TheOricPic.GetInverse(TheOricPic.GetScanPaperCode(i, j));
+                        int ink = theRoom.roomImage.GetInverse(theRoom.roomImage.GetScanPaperCode(i, j));
                         String aString = "";
 
-                        if (TheOricPic.isInverse(i, j))
-                            ink = TheOricPic.GetInverse(ink);
+                        if (theRoom.roomImage.isInverse(i, j))
+                            ink = theRoom.roomImage.GetInverse(ink);
 
-                        if (TheOricPic.isInkAttribute(i, j))
-                            aString = "Ink: " + TheOricPic.GetScanInkCode(i, j);
+                        if (theRoom.roomImage.isInkAttribute(i, j))
+                            aString = "Ink: " + theRoom.roomImage.GetScanInkCode(i, j);
 
-                        if (TheOricPic.isPaperAttribute(i, j))
-                            aString = "Paper: " + TheOricPic.GetScanPaperCode(i, j);
+                        if (theRoom.roomImage.isPaperAttribute(i, j))
+                            aString = "Paper: " + theRoom.roomImage.GetScanPaperCode(i, j);
 
-                        if (TheOricPic.isInverse(i, j))
+                        if (theRoom.roomImage.isInverse(i, j))
                             aString += " [i]";
 
                         using (Font aFont = new Font("Calibri", 6*ZoomLevel/8))
-                        using (Pen aPen = new Pen(TheOricPic.ListColors[ink], 1))
-                        using (SolidBrush aBrush = new SolidBrush(TheOricPic.ListColors[ink]))
+                        using (Pen aPen = new Pen(theRoom.roomImage.ListColors[ink], 1))
+                        using (SolidBrush aBrush = new SolidBrush(theRoom.roomImage.ListColors[ink]))
                         {
                             g.DrawString(aString, aFont, aBrush, i*6* ZoomLevel + 10, j * ZoomLevel-4);
                         }
@@ -254,7 +257,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            TheOricPic.SetInverse(!TheOricPic.isInverse(scan, row), scan, row);
+            theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(scan, row), scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
 
@@ -264,7 +267,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            TheOricPic.RemoveAttribute(scan, row);
+            theRoom.roomImage.RemoveAttribute(scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
 
         }
@@ -274,10 +277,10 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            if (TheOricPic.isAttribute(scan, row)) return;
+            if (theRoom.roomImage.isAttribute(scan, row)) return;
 
             for (int i = 0; i < 6; i++)
-                TheOricPic.SetPixelToValue(scan * 6 + i, row, TheOricPic.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
+                theRoom.roomImage.SetPixelToValue(scan * 6 + i, row, theRoom.roomImage.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
 
@@ -286,7 +289,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            TheOricPic.SetPaper(color, scan, row);
+            theRoom.roomImage.SetPaper(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
 
@@ -335,7 +338,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            TheOricPic.SetInk(color, scan, row);
+            theRoom.roomImage.SetInk(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
 
@@ -570,6 +573,8 @@ namespace OASIS_Room_Editor
         {
             // Do the actual copy of the bitmap contents to the
             // Oric picture 
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
             using (var bmp = new Bitmap(PastePictureBox.Image))
             {
                 var ini_y = (int)((PastePictureBox.Top /*- panel1.AutoScrollPosition.Y*/) / ZoomLevel);
@@ -582,7 +587,7 @@ namespace OASIS_Room_Editor
                         var val = bmp.GetPixel(i, j).GetBrightness() > 0.2 ? 1 : 0;
                         var p = new Point(i + ini_x, j + ini_y);
                         if((p.X>0)&&(p.Y>0))
-                            TheOricPic.SetPixelToValue(p, val);
+                            theRoom.roomImage.SetPixelToValue(p, val);
                     }
             }
             // Run the common actions for pasting or abort pasting (basically getting rid of
@@ -595,13 +600,16 @@ namespace OASIS_Room_Editor
             // If there is no valid selection ignore command
             if (!SelectionValid) return;
 
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
             for (int x = 0; x < SelectedRect.Width; x++)
                 for (int y = 0; y < SelectedRect.Height; y++)
                 {
-                    TheOricPic.ClearPixel(SelectedRect.X + x, SelectedRect.Y + y);
+                    theRoom.roomImage.ClearPixel(SelectedRect.X + x, SelectedRect.Y + y);
                 }
 
             SelectionValid = false;
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
             HiresPictureBox.Invalidate();
 
         }
@@ -633,7 +641,7 @@ namespace OASIS_Room_Editor
                 for (int x = 0; x < SelectedRect.Width; x++)
                     for (int y = 0; y < SelectedRect.Height; y++)
                     {
-                        if (TheOricPic.GetPixel(SelectedRect.X + x, SelectedRect.Y + y) == 1)
+                        if (theRoom.roomImage.GetPixel(SelectedRect.X + x, SelectedRect.Y + y) == 1)
                             bmpCopy.SetPixel(x, y, Color.White);
                         else
                             bmpCopy.SetPixel(x, y, Color.Black);
@@ -654,9 +662,26 @@ namespace OASIS_Room_Editor
             this.Dispose();
         }
 
+
+        // Importing images to the room
+        private bool ConfirmNewImage()
+        {
+            if (theRoom != null)
+                if (theRoom.roomImage != null)
+                {
+                    var result = MessageBox.Show("Current image will be lost. Are you sure?", "An image already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    return (result == DialogResult.Yes);
+                }
+            return true;
+        }
+
+
         private void importHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // We are about to import an Oric HIRES picture.
+            if (!ConfirmNewImage())
+                return;
+
             // Prepare a dialog box for selecting the file
             openFileDialog1.Filter = "HIRES Files|*.hir";
             openFileDialog1.Title = "Select a HIRES image File";
@@ -678,8 +703,8 @@ namespace OASIS_Room_Editor
 
                 // Create a new OricPicture object and ask it to load the file
                 this.Cursor = Cursors.WaitCursor;
-                TheOricPic = new OricPicture(DS.picWidth/6, DS.picHeight);
-                TheOricPic.ReadHiresData(openFileDialog1.FileName);
+                theRoom.roomImage = new OricPicture(DS.picWidth/6, DS.picHeight);
+                theRoom.roomImage.ReadHiresData(openFileDialog1.FileName);
 
                 // Call the common actions after reloading a file
                 ReloadActions();
@@ -689,9 +714,13 @@ namespace OASIS_Room_Editor
 
         }
 
+
         private void importPictureFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // We are about to import a picture from an image file
+            if (!ConfirmNewImage())
+                return;
+           
             // Open a dialog requesting the file
             openFileDialog1.Filter = "Image files (*.bmp; *.jpg; *.jpeg,*.png, *.tiff)| *.BMP; *.JPG; *.JPEG; *.PNG; *.TIFF; *.TIF";
             openFileDialog1.Title = "Select an image File";
@@ -710,10 +739,14 @@ namespace OASIS_Room_Editor
                     HiresPictureBox.Image.Dispose();  //not sure if setting it to null is enough
 
                 this.Cursor = Cursors.WaitCursor;
-                // Create a new OricPicture Object and ask it to read the data from 
+                // Create a new OASISRoom Object and ask it to read the image data from 
                 // the bitmap object
-                TheOricPic = new OricPicture(s.Width / 6, s.Height);
-                TheOricPic.ReadBMPData(bmp);
+                if (theRoom==null)
+                {
+                    theRoom = new OASISRoom(s.Width / 6);
+                }
+                theRoom.roomImage = new OricPicture(s.Width / 6, s.Height);
+                theRoom.roomImage.ReadBMPData(bmp);
 
                 // Get rid of the bitmap object
                 bmp.Dispose();
@@ -723,6 +756,30 @@ namespace OASIS_Room_Editor
                 this.Cursor = Cursors.Default;
             }
 
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RoomMemento m = undoRedo.Undo();
+
+            if(m!=null)
+            {
+                theRoom.RestoreCheckPoint(m);
+                HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
+                HiresPictureBox.Invalidate();
+            }
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RoomMemento m = undoRedo.Redo();
+
+            if (m != null)
+            {
+                theRoom.RestoreCheckPoint(m);
+                HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
+                HiresPictureBox.Invalidate();
+            }
         }
 
 
@@ -762,10 +819,10 @@ namespace OASIS_Room_Editor
             ZoomLevel = 2;
 
             // Set the correcth size, interpolation mode and image
-            HiresPictureBox.Height = (int)(TheOricPic.nRows * ZoomLevel);
-            HiresPictureBox.Width = (int)(TheOricPic.nScans * 6 * ZoomLevel);
+            HiresPictureBox.Height = (int)(theRoom.roomImage.nRows * ZoomLevel);
+            HiresPictureBox.Width = (int)(theRoom.roomImage.nScans * 6 * ZoomLevel);
             HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
-            HiresPictureBox.Image = TheOricPic.theBitmap;// bmp; 
+            HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
 
             // If we were pasting remove the box
             // The correct UI procedure is pasting over the new picture
@@ -777,7 +834,6 @@ namespace OASIS_Room_Editor
 
             // And the selected area too
             SelectionValid = false;
-
         }
 
 
@@ -797,14 +853,14 @@ namespace OASIS_Room_Editor
             {
                 // Invert all image
                 inix = 0; iniy = 0;
-                nx = TheOricPic.nScans * 6;
-                ny = TheOricPic.nRows;
+                nx = theRoom.roomImage.nScans * 6;
+                ny = theRoom.roomImage.nRows;
             }
 
             for(int i = inix; i < nx; i++)
                 for(int j = iniy; j < ny; j++)
                 {
-                    TheOricPic.SetPixelToValue(i, j, TheOricPic.GetPixel(i, j) == 0 ? 1 : 0);
+                    theRoom.roomImage.SetPixelToValue(i, j, theRoom.roomImage.GetPixel(i, j) == 0 ? 1 : 0);
                 }
             HiresPictureBox.Invalidate();
         }
@@ -861,37 +917,40 @@ namespace OASIS_Room_Editor
                 case DrawTools.Pen:
                     // Pen sets/clears pixel depending on mouse button
                     // this is not confortable to use, and may need modification
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
-                        TheOricPic.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                        theRoom.roomImage.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
                     }
                     else
                     {
-                        TheOricPic.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                        theRoom.roomImage.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
                     }
 
+                    
                     HiresPictureBox.Invalidate(); // Trigger redraw of the control.
                     break;
                 case DrawTools.Cursor:
                     // Cursor toggles pixels with left button or shows context menu with
                     // right button. Works quite nicely for basic editting
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
                         WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
                         WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
 
-                        removeAttributeToolStripMenuItem.Enabled = TheOricPic.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
-                        flipAllBitsToolStripMenuItem.Enabled = !TheOricPic.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
+                        removeAttributeToolStripMenuItem.Enabled = theRoom.roomImage.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
+                        flipAllBitsToolStripMenuItem.Enabled = !theRoom.roomImage.isAttribute(WhereClicked.X / 6, WhereClicked.Y);
                         contextMenuAttributes.Show(MousePosition);
                     }
                     else
                     {
                         var x = (int)(mouseEventArgs.X / ZoomLevel);
                         var y = (int)(mouseEventArgs.Y / ZoomLevel);
-                        if (TheOricPic.GetPixel(x, y) == 1)
-                            TheOricPic.ClearPixel(x, y);
+                        if (theRoom.roomImage.GetPixel(x, y) == 1)
+                            theRoom.roomImage.ClearPixel(x, y);
                         else
-                            TheOricPic.SetPixel(x, y);
+                            theRoom.roomImage.SetPixel(x, y);
                         HiresPictureBox.Invalidate(); // Trigger redraw of the control.
                     }
                     break;
@@ -966,7 +1025,7 @@ namespace OASIS_Room_Editor
 
         private void aICHelperToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TheOricPic == null)
+            if (theRoom.roomImage == null)
                 return;
 
             var DAIC = new AICHelperDialog();
@@ -976,30 +1035,31 @@ namespace OASIS_Room_Editor
                 return;
             }
 
-            var r = Math.Min(DAIC.Row2, TheOricPic.nRows-1);
+            var r = Math.Min(DAIC.Row2, theRoom.roomImage.nRows-1);
             for (int i=DAIC.Row1;i<=r;i+=2)
             {
                 if (DAIC.Attrib1 < 8)
-                    TheOricPic.SetInk(DAIC.Attrib1, DAIC.Column, i);
+                    theRoom.roomImage.SetInk(DAIC.Attrib1, DAIC.Column, i);
                 else
-                    TheOricPic.SetPaper((DAIC.Attrib1 & 0x7), DAIC.Column, i);
+                    theRoom.roomImage.SetPaper((DAIC.Attrib1 & 0x7), DAIC.Column, i);
 
-                TheOricPic.SetInverse(DAIC.Inverse1, DAIC.Column, i);
+                theRoom.roomImage.SetInverse(DAIC.Inverse1, DAIC.Column, i);
 
                 if (DAIC.Attrib2 < 8)
-                    TheOricPic.SetInk(DAIC.Attrib2, DAIC.Column, i+1);
+                    theRoom.roomImage.SetInk(DAIC.Attrib2, DAIC.Column, i+1);
                 else
-                    TheOricPic.SetPaper((DAIC.Attrib2 & 0x7), DAIC.Column, i+1);
+                    theRoom.roomImage.SetPaper((DAIC.Attrib2 & 0x7), DAIC.Column, i+1);
 
-                TheOricPic.SetInverse(DAIC.Inverse2, DAIC.Column, i+1);
+                theRoom.roomImage.SetInverse(DAIC.Inverse2, DAIC.Column, i+1);
             }
-            TheOricPic.ResetAllAttributes();
+            theRoom.roomImage.ResetAllAttributes();
             HiresPictureBox.Invalidate();
         }
 
         private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TheOricPic.InsertColumnsRight(1);
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            theRoom.roomImage.InsertColumnsRight(1);
             // Call the common actions after reloading an image
             ReloadActions();
             HiresPictureBox.Invalidate();
@@ -1007,12 +1067,14 @@ namespace OASIS_Room_Editor
 
         private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TheOricPic.InsertColumnsLeft(1);
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            theRoom.roomImage.InsertColumnsLeft(1);
             // Call the common actions after reloading an image
             ReloadActions();
             HiresPictureBox.Invalidate();
         }
 
+  
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
@@ -1066,6 +1128,12 @@ namespace OASIS_Room_Editor
                     SelectionValid = false;
                     return;
                 }
+
+                // Check rectangle does not exceed the image boundaries
+                if (SelectedRect.Width > theRoom.roomImage.nScans * 6 - 1)
+                    SelectedRect.Width = theRoom.roomImage.nScans * 6 - 1;
+                if (SelectedRect.Height > theRoom.roomImage.nRows - 1)
+                    SelectedRect.Height = theRoom.roomImage.nRows - 1;
 
                 SelectionValid = true;
                 HiresPictureBox.Invalidate();
