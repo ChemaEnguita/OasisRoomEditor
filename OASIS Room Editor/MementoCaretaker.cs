@@ -21,26 +21,26 @@ namespace OASIS_Room_Editor
             redoStack.Clear();
         }
 
-        public RoomMemento Undo()
+        public RoomMemento Undo(RoomMemento current)
         {
             if (undoStack.Count != 0)
             {
                 // Save current memento in redo
+                redoStack.Push(current);
                 RoomMemento m = undoStack.Pop();
-                //redoStack.Push(m);
                 return m;
             }
             else
                 return null;
         }
 
-        public RoomMemento Redo()
+        public RoomMemento Redo(RoomMemento current)
         {
             if (redoStack.Count != 0)
             {
-                // This may also be wrong.
-                RoomMemento m = redoStack.Pop();
-                undoStack.Push(m);
+                // Save current memento in undo
+                undoStack.Push(current);
+                RoomMemento m = redoStack.Pop();                
                 return m;
             }
             else

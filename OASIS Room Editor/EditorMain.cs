@@ -99,6 +99,8 @@ namespace OASIS_Room_Editor
             editToolStripMenuItem.Enabled = false;
             DrawingTools.Enabled = false;
 
+            // Empty undo/redo queue
+            undoRedo.Clear();
         }
 
         
@@ -257,6 +259,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
             theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(scan, row), scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
@@ -267,8 +270,12 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            theRoom.roomImage.RemoveAttribute(scan, row);
-            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            if (theRoom.roomImage.isAttribute(scan, row))
+            {
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                theRoom.roomImage.RemoveAttribute(scan, row);
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }
 
         }
 
@@ -277,17 +284,22 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
-            if (theRoom.roomImage.isAttribute(scan, row)) return;
+            if (!theRoom.roomImage.isAttribute(scan, row))
+            {
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
-            for (int i = 0; i < 6; i++)
-                theRoom.roomImage.SetPixelToValue(scan * 6 + i, row, theRoom.roomImage.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
-            HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                for (int i = 0; i < 6; i++)
+                    theRoom.roomImage.SetPixelToValue(scan * 6 + i, row, theRoom.roomImage.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }            
         }
 
         private void doSetPaper(int color)
         {
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
             theRoom.roomImage.SetPaper(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
@@ -338,6 +350,7 @@ namespace OASIS_Room_Editor
             var scan = WhereClicked.X / 6;
             var row = WhereClicked.Y;
 
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
             theRoom.roomImage.SetInk(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
@@ -609,7 +622,6 @@ namespace OASIS_Room_Editor
                 }
 
             SelectionValid = false;
-            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
             HiresPictureBox.Invalidate();
 
         }
@@ -758,28 +770,40 @@ namespace OASIS_Room_Editor
 
         }
 
+        private void doRestoringState(RoomMemento m)
+        {
+            if (m != null)
+            {
+                // If the size of the image changes, we need to do more adjustments (due
+                // to zoom, etc.
+                var oldR = theRoom.roomImage.nRows;
+                var oldS = theRoom.roomImage.nScans;
+
+                theRoom.RestoreCheckPoint(m);
+
+                if ((theRoom.roomImage.nRows != oldR) || (theRoom.roomImage.nScans != oldS))
+                {
+                    ReloadActions();
+                }
+                else
+                {
+                    HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
+                    HiresPictureBox.Invalidate();
+                }
+            }
+
+        }
+
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RoomMemento m = undoRedo.Undo();
-
-            if(m!=null)
-            {
-                theRoom.RestoreCheckPoint(m);
-                HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
-                HiresPictureBox.Invalidate();
-            }
+            RoomMemento m = undoRedo.Undo(theRoom.CreateCheckPoint());
+            doRestoringState(m);
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RoomMemento m = undoRedo.Redo();
-
-            if (m != null)
-            {
-                theRoom.RestoreCheckPoint(m);
-                HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
-                HiresPictureBox.Invalidate();
-            }
+            RoomMemento m = undoRedo.Redo(theRoom.CreateCheckPoint());
+            doRestoringState(m);
         }
 
 
@@ -840,6 +864,8 @@ namespace OASIS_Room_Editor
         private void invertBitsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int inix, iniy, nx, ny;
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
             if (SelectionValid)
             {
@@ -918,6 +944,7 @@ namespace OASIS_Room_Editor
                     // Pen sets/clears pixel depending on mouse button
                     // this is not confortable to use, and may need modification
                     undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
                         theRoom.roomImage.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
@@ -933,7 +960,6 @@ namespace OASIS_Room_Editor
                 case DrawTools.Cursor:
                     // Cursor toggles pixels with left button or shows context menu with
                     // right button. Works quite nicely for basic editting
-                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
                         WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
@@ -945,12 +971,15 @@ namespace OASIS_Room_Editor
                     }
                     else
                     {
+                        undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
                         var x = (int)(mouseEventArgs.X / ZoomLevel);
                         var y = (int)(mouseEventArgs.Y / ZoomLevel);
                         if (theRoom.roomImage.GetPixel(x, y) == 1)
                             theRoom.roomImage.ClearPixel(x, y);
                         else
                             theRoom.roomImage.SetPixel(x, y);
+
                         HiresPictureBox.Invalidate(); // Trigger redraw of the control.
                     }
                     break;
@@ -1035,6 +1064,8 @@ namespace OASIS_Room_Editor
                 return;
             }
 
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
             var r = Math.Min(DAIC.Row2, theRoom.roomImage.nRows-1);
             for (int i=DAIC.Row1;i<=r;i+=2)
             {
@@ -1059,6 +1090,7 @@ namespace OASIS_Room_Editor
         private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
             theRoom.roomImage.InsertColumnsRight(1);
             // Call the common actions after reloading an image
             ReloadActions();
@@ -1068,6 +1100,7 @@ namespace OASIS_Room_Editor
         private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
             theRoom.roomImage.InsertColumnsLeft(1);
             // Call the common actions after reloading an image
             ReloadActions();
@@ -1091,15 +1124,7 @@ namespace OASIS_Room_Editor
                 Point org = ((Control)sender).PointToScreen(startDrag);
                 ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
 
-                /* User selected a region in the bitmap from 
-                    WhereClicked.X
-                    WhereClicked.Y
-
-                    to
-
-                    (int)(mouseEventArgs.X / ZoomLevel);
-                    (int)(mouseEventArgs.Y / ZoomLevel);
-
+                /* User selected a region in the bitmap 
                     Create this rectangle (SelectedRect) and mark it as valid. The Paint methods
                     will draw it from now on
                  */
@@ -1111,8 +1136,7 @@ namespace OASIS_Room_Editor
                     trueDest.X = (int)Math.Round((double)trueDest.X / 6) * 6;
                 }
 
-                
-
+               
                 if(Control.ModifierKeys == Keys.Control)
                 {
                     WhereClicked.Y = (int)Math.Round((double)WhereClicked.Y / 8) * 8;

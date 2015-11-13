@@ -45,6 +45,7 @@
             // 
             // comboBoxAttr1
             // 
+            this.comboBoxAttr1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAttr1.FormattingEnabled = true;
             this.comboBoxAttr1.Items.AddRange(new object[] {
             "Black ink",
@@ -70,6 +71,7 @@
             // 
             // comboBoxAttr2
             // 
+            this.comboBoxAttr2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAttr2.FormattingEnabled = true;
             this.comboBoxAttr2.Items.AddRange(new object[] {
             "Black ink",

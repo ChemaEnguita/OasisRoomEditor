@@ -11,24 +11,16 @@ namespace OASIS_Room_Editor
 {
     // <summary>
     // Class holding attribute information in a HIRES Oric picture
+    // Much better using a structure to gain speed.
     // <!summary>
 
-    public class Attribute
+    struct Attribute
     {
         public bool isPaperAttribute;
         public bool isInkAttribute;
         public int CurrentInk;
         public int CurrentPaper;
         public bool isInverse;
-
-        public Attribute()
-        {
-            isPaperAttribute = false;
-            isInkAttribute = false;
-            CurrentInk = 7;
-            CurrentPaper = 0;
-            isInverse = false;
-        }
     }
     // <summary>
     // Class representing a HIRES Oric picture
@@ -71,7 +63,6 @@ namespace OASIS_Room_Editor
             for (int i = 0; i < nScans; i++)
                 for (int j = 0; j < nRows; j++)
                 {
-                    Attributes[i, j] = new Attribute();
                     Attributes[i, j].isPaperAttribute = false;
                     Attributes[i, j].isInkAttribute = false;
                     Attributes[i, j].CurrentInk = 7;
@@ -503,13 +494,13 @@ namespace OASIS_Room_Editor
             for (int i = 0; i < nScans; i++)
                 for (int j = 0; j < nRows; j++)
                 {
-                    attr[i, j] = new Attribute();
                     attr[i, j].CurrentInk = Attributes[i, j].CurrentInk;
                     attr[i, j].CurrentPaper = Attributes[i, j].CurrentPaper;
                     attr[i, j].isInkAttribute = Attributes[i, j].isInkAttribute;
                     attr[i, j].isPaperAttribute = Attributes[i, j].isPaperAttribute;
                     attr[i, j].isInverse = Attributes[i, j].isInverse;
                 }
+
             for (int i = 0; i < nScans * 6; i++)
                 for (int j = 0; j < nRows; j++)
                     pi[i, j] = isPixelInk[i, j];
@@ -528,11 +519,12 @@ namespace OASIS_Room_Editor
             for (int i = 0; i < nScans; i++)
                 for (int j = 0; j < nRows; j++)
                      Attributes[i, j]=memento.Attributes[i, j];
+
             for (int i = 0; i < nScans * 6; i++)
                 for (int j = 0; j < nRows; j++)
                     isPixelInk[i, j]=memento.isPixelInk[i,j];
 
-                ResetAllAttributes();
+            ResetAllAttributes();
         }
         #endregion
     }
