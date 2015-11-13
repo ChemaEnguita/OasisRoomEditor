@@ -52,6 +52,7 @@
     <Compile Include="DialogSizeHires.Designer.cs">
       <DependentUpon>DialogSizeHires.cs</DependentUpon>
     </Compile>
+    <Compile Include="DropOutStack.cs" />
     <Compile Include="EditorMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +68,7 @@
     <Compile Include="MementoCaretaker.cs" />
     <Compile Include="OASISRoom.cs" />
     <Compile Include="OricPicture.cs" />
+    <Compile Include="PictureMemento.cs" />
     <Compile Include="PixelBox.cs">
       <SubType>Component</SubType>
       <CustomToolNamespace>OASIS_Room_Editor</CustomToolNamespace>

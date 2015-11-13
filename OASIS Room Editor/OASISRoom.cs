@@ -34,7 +34,7 @@ namespace OASIS_Room_Editor
 
         public RoomMemento CreateCheckPoint()
         {
-            return new RoomMemento(roomName, roomID, roomSize, roomImage);
+            return new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint());
         }
 
         public void RestoreCheckPoint(RoomMemento memento)
@@ -42,30 +42,7 @@ namespace OASIS_Room_Editor
             roomName = memento.roomName;
             roomID = memento.roomID;
             roomSize = memento.roomSize;
-
-            roomImage= new OricPicture(memento.nScans,memento.nRows);
-
-            for (int i = 0; i < memento.nScans; i++)
-                for (int j = 0; j < memento.nRows; j++)
-                {
-                    roomImage.SetInverse(memento.Attributes[i, j].isInverse, i, j);
-                    if (memento.Attributes[i, j].isPaperAttribute)
-                        roomImage.SetPaper(memento.Attributes[i, j].CurrentPaper, i, j);
-
-                    if (memento.Attributes[i, j].isInkAttribute)
-                        roomImage.SetPaper(memento.Attributes[i, j].CurrentInk, i, j);
-                }
-
-            for (int i = 0; i < memento.nScans * 6; i++)
-                for (int j = 0; j < memento.nRows; j++)
-                {
-                    if (memento.isPixelInk[i, j])
-                        roomImage.SetPixel(i, j);
-                    else
-                        roomImage.ClearPixel(i, j);
-                }
-
-            roomImage.ResetAllAttributes();
+            roomImage.RestoreCheckPoint(memento.roomImage);
         }
 
     }

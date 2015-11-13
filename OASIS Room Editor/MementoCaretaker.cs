@@ -12,8 +12,8 @@ namespace OASIS_Room_Editor
 
     class MementoCaretaker
     {
-        private Stack<RoomMemento> undoStack =new Stack<RoomMemento>();
-        private Stack<RoomMemento> redoStack=new Stack<RoomMemento>();
+        private DropOutStack<RoomMemento> undoStack =new DropOutStack<RoomMemento>(50);
+        private DropOutStack<RoomMemento> redoStack=new DropOutStack<RoomMemento>(50);
 
         public void Clear()
         {
@@ -25,8 +25,9 @@ namespace OASIS_Room_Editor
         {
             if (undoStack.Count != 0)
             {
+                // Save current memento in redo
                 RoomMemento m = undoStack.Pop();
-                redoStack.Push(m);
+                //redoStack.Push(m);
                 return m;
             }
             else
@@ -37,6 +38,7 @@ namespace OASIS_Room_Editor
         {
             if (redoStack.Count != 0)
             {
+                // This may also be wrong.
                 RoomMemento m = redoStack.Pop();
                 undoStack.Push(m);
                 return m;

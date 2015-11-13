@@ -36,11 +36,11 @@ namespace OASIS_Room_Editor
     class OricPicture
     {
         public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.GreenYellow, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
-        public int nScans { get; set; }
-        public int nRows { get; set; }
+        public int nScans { get; private set; }
+        public int nRows { get; private set; }
         private Attribute[,] Attributes;
         private bool[,] isPixelInk;
-        public Bitmap theBitmap { get; set; }
+        public Bitmap theBitmap { get; private set; }
 
         public OricPicture(int scans, int rows)
         {
@@ -493,7 +493,49 @@ namespace OASIS_Room_Editor
         }
 
         #endregion
+
+        #region memento pattern
+        public PictureMemento CreateCheckPoint()
+        {
+            Attribute[,] attr = new Attribute[nScans, nRows];
+            bool[,] pi = new bool[nScans*6, nRows];
+
+            for (int i = 0; i < nScans; i++)
+                for (int j = 0; j < nRows; j++)
+                {
+                    attr[i, j] = new Attribute();
+                    attr[i, j].CurrentInk = Attributes[i, j].CurrentInk;
+                    attr[i, j].CurrentPaper = Attributes[i, j].CurrentPaper;
+                    attr[i, j].isInkAttribute = Attributes[i, j].isInkAttribute;
+                    attr[i, j].isPaperAttribute = Attributes[i, j].isPaperAttribute;
+                    attr[i, j].isInverse = Attributes[i, j].isInverse;
+                }
+            for (int i = 0; i < nScans * 6; i++)
+                for (int j = 0; j < nRows; j++)
+                    pi[i, j] = isPixelInk[i, j];
+
+            return new PictureMemento(nScans,nRows,attr,pi);
+        }
+
+        public void RestoreCheckPoint(PictureMemento memento)
+        {
+            nScans = memento.nScans;
+            nRows = memento.nRows;
+
+            Attributes = new Attribute[nScans, nRows];
+            isPixelInk = new bool[nScans*6, nRows];
+
+            for (int i = 0; i < nScans; i++)
+                for (int j = 0; j < nRows; j++)
+                     Attributes[i, j]=memento.Attributes[i, j];
+            for (int i = 0; i < nScans * 6; i++)
+                for (int j = 0; j < nRows; j++)
+                    isPixelInk[i, j]=memento.isPixelInk[i,j];
+
+                ResetAllAttributes();
+        }
+        #endregion
     }
 
 
-    }
+}
