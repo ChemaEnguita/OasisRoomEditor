@@ -483,9 +483,53 @@ namespace OASIS_Room_Editor
             ResetAllAttributes();
         }
 
+        public byte[,] EncodeAsHires()
+        {
+            byte[,] b = new byte[nScans, nRows];
+
+            for (int row = 0; row < nRows; row++)
+                for (int scan = 0; scan<nScans; scan++)
+                {
+                    if(isAttribute(scan,row))
+                    {
+                        if (Attributes[scan, row].isPaperAttribute)
+                            b[scan, row] = (byte)(Attributes[scan, row].CurrentPaper + 16);
+                        else
+                            b[scan, row] = (byte)(Attributes[scan, row].CurrentInk);
+                    }
+                    else
+                    {
+                        b[scan, row] = 0x40;
+                        for (int k=0; k<6; k++)
+                        {
+                            b[scan, row] |= (byte)( (isPixelInk[scan * 6 + k, row] ? 1 : 0) << (5 - k));
+                        }
+                    }
+                    if (Attributes[scan, row].isInverse)
+                        b[scan, row] |= 0x80;
+                }
+
+            return b;
+        }
+
+        public void ExportToHires(String fileName)
+        {
+            // Create the reader for data.
+            var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            BinaryWriter w = new BinaryWriter(fs);
+
+            var b = EncodeAsHires();
+
+            // Write data
+            for (int line = 0; line < nRows; line++)
+                for (int scan = 0; scan < nScans; scan++)
+                    w.Write(b[scan, line]);
+            w.Close();
+        }
+
         #endregion
 
-        #region memento pattern
+            #region memento pattern
         public PictureMemento CreateCheckPoint()
         {
             Attribute[,] attr = new Attribute[nScans, nRows];

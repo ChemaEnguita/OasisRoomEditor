@@ -715,11 +715,18 @@ namespace OASIS_Room_Editor
 
                 // Create a new OricPicture object and ask it to load the file
                 this.Cursor = Cursors.WaitCursor;
+
+                if (theRoom == null)
+                    theRoom = new OASISRoom(DS.picWidth / 6);
+
                 theRoom.roomImage = new OricPicture(DS.picWidth/6, DS.picHeight);
                 theRoom.roomImage.ReadHiresData(openFileDialog1.FileName);
 
                 // Call the common actions after reloading a file
                 ReloadActions();
+
+                // TEST: Save it back to a file
+                //theRoom.roomImage.ExportToHires("D:\\Documentos\\oric\\PushingTheEnvelope\\build\\files\\kk.hir");
 
                 this.Cursor = Cursors.Default;
             }
@@ -754,9 +761,8 @@ namespace OASIS_Room_Editor
                 // Create a new OASISRoom Object and ask it to read the image data from 
                 // the bitmap object
                 if (theRoom==null)
-                {
                     theRoom = new OASISRoom(s.Width / 6);
-                }
+
                 theRoom.roomImage = new OricPicture(s.Width / 6, s.Height);
                 theRoom.roomImage.ReadBMPData(bmp);
 
@@ -1107,7 +1113,19 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
         }
 
-  
+        private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ts = new TileSectioner();
+
+            var p = theRoom.roomImage.EncodeAsHires();
+            ts.doSection(p);
+            // Tell the user the number of tiles
+            String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
+            s+="\nNumber of tiles: " + ts.tileSet.Count;
+            s += "\nMemory usage: " + (ts.tileMap.GetLength(0)*ts.tileMap.GetLength(1)+ts.tileSet.Count*8) +" bytes";
+            MessageBox.Show(s,"Room picture information");
+        }
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
