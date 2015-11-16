@@ -19,7 +19,7 @@ namespace OASIS_Room_Editor
 
         public OASISRoom(int size)
         {
-            roomImage = new OricPicture(size, 17);
+            roomImage = new OricPicture(size, 17*8);
             roomName = "No name";
             roomID = 0;
 
@@ -27,7 +27,7 @@ namespace OASIS_Room_Editor
 
         public OASISRoom(String name, int id, int size)
         {
-            roomImage = new OricPicture(size, 17);
+            roomImage = new OricPicture(size, 17*8);
             roomName = name;
             roomID = id;
         }
