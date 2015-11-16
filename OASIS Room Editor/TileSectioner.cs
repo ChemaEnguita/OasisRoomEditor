@@ -33,7 +33,7 @@ namespace OASIS_Room_Editor
         private bool areTilesEqual(byte []t1, byte[] t2)
         {
             int i=0;
-            while((i<8) && (t1[i]==t2[i]))
+            while(i<8 && t1[i]==t2[i])
                 i++;
             return !(i==8);
         }
@@ -44,7 +44,7 @@ namespace OASIS_Room_Editor
         {
             // Search the code in the tile set
             int code = 0;
-            while ((code < tileSet.Count) && (areTilesEqual(tileSet[code],t)))
+            while (code < tileSet.Count && areTilesEqual(tileSet[code],t))
                 code++;
             if(code==tileSet.Count)
                 tileSet.Add(t);

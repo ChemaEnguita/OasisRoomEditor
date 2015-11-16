@@ -441,7 +441,7 @@ namespace OASIS_Room_Editor
   
         private void ButtonZoomOut_Click(object sender, EventArgs e)
         {
-            if (ZoomLevel == 1) return;
+            if (ZoomLevel == 2) return;
 
             // This is needed to try to mantain the area we are 
             // watching when zooming out
@@ -538,7 +538,7 @@ namespace OASIS_Room_Editor
                 var x = e.X + PastePictureBox.Left - MouseDownLocation.X;
                 var y = e.Y + PastePictureBox.Top - MouseDownLocation.Y;
 
-                if ((Control.ModifierKeys == Keys.Shift) || (Control.ModifierKeys == Keys.Control))
+                if (Control.ModifierKeys == Keys.Shift || Control.ModifierKeys == Keys.Control)
                 {
                     x = (int)(Math.Round((double) x / (6*ZoomLevel)) * (6*ZoomLevel));
                 }
@@ -1148,30 +1148,8 @@ namespace OASIS_Room_Editor
             toolStripScanLabel.Text = "Outside drawing area";
         }
 
-        private void newRoomToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-            if(theRoom!=null)
-            {
-                var result = MessageBox.Show("Current room will be lost. Are you sure?", "A room already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.No)
-                    return;
-            }
 
-            var dialogNewRoom = new formNewRoom();
-
-            // There is no Cancel button yet... is this necessary?
-            if (dialogNewRoom.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-
-            theRoom = new OASISRoom(dialogNewRoom.roomName, dialogNewRoom.roomID, dialogNewRoom.roomSize);
-
-            ReloadActions();
-        }
-
- 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;

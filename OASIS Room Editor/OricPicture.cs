@@ -131,7 +131,7 @@ namespace OASIS_Room_Editor
         {
 
             // If outside range, return false
-            if ( (x / 6 > nScans) || (y > nRows)) return false;
+            if (x / 6 > nScans || y > nRows) return false;
 
             var scan = x / 6;
             var line = y;
@@ -139,7 +139,7 @@ namespace OASIS_Room_Editor
             int ink, paper;
 
             // Avoid drawing over attributes, and return false
-            if ((Attributes[scan, line].isInkAttribute) || (Attributes[scan, line].isPaperAttribute))
+            if (Attributes[scan, line].isInkAttribute || Attributes[scan, line].isPaperAttribute)
             {
                 return false;
             }
