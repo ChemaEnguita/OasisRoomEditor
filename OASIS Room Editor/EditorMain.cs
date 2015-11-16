@@ -204,7 +204,7 @@ namespace OASIS_Room_Editor
         }
 
 
-        //... and the labes for attributes
+        //... and the labels for attributes
         private void DrawAttribLabels(Graphics g)
         {
              for(int i=0; i< theRoom.roomImage.nScans; i++)
@@ -695,16 +695,16 @@ namespace OASIS_Room_Editor
                 return;
 
             // Prepare a dialog box for selecting the file
-            openFileDialog1.Filter = "HIRES Files|*.hir";
-            openFileDialog1.Title = "Select a HIRES image File";
+            openFileDialog1.Filter = "HIRES files|*.hir";
+            openFileDialog1.Title = "Select a HIRES image file";
             openFileDialog1.FileName="*.hir";
 
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 // HIRES files do not include width/height information, open
                 // a second dialog box to ask for it
                 var DS = new DialogSizeHires();
-                if (DS.ShowDialog()== System.Windows.Forms.DialogResult.Cancel)
+                if (DS.ShowDialog()== DialogResult.Cancel)
                 {
                     return;
                 }
@@ -724,10 +724,7 @@ namespace OASIS_Room_Editor
 
                 // Call the common actions after reloading a file
                 ReloadActions();
-
-                // TEST: Save it back to a file
-                //theRoom.roomImage.ExportToHires("D:\\Documentos\\oric\\PushingTheEnvelope\\build\\files\\kk.hir");
-
+                
                 this.Cursor = Cursors.Default;
             }
 
@@ -745,7 +742,7 @@ namespace OASIS_Room_Editor
             openFileDialog1.Title = "Select an image File";
             openFileDialog1.FileName = "";
 
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var bmp = new Bitmap(openFileDialog1.FileName);
                 if (bmp == null)
@@ -775,6 +772,98 @@ namespace OASIS_Room_Editor
             }
 
         }
+
+
+        private void exportToHIRESPictureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "HIRES files|*.hir";
+            saveFileDialog1.Title = "Select a HIRES image file";
+            saveFileDialog1.FileName = "*.hir";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                theRoom.roomImage.ExportToHires(saveFileDialog1.FileName);
+        }
+
+        private void exportPictureToFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "Image files (*.bmp; *.jpg; *.jpeg,*.png, *.tiff)| *.BMP; *.JPG; *.JPEG; *.PNG; *.TIFF; *.TIF";
+            saveFileDialog1.Title = "Select an image File";
+            saveFileDialog1.FileName = "";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                theRoom.roomImage.ExportToBmp(saveFileDialog1.FileName);
+
+        }
+
+        private void aICHelperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (theRoom.roomImage == null)
+                return;
+
+            var DAIC = new AICHelperDialog();
+
+            if (DAIC.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
+            var r = Math.Min(DAIC.Row2, theRoom.roomImage.nRows - 1);
+            for (int i = DAIC.Row1; i <= r; i += 2)
+            {
+                if (DAIC.Attrib1 < 8)
+                    theRoom.roomImage.SetInk(DAIC.Attrib1, DAIC.Column, i);
+                else
+                    theRoom.roomImage.SetPaper((DAIC.Attrib1 & 0x7), DAIC.Column, i);
+
+                theRoom.roomImage.SetInverse(DAIC.Inverse1, DAIC.Column, i);
+
+                if (DAIC.Attrib2 < 8)
+                    theRoom.roomImage.SetInk(DAIC.Attrib2, DAIC.Column, i + 1);
+                else
+                    theRoom.roomImage.SetPaper((DAIC.Attrib2 & 0x7), DAIC.Column, i + 1);
+
+                theRoom.roomImage.SetInverse(DAIC.Inverse2, DAIC.Column, i + 1);
+            }
+            theRoom.roomImage.ResetAllAttributes();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
+            theRoom.roomImage.InsertColumnsRight(1);
+            // Call the common actions after reloading an image
+            ReloadActions();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
+            theRoom.roomImage.InsertColumnsLeft(1);
+            // Call the common actions after reloading an image
+            ReloadActions();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ts = new TileSectioner();
+
+            var p = theRoom.roomImage.EncodeAsHires();
+            ts.doSection(p);
+            // Tell the user the number of tiles
+            String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
+            s += "\nNumber of tiles: " + ts.tileSet.Count;
+            s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
+            MessageBox.Show(s, "Room picture information");
+        }
+
+
 
         private void doRestoringState(RoomMemento m)
         {
@@ -896,6 +985,7 @@ namespace OASIS_Room_Editor
                 }
             HiresPictureBox.Invalidate();
         }
+
 
 
 
@@ -1058,73 +1148,7 @@ namespace OASIS_Room_Editor
             toolStripScanLabel.Text = "Outside drawing area";
         }
 
-        private void aICHelperToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (theRoom.roomImage == null)
-                return;
 
-            var DAIC = new AICHelperDialog();
-
-            if (DAIC.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-
-            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-
-            var r = Math.Min(DAIC.Row2, theRoom.roomImage.nRows-1);
-            for (int i=DAIC.Row1;i<=r;i+=2)
-            {
-                if (DAIC.Attrib1 < 8)
-                    theRoom.roomImage.SetInk(DAIC.Attrib1, DAIC.Column, i);
-                else
-                    theRoom.roomImage.SetPaper((DAIC.Attrib1 & 0x7), DAIC.Column, i);
-
-                theRoom.roomImage.SetInverse(DAIC.Inverse1, DAIC.Column, i);
-
-                if (DAIC.Attrib2 < 8)
-                    theRoom.roomImage.SetInk(DAIC.Attrib2, DAIC.Column, i+1);
-                else
-                    theRoom.roomImage.SetPaper((DAIC.Attrib2 & 0x7), DAIC.Column, i+1);
-
-                theRoom.roomImage.SetInverse(DAIC.Inverse2, DAIC.Column, i+1);
-            }
-            theRoom.roomImage.ResetAllAttributes();
-            HiresPictureBox.Invalidate();
-        }
-
-        private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-
-            theRoom.roomImage.InsertColumnsRight(1);
-            // Call the common actions after reloading an image
-            ReloadActions();
-            HiresPictureBox.Invalidate();
-        }
-
-        private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-
-            theRoom.roomImage.InsertColumnsLeft(1);
-            // Call the common actions after reloading an image
-            ReloadActions();
-            HiresPictureBox.Invalidate();
-        }
-
-        private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var ts = new TileSectioner();
-
-            var p = theRoom.roomImage.EncodeAsHires();
-            ts.doSection(p);
-            // Tell the user the number of tiles
-            String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
-            s+="\nNumber of tiles: " + ts.tileSet.Count;
-            s += "\nMemory usage: " + (ts.tileMap.GetLength(0)*ts.tileMap.GetLength(1)+ts.tileSet.Count*8) +" bytes";
-            MessageBox.Show(s,"Room picture information");
-        }
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {

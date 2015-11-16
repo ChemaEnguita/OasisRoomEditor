@@ -418,46 +418,59 @@ namespace OASIS_Room_Editor
                 SetPaper((val & 0x7), scan, line);
         }
 
-        internal void ReadHiresData(string fileName)
+        // Reads and decodes a HIRES image stored in a matrix b
+        public void ReadHiresData(byte[,] b)
         {
-            // Create the reader for data.
-            var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            BinaryReader r = new BinaryReader(fs);
-
-            // Read data
+            nRows = b.GetLength(1);
+            nScans = b.GetLength(0);
+            // Read & decode data
             for (int line = 0; line < nRows; line++)
                 for (int scan = 0; scan < nScans; scan++)
                 {
-                    // Read one byte
-                    var b = r.ReadByte();
-
-
-                    if ((b & 0x40) == 0)
-                        DecodeAttribute(b, scan, line); // It is an attribute
+                     if ((b[scan,line] & 0x40) == 0)
+                        DecodeAttribute(b[scan, line], scan, line); // It is an attribute
                     else
                     {
                         // Pixel values...
                         int mask = 1;
                         for (int k = 1; k < 7; k++)
                         {
-                            SetPixelToValue(scan * 6 + 6 - k, line, b & mask);
+                            SetPixelToValue(scan * 6 + 6 - k, line, b[scan, line] & mask);
                             mask = mask * 2;
                         }
                     }
 
                     // Set the inverse mode
-                    if ((b & 0x80) != 0)
+                    if ((b[scan, line] & 0x80) != 0)
                         SetInverse(true, scan, line);
                     else
                         SetInverse(false, scan, line);
 
                 }
             ResetAllAttributes();
+        }
 
+        // Reads and decodes a HIRES image stored in a file
+        public void ReadHiresData(string fileName)
+        {
+            // Create the reader for data.
+            var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            BinaryReader r = new BinaryReader(fs);
+
+            // Create the matrix to hold the data
+            var b = new byte[nScans, nRows];
+
+            // Read data
+            for (int line = 0; line < nRows; line++)
+                for (int scan = 0; scan < nScans; scan++)
+                    b[scan,line] = r.ReadByte();
             // Close the reader
             r.Close();
 
+            ReadHiresData(b);
+
         }
+        
 
         // Importing data from a Bitmap. I am using an object here, as opening a file
         // to create it would be a bit restrictive, we may want to use this with an already-created
@@ -465,7 +478,7 @@ namespace OASIS_Room_Editor
         // Second param is the threshold (0-1) in brightness of a pixel to consider it ink or paper
         // but b&w pictures are expected.
         // Defaulted to 0.05, which seems to work ok.
-        internal void ReadBMPData(Bitmap bmp, double threshold=0.05)
+        public void ReadBMPData(Bitmap bmp, double threshold=0.05)
         {
             // Some (maybe silly defensive programming here)
             if (bmp == null) return;
@@ -527,9 +540,14 @@ namespace OASIS_Room_Editor
             w.Close();
         }
 
+        public void ExportToBmp(String filename)
+        {
+            theBitmap.Save(filename);
+        }
+
         #endregion
 
-            #region memento pattern
+        #region memento pattern
         public PictureMemento CreateCheckPoint()
         {
             Attribute[,] attr = new Attribute[nScans, nRows];

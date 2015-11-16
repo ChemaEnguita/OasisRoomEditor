@@ -82,6 +82,8 @@
             this.atTherightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atTheleftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aICHelperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.sectionInTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuTools = new System.Windows.Forms.ToolStrip();
             this.nuevoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.abrirToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -104,8 +106,9 @@
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.sectionInTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPictureToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
@@ -371,6 +374,8 @@
             this.toolStripSeparator3,
             this.importHIRESPictureToolStripMenuItem,
             this.importPictureFromFileToolStripMenuItem,
+            this.exportToHIRESPictureToolStripMenuItem,
+            this.exportPictureToFileToolStripMenuItem,
             this.toolStripSeparator6,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -548,6 +553,18 @@
             this.aICHelperToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.aICHelperToolStripMenuItem.Text = "&AIC helper...";
             this.aICHelperToolStripMenuItem.Click += new System.EventHandler(this.aICHelperToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(219, 6);
+            // 
+            // sectionInTilesToolStripMenuItem
+            // 
+            this.sectionInTilesToolStripMenuItem.Name = "sectionInTilesToolStripMenuItem";
+            this.sectionInTilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.sectionInTilesToolStripMenuItem.Text = "&Section in tiles...";
+            this.sectionInTilesToolStripMenuItem.Click += new System.EventHandler(this.sectionInTilesToolStripMenuItem_Click);
             // 
             // MainMenuTools
             // 
@@ -773,17 +790,19 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // toolStripSeparator9
+            // exportToHIRESPictureToolStripMenuItem
             // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(219, 6);
+            this.exportToHIRESPictureToolStripMenuItem.Name = "exportToHIRESPictureToolStripMenuItem";
+            this.exportToHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportToHIRESPictureToolStripMenuItem.Text = "Export to HIRES...";
+            this.exportToHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.exportToHIRESPictureToolStripMenuItem_Click);
             // 
-            // sectionInTilesToolStripMenuItem
+            // exportPictureToFileToolStripMenuItem
             // 
-            this.sectionInTilesToolStripMenuItem.Name = "sectionInTilesToolStripMenuItem";
-            this.sectionInTilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.sectionInTilesToolStripMenuItem.Text = "&Section in tiles...";
-            this.sectionInTilesToolStripMenuItem.Click += new System.EventHandler(this.sectionInTilesToolStripMenuItem_Click);
+            this.exportPictureToFileToolStripMenuItem.Name = "exportPictureToFileToolStripMenuItem";
+            this.exportPictureToFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportPictureToFileToolStripMenuItem.Text = "Export picture to file...";
+            this.exportPictureToFileToolStripMenuItem.Click += new System.EventHandler(this.exportPictureToFileToolStripMenuItem_Click);
             // 
             // EditorMain
             // 
@@ -898,6 +917,9 @@
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem sectionInTilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToHIRESPictureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportPictureToFileToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
