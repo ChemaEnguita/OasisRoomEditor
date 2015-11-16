@@ -65,6 +65,12 @@
     <Compile Include="AICHelper.Designer.cs">
       <DependentUpon>AICHelper.cs</DependentUpon>
     </Compile>
+    <Compile Include="formNewRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formNewRoom.Designer.cs">
+      <DependentUpon>formNewRoom.cs</DependentUpon>
+    </Compile>
     <Compile Include="MementoCaretaker.cs" />
     <Compile Include="OASISRoom.cs" />
     <Compile Include="OricPicture.cs" />
@@ -85,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AICHelper.resx">
       <DependentUpon>AICHelper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formNewRoom.resx">
+      <DependentUpon>formNewRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

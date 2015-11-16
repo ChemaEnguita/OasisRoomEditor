@@ -54,13 +54,13 @@ namespace OASIS_Room_Editor
 
         // Method to perform the sectioning of a picture in tiles.
         // Fills in the tilemap and tileset.
-        public void doSection(byte[,] pic)
+        public void doSection(byte[,] pic, bool usePalette=false)
         {
             // Section the picture in tiles
             tileMap = new byte[pic.GetLength(0), pic.GetLength(1) / 8];
 
             for (int tiley = 0; tiley < tileMap.GetLength(1); tiley++) 
-                for (int tilex= 0 ; tilex < tileMap.GetLength(0); tilex++)
+                for (int tilex= (usePalette?2:0) ; tilex < tileMap.GetLength(0); tilex++)
                 {
                     // Calculate the tile at (tilex,tiley)
                     var t = new byte[8];

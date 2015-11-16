@@ -835,9 +835,11 @@ namespace OASIS_Room_Editor
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
             theRoom.roomImage.InsertColumnsRight(1);
+            
             // Call the common actions after reloading an image
             ReloadActions();
             HiresPictureBox.Invalidate();
+            
         }
 
         private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
@@ -855,7 +857,7 @@ namespace OASIS_Room_Editor
             var ts = new TileSectioner();
 
             var p = theRoom.roomImage.EncodeAsHires();
-            ts.doSection(p);
+            ts.doSection(p, checkBoxPalette.Checked);
             // Tell the user the number of tiles
             String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
             s += "\nNumber of tiles: " + ts.tileSet.Count;
@@ -953,6 +955,12 @@ namespace OASIS_Room_Editor
 
             // And the selected area too
             SelectionValid = false;
+
+            // Update data in tabs
+            if (theRoom.roomSize < theRoom.roomImage.nScans)
+                theRoom.roomSize = theRoom.roomImage.nScans;
+
+            UpdateTabRoomData();
         }
 
 
@@ -1148,6 +1156,18 @@ namespace OASIS_Room_Editor
             toolStripScanLabel.Text = "Outside drawing area";
         }
 
+        private void UpdateTabRoomData()
+        {
+            if (theRoom != null)
+            {
+                textBoxName.Text = theRoom.roomName;
+                textBoxID.Text = theRoom.roomID.ToString();
+                textBoxSize.Text = theRoom.roomSize.ToString();
+                textBoxZPlanes.Text=theRoom.roomZPlanes.ToString();
+                labelRoomInfo.Text = "Press UPDATE to calculate\ntiles and image size";
+            }
+        }
+
         private void newRoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -1169,9 +1189,43 @@ namespace OASIS_Room_Editor
             theRoom = new OASISRoom(dialogNewRoom.roomName, dialogNewRoom.roomID, dialogNewRoom.roomSize);
 
             ReloadActions();
+            
         }
 
- 
+
+
+        private void textBoxName_TextChanged(object sender, EventArgs e)
+        {
+            if (theRoom != null)
+                theRoom.roomName = textBoxName.Text;
+        }
+
+        private void textBoxID_TextChanged(object sender, EventArgs e)
+        {
+            if (theRoom != null)
+            {
+                var id = Int32.Parse(textBoxID.Text);
+                if (id >= 0 && id < 256)
+                    theRoom.roomID = id;
+                else
+                    textBoxID.Text = theRoom.roomID.ToString();
+            }
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            var ts = new TileSectioner();
+
+            var p = theRoom.roomImage.EncodeAsHires();
+            ts.doSection(p, checkBoxPalette.Checked);
+            // Tell the user the number of tiles
+            String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
+            s += "\nNumber of tiles: " + ts.tileSet.Count;
+            s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
+            labelRoomInfo.Text = s;
+
+        }
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;

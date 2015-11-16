@@ -22,7 +22,8 @@ namespace OASIS_Room_Editor
             roomImage = new OricPicture(size, 17*8);
             roomName = "No name";
             roomID = 0;
-
+            roomSize = size;
+            roomZPlanes = 0;
         }
 
         public OASISRoom(String name, int id, int size)
@@ -30,6 +31,8 @@ namespace OASIS_Room_Editor
             roomImage = new OricPicture(size, 17*8);
             roomName = name;
             roomID = id;
+            roomSize = size;
+            roomZPlanes = 0;
         }
 
         public RoomMemento CreateCheckPoint()
