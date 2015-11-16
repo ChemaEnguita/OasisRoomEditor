@@ -7,17 +7,6 @@ c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Roo
 c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.exe
 c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.pdb
 c:\users\engui\documents\visual studio 2015\Projects\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.EditorMain.resources
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe.config
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.exe
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.pdb
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.pdb
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csprojResolveAssemblyReference.cache
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.DialogSizeHires.resources
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.EditorMain.resources
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.Properties.Resources.resources
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csproj.GenerateResource.Cache
-C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.AICHelperDialog.resources
 C:\Users\Chema\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe.config
 C:\Users\Chema\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe
 C:\Users\Chema\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.pdb
@@ -40,3 +29,15 @@ D:\Documentos\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_R
 D:\Documentos\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.AICHelperDialog.resources
 D:\Documentos\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.Properties.Resources.resources
 D:\Documentos\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csproj.GenerateResource.Cache
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe.config
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.exe
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\bin\Debug\OASIS Room Editor.pdb
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.DialogSizeHires.resources
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.EditorMain.resources
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.AICHelperDialog.resources
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.formNewRoom.resources
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS_Room_Editor.Properties.Resources.resources
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csproj.GenerateResource.Cache
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.exe
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.pdb
+C:\Users\engui\Source\Repos\OASIS Room Editor\OASIS Room Editor\obj\Debug\OASIS Room Editor.csprojResolveAssemblyReference.cache

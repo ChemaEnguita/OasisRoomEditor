@@ -65,6 +65,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.importHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPictureFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPictureToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,8 +108,6 @@
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.exportToHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportPictureToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -387,6 +387,7 @@
             this.newRoomToolStripMenuItem.Name = "newRoomToolStripMenuItem";
             this.newRoomToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.newRoomToolStripMenuItem.Text = "&New room...";
+            this.newRoomToolStripMenuItem.Click += new System.EventHandler(this.newRoomToolStripMenuItem_Click);
             // 
             // openRoomToolStripMenuItem
             // 
@@ -418,6 +419,20 @@
             this.importPictureFromFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.importPictureFromFileToolStripMenuItem.Text = "&Import picture from file...";
             this.importPictureFromFileToolStripMenuItem.Click += new System.EventHandler(this.importPictureFromFileToolStripMenuItem_Click);
+            // 
+            // exportToHIRESPictureToolStripMenuItem
+            // 
+            this.exportToHIRESPictureToolStripMenuItem.Name = "exportToHIRESPictureToolStripMenuItem";
+            this.exportToHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportToHIRESPictureToolStripMenuItem.Text = "Export to HIRES...";
+            this.exportToHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.exportToHIRESPictureToolStripMenuItem_Click);
+            // 
+            // exportPictureToFileToolStripMenuItem
+            // 
+            this.exportPictureToFileToolStripMenuItem.Name = "exportPictureToFileToolStripMenuItem";
+            this.exportPictureToFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportPictureToFileToolStripMenuItem.Text = "Export picture to file...";
+            this.exportPictureToFileToolStripMenuItem.Click += new System.EventHandler(this.exportPictureToFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -789,20 +804,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // exportToHIRESPictureToolStripMenuItem
-            // 
-            this.exportToHIRESPictureToolStripMenuItem.Name = "exportToHIRESPictureToolStripMenuItem";
-            this.exportToHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.exportToHIRESPictureToolStripMenuItem.Text = "Export to HIRES...";
-            this.exportToHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.exportToHIRESPictureToolStripMenuItem_Click);
-            // 
-            // exportPictureToFileToolStripMenuItem
-            // 
-            this.exportPictureToFileToolStripMenuItem.Name = "exportPictureToFileToolStripMenuItem";
-            this.exportPictureToFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.exportPictureToFileToolStripMenuItem.Text = "Export picture to file...";
-            this.exportPictureToFileToolStripMenuItem.Click += new System.EventHandler(this.exportPictureToFileToolStripMenuItem_Click);
             // 
             // EditorMain
             // 
