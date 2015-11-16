@@ -302,6 +302,14 @@
         DSAVU98F6AoI8alvAKmY+i5AV0CIT30DSMUoBpCLwQaQDxgYAEdBqY5/vKquAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="walkboxModeButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB3SURBVDhPnc5BDsAgCARA3ub//9L24pUWE80iCFWTjRHX
+        icTfqrUeZwD39aiUUtIogIhGZsxLCPxBDCDDHcQFJPg4QgwgAyxkv0gBTMc80ABeGWc4b3cRgOXlfAbC
+        MpzH7gGrsnu3AnqwjOnvFLATA5ymAeeL+QXODA5HXnUiswAAAABJRU5ErkJggg==
+</value>
+  </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>783, 17</value>
   </metadata>

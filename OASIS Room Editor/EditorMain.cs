@@ -54,6 +54,8 @@ namespace OASIS_Room_Editor
         private bool ShowGrid = true;                   // Is the grid showing?
         private Color GridColor= Color.MediumPurple;    // Default Grid color
         private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
+        private bool WalkboxEditMode = false;           // Editing walkboxes?
+        private int SelectedWalkbox = -1;               // Selected walkbox in editing mode. -1 if none
         
         // Possible drawing tools and current one selected from the toolbar
         enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}    
@@ -144,6 +146,41 @@ namespace OASIS_Room_Editor
                  r = this.RectangleToScreen(r);
                  ControlPaint.DrawReversibleFrame(r, this.BackColor, FrameStyle.Thick);
                  */
+            }
+
+            // If we are editing walkboxes, we should draw them
+            if(WalkboxEditMode)
+            {
+                using (var Pen1 = new Pen(Color.Black, ZoomLevel + 2))
+                using (var Pen2 = new Pen(Color.LightGray, ZoomLevel - 2))
+                using (var Pen3 = new Pen(Color.Gold, ZoomLevel - 2))
+                using (Font aFont = new Font("Calibri", 6 * ZoomLevel))
+                using (SolidBrush Brush2 = new SolidBrush(Color.LightGray))
+                using (SolidBrush Brush3 = new SolidBrush(Color.Gold))
+                {
+                    int wb = 0;
+                    foreach (Rectangle r in theRoom.walkBoxes)
+                    {
+                        //e.Graphics.DrawString(wb.ToString(), aFont, Brush2, r.X * ZoomLevel + 10, r.Y * ZoomLevel - 4);
+                        GraphicsPath p = new GraphicsPath();
+                        p.AddString(
+                            wb.ToString(),             // text to draw
+                            FontFamily.GenericSansSerif,  // or any other font family
+                            (int)FontStyle.Regular,      // font style (bold, italic, etc.)
+                            e.Graphics.DpiY * 6 / 72 * ZoomLevel,       // em size
+                            new Point((int)(r.X * ZoomLevel + 10), (int)(r.Y * ZoomLevel)),              // location where to draw text
+                            new StringFormat());          // set options here (e.g. center alignment)
+                        e.Graphics.DrawPath(Pen1, p);
+                        e.Graphics.FillPath(wb == SelectedWalkbox ? Brush3 : Brush2, p);
+
+                        e.Graphics.DrawRectangle(Pen1, new Rectangle((int)(r.X * ZoomLevel), (int)(r.Y * ZoomLevel),
+                            (int)(r.Width * ZoomLevel), (int)(r.Height * ZoomLevel)));
+                        e.Graphics.DrawRectangle(wb==SelectedWalkbox?Pen3:Pen2, new Rectangle((int)(r.X * ZoomLevel), (int)(r.Y * ZoomLevel),
+                            (int)(r.Width * ZoomLevel), (int)(r.Height * ZoomLevel)));
+                        wb++;
+                    }
+                }
+
             }
         }
 
@@ -1064,7 +1101,9 @@ namespace OASIS_Room_Editor
                 case DrawTools.Cursor:
                     // Cursor toggles pixels with left button or shows context menu with
                     // right button. Works quite nicely for basic editting
-                    if (mouseEventArgs.Button == MouseButtons.Right)
+                    // But only if not in walkbox edit mode, where it is used to 
+                    // select a walkbox
+                    if (mouseEventArgs.Button == MouseButtons.Right && !WalkboxEditMode)
                     {
                         WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
                         WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
@@ -1075,15 +1114,29 @@ namespace OASIS_Room_Editor
                     }
                     else
                     {
-                        undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-
                         var x = (int)(mouseEventArgs.X / ZoomLevel);
                         var y = (int)(mouseEventArgs.Y / ZoomLevel);
-                        if (theRoom.roomImage.GetPixel(x, y) == 1)
-                            theRoom.roomImage.ClearPixel(x, y);
-                        else
-                            theRoom.roomImage.SetPixel(x, y);
 
+                        if (WalkboxEditMode)
+                        {
+                            var p = new Point(x, y);
+                            int wb = 0;
+                            while ((wb < theRoom.walkBoxes.Count) && (!theRoom.walkBoxes[wb].Contains(p)))
+                                wb++;
+                            if (wb == theRoom.walkBoxes.Count)
+                                SelectedWalkbox = -1;
+                            else
+                                SelectedWalkbox = wb;
+                        }
+                        else
+                        {
+                            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+
+                            if (theRoom.roomImage.GetPixel(x, y) == 1)
+                                theRoom.roomImage.ClearPixel(x, y);
+                            else
+                                theRoom.roomImage.SetPixel(x, y);
+                        }
                         HiresPictureBox.Invalidate(); // Trigger redraw of the control.
                     }
                     break;
@@ -1139,8 +1192,17 @@ namespace OASIS_Room_Editor
                     dst= ((Control)sender).PointToScreen(endDrag);
                     ControlPaint.DrawReversibleFrame(new Rectangle(org, new Size(dst.X - org.X, dst.Y - org.Y)), this.BackColor, FrameStyle.Dashed);
                 }
-                // Update the Status bar including CTRL and SHIFT options
-                toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x / 6 + "," + y / 8 + ")" + " - Press SHIFT to snap to scan, CTRL to snap to tile";
+
+                if (!WalkboxEditMode)
+                {
+                    // Update the Status bar including CTRL and SHIFT options
+                    toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x / 6 + "," + y / 8 + ")" + " - Press SHIFT to snap to scan, CTRL to snap to tile";
+                }
+                else
+                {
+                    // Tell the user about the walkbox coordinates
+                    toolStripScanLabel.Text = "Walkbox from ("+(int)(startDrag.X/ZoomLevel/6)+","+ (int)(startDrag.Y/ZoomLevel/8) +") to (" + x / 6 + "," + y / 8 + ")";
+                }
             }
             else
             {
@@ -1226,6 +1288,20 @@ namespace OASIS_Room_Editor
 
         }
 
+        private void walkboxModeButton_Click(object sender, EventArgs e)
+        {
+            WalkboxEditMode = !WalkboxEditMode;
+            ButtonPen.Enabled = !WalkboxEditMode;
+            //ButtonSelection.Enabled = !WalkboxEditMode;
+            //ButtonCursor.Enabled = !WalkboxEditMode;
+            //CurrentTool = DrawTools.SelectPixels;
+            CurrentTool = DrawTools.Cursor;
+            HiresPictureBox.Cursor = Cursors.Default;
+
+            // Redraw to paint/remove walkbox rectangles
+            HiresPictureBox.Invalidate();
+        }
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
@@ -1248,14 +1324,14 @@ namespace OASIS_Room_Editor
                  */
 
                 Point trueDest = new Point((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                if ((Control.ModifierKeys == Keys.Shift) || (Control.ModifierKeys == Keys.Control))
+                if ((Control.ModifierKeys == Keys.Shift) || (Control.ModifierKeys == Keys.Control) || WalkboxEditMode)
                 {
                     WhereClicked.X = (int)Math.Round((double)WhereClicked.X / 6) * 6;
                     trueDest.X = (int)Math.Round((double)trueDest.X / 6) * 6;
                 }
 
                
-                if(Control.ModifierKeys == Keys.Control)
+                if( (Control.ModifierKeys == Keys.Control) || WalkboxEditMode)
                 {
                     WhereClicked.Y = (int)Math.Round((double)WhereClicked.Y / 8) * 8;
                     trueDest.Y = (int)Math.Round((double)trueDest.Y / 8) * 8; ;
@@ -1277,7 +1353,18 @@ namespace OASIS_Room_Editor
                 if (SelectedRect.Height > theRoom.roomImage.nRows - 1)
                     SelectedRect.Height = theRoom.roomImage.nRows - 1;
 
-                SelectionValid = true;
+                if(WalkboxEditMode)
+                {
+                    //We are editing walkboxes. Just add it
+                    theRoom.walkBoxes.Add(SelectedRect);
+                    // And mark selection as invalid: we don't want the user
+                    // to edit, cut or delete...
+                    SelectionValid = false;
+                }
+                else
+                    SelectionValid = true;
+
+                // Trigger redraw of picture
                 HiresPictureBox.Invalidate();
             }
 
