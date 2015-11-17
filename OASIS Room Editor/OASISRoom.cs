@@ -17,8 +17,7 @@ namespace OASIS_Room_Editor
         public int roomID { get; set; }
         public int roomZPlanes { get; private set; }
         public int roomSize { get; set; }
-
-        public List<Rectangle> walkBoxes = new List<Rectangle>();
+        public WalkBoxManager walkBoxes { get; set; }
 
         public OASISRoom(int size)
         {
@@ -27,7 +26,7 @@ namespace OASIS_Room_Editor
             roomID = 0;
             roomSize = size;
             roomZPlanes = 0;
-            walkBoxes.Clear();
+            walkBoxes=new WalkBoxManager();
         }
 
         public OASISRoom(String name, int id, int size)
@@ -37,8 +36,9 @@ namespace OASIS_Room_Editor
             roomID = id;
             roomSize = size;
             roomZPlanes = 0;
-            walkBoxes.Clear();
+            walkBoxes=new WalkBoxManager();
         }
+
 
         public RoomMemento CreateCheckPoint()
         {
@@ -52,6 +52,7 @@ namespace OASIS_Room_Editor
             roomSize = memento.roomSize;
             roomImage.RestoreCheckPoint(memento.roomImage);
         }
+
 
     }
 }

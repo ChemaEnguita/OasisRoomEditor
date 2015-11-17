@@ -57,16 +57,30 @@ namespace OASIS_Room_Editor
         public void doSection(byte[,] pic, bool usePalette=false)
         {
             // Section the picture in tiles
-            tileMap = new byte[pic.GetLength(0), pic.GetLength(1) / 8];
+            int sizx = pic.GetLength(0);
+            int sizy = pic.GetLength(1)/8;
 
-            for (int tiley = 0; tiley < tileMap.GetLength(1); tiley++) 
-                for (int tilex= (usePalette?2:0) ; tilex < tileMap.GetLength(0); tilex++)
+            // If using palette we have to skip first two scans
+            int skip = 0;
+
+            if (usePalette)
+            {
+                sizx = sizx - 2;
+                skip = 2;
+            }
+
+            // Create the tile map
+            tileMap = new byte[sizx,sizy];
+
+            // Populate it
+            for (int tiley = 0; tiley < sizy; tiley++) 
+                for (int tilex= 0 ; tilex < sizx; tilex++)
                 {
                     // Calculate the tile at (tilex,tiley)
                     var t = new byte[8];
                     for (int k=0; k<8; k++)
                     {
-                        t[k] = pic[tilex, tiley*8+ k];
+                        t[k] = pic[tilex+skip, tiley*8+ k];
                     }
                     // Get entry in array (creates one if tile does not exist)
                     var code=GetTileCode(t);

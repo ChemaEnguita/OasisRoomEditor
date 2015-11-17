@@ -109,6 +109,10 @@ namespace OASIS_Room_Editor
 
         private void HiresPictureBox_Paint(object sender, PaintEventArgs e)
         {
+            // If there is no room, there is no picture, so don't draw anything.
+            if (theRoom == null)
+                return;
+
             // If the grid is showing, just draw it.
             // If zoom level is beyond 8 also draw the mini grid
             if (ShowGrid)
@@ -159,7 +163,7 @@ namespace OASIS_Room_Editor
                 using (SolidBrush Brush3 = new SolidBrush(Color.Gold))
                 {
                     int wb = 0;
-                    foreach (Rectangle r in theRoom.walkBoxes)
+                    foreach (Rectangle r in theRoom.walkBoxes.GetBoxes())
                     {
                         //e.Graphics.DrawString(wb.ToString(), aFont, Brush2, r.X * ZoomLevel + 10, r.Y * ZoomLevel - 4);
                         GraphicsPath p = new GraphicsPath();
@@ -891,7 +895,7 @@ namespace OASIS_Room_Editor
 
         private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var ts = new TileSectioner();
+            /*var ts = new TileSectioner();
 
             var p = theRoom.roomImage.EncodeAsHires();
             ts.doSection(p, checkBoxPalette.Checked);
@@ -899,7 +903,21 @@ namespace OASIS_Room_Editor
             String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
             s += "\nNumber of tiles: " + ts.tileSet.Count;
             s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
-            MessageBox.Show(s, "Room picture information");
+            MessageBox.Show(s, "Room picture information");*/
+
+            theRoom.walkBoxes.CreateWalkMatrix();
+            String s="";
+            int n = theRoom.walkBoxes.walkMatrix.GetLength(0);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    s += theRoom.walkBoxes.walkMatrix[i, j].ToString() + " ";
+                }
+                s += "\n";
+            }
+
+            MessageBox.Show(s, "Walk matrix");
         }
 
 
@@ -1121,9 +1139,9 @@ namespace OASIS_Room_Editor
                         {
                             var p = new Point(x, y);
                             int wb = 0;
-                            while ((wb < theRoom.walkBoxes.Count) && (!theRoom.walkBoxes[wb].Contains(p)))
+                            while ((wb < theRoom.walkBoxes.GetNumBoxes()) && (!theRoom.walkBoxes.GetBox(wb).Contains(p)))
                                 wb++;
-                            if (wb == theRoom.walkBoxes.Count)
+                            if (wb == theRoom.walkBoxes.GetNumBoxes())
                                 SelectedWalkbox = -1;
                             else
                                 SelectedWalkbox = wb;
@@ -1258,6 +1276,7 @@ namespace OASIS_Room_Editor
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
+            // TODO: These are not creating checkpoints!!!
             if (theRoom != null)
                 theRoom.roomName = textBoxName.Text;
         }
