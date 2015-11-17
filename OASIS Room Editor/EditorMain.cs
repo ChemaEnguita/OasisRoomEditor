@@ -100,12 +100,17 @@ namespace OASIS_Room_Editor
             toolsToolStripMenuItem.Enabled = false;
             editToolStripMenuItem.Enabled = false;
             DrawingTools.Enabled = false;
+            exportPictureToFileToolStripMenuItem.Enabled = false;
+            exportToHIRESPictureToolStripMenuItem.Enabled = false;
+            saveRoomToolStripMenuItem.Enabled = false;
 
             // Empty undo/redo queue
             undoRedo.Clear();
 
-            // Disable walkbox editing data in tab
+            // Disable Controls in tabs
             foreach (Control c in tabWalkbox.Controls)
+                c.Enabled = false;
+            foreach (Control c in tabRoom.Controls)
                 c.Enabled = false;
         }
 
@@ -994,6 +999,13 @@ namespace OASIS_Room_Editor
             toolsToolStripMenuItem.Enabled = true;
             editToolStripMenuItem.Enabled = true;
             DrawingTools.Enabled = true;
+            exportPictureToFileToolStripMenuItem.Enabled = true;
+            exportToHIRESPictureToolStripMenuItem.Enabled = true;
+            saveRoomToolStripMenuItem.Enabled = true;
+
+            // and room tab controls
+            foreach (Control c in tabRoom.Controls)
+                c.Enabled = true;
 
             // default zoom level is 2
             ZoomLevel = 2;
@@ -1348,6 +1360,9 @@ namespace OASIS_Room_Editor
             //CurrentTool = DrawTools.SelectPixels;
             CurrentTool = DrawTools.Cursor;
             HiresPictureBox.Cursor = Cursors.Default;
+
+            foreach (Control c in tabWalkbox.Controls)
+                c.Enabled = WalkboxEditMode && (SelectedWalkbox!=-1);
 
             // Redraw to paint/remove walkbox rectangles
             HiresPictureBox.Invalidate();
