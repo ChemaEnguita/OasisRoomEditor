@@ -63,7 +63,7 @@ namespace OASIS_Room_Editor
 
         Point WhereClicked;                         // Position the user clicked on the picture
         Point startDrag, endDrag;                   // used when dragging 
-        private bool SelectingPixels=false;         // true if the user is selecting an area
+        private bool SelectingPixels = false;       // true if the user is selecting an area
         private bool SelectionValid = false;        // true if there is an area selected
         private Rectangle SelectedRect;             // The area the user selected
         private PixelBox PastePictureBox = null;    // PictureBox used for pasting
@@ -103,6 +103,10 @@ namespace OASIS_Room_Editor
 
             // Empty undo/redo queue
             undoRedo.Clear();
+
+            // Disable walkbox editing data in tab
+            foreach (Control c in tabWalkbox.Controls)
+                c.Enabled = false;
         }
 
         
@@ -1142,9 +1146,37 @@ namespace OASIS_Room_Editor
                             while ((wb < theRoom.walkBoxes.GetNumBoxes()) && (!theRoom.walkBoxes.GetBox(wb).Contains(p)))
                                 wb++;
                             if (wb == theRoom.walkBoxes.GetNumBoxes())
+                            {
                                 SelectedWalkbox = -1;
+                                // Disable walkbox editing data in tab
+                                foreach (Control c in tabWalkbox.Controls)
+                                    c.Enabled = false;
+                                labelWBSelect.Text = "Select a Walkbox";
+                            }
                             else
+                            {
                                 SelectedWalkbox = wb;
+                                // Disable walkbox editing data in tab
+                                foreach (Control c in tabWalkbox.Controls)
+                                    c.Enabled = true;
+                                // Set the data
+                                labelWBSelect.Text = "Walkbox "+ wb.ToString();
+                                Rectangle r = theRoom.walkBoxes.GetBox(wb);
+                                var prop = theRoom.walkBoxes.GetProperties(wb);
+
+                                textBoxSPX.Text = (r.Left/6).ToString();
+                                textBoxSPY.Text = (r.Top/8).ToString();
+                                textBoxEPX.Text = ((r.Right-1)/6).ToString();
+                                textBoxEPY.Text = ((r.Bottom-1)/8).ToString();
+
+                                textBoxZPlane.Text = prop.zPlane.ToString();
+                                textBoxElevation.Text = prop.Elevation.ToString();
+
+                                checkBoxWalkable.Checked = prop.isWalkable;
+                                checkBoxLeftCorner.Checked = prop.isLeftCorner;
+                                checkBoxRightCorner.Checked = prop.isRightCorner;
+                            }
+                                
                         }
                         else
                         {

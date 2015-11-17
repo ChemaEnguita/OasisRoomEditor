@@ -106,6 +106,8 @@
             this.ButtonZoomOut = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonGrid = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.walkboxModeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabRoom = new System.Windows.Forms.TabPage();
@@ -122,11 +124,25 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabWalkbox = new System.Windows.Forms.TabPage();
+            this.buttonDeleteWb = new System.Windows.Forms.Button();
+            this.labelWBSelect = new System.Windows.Forms.Label();
+            this.textBoxEPY = new System.Windows.Forms.TextBox();
+            this.textBoxEPX = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBoxSPY = new System.Windows.Forms.TextBox();
+            this.textBoxSPX = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBoxElevation = new System.Windows.Forms.TextBox();
+            this.textBoxZPlane = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.walkboxModeButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkBoxRightCorner = new System.Windows.Forms.CheckBox();
+            this.checkBoxLeftCorner = new System.Windows.Forms.CheckBox();
+            this.checkBoxWalkable = new System.Windows.Forms.CheckBox();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
@@ -142,6 +158,8 @@
             this.tabRoom.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabWalkbox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -171,7 +189,7 @@
             this.panel1.Controls.Add(this.HiresPictureBox);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(493, 294);
+            this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
             // 
             // HiresPictureBox
@@ -726,7 +744,7 @@
             this.DrawingTools.Location = new System.Drawing.Point(0, 18);
             this.DrawingTools.Name = "DrawingTools";
             this.DrawingTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.DrawingTools.Size = new System.Drawing.Size(32, 209);
+            this.DrawingTools.Size = new System.Drawing.Size(24, 190);
             this.DrawingTools.TabIndex = 2;
             this.DrawingTools.Text = "Drawing Tools";
             // 
@@ -736,7 +754,7 @@
             this.ButtonCursor.Image = ((System.Drawing.Image)(resources.GetObject("ButtonCursor.Image")));
             this.ButtonCursor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonCursor.Name = "ButtonCursor";
-            this.ButtonCursor.Size = new System.Drawing.Size(30, 20);
+            this.ButtonCursor.Size = new System.Drawing.Size(22, 20);
             this.ButtonCursor.Text = "Cursor";
             this.ButtonCursor.Click += new System.EventHandler(this.ButtonCursor_Click);
             // 
@@ -746,7 +764,7 @@
             this.ButtonPen.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPen.Image")));
             this.ButtonPen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonPen.Name = "ButtonPen";
-            this.ButtonPen.Size = new System.Drawing.Size(30, 20);
+            this.ButtonPen.Size = new System.Drawing.Size(22, 20);
             this.ButtonPen.Text = "Pen";
             this.ButtonPen.Click += new System.EventHandler(this.ButtonPen_Click);
             // 
@@ -756,14 +774,14 @@
             this.ButtonSelection.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSelection.Image")));
             this.ButtonSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonSelection.Name = "ButtonSelection";
-            this.ButtonSelection.Size = new System.Drawing.Size(30, 20);
+            this.ButtonSelection.Size = new System.Drawing.Size(22, 20);
             this.ButtonSelection.Text = "Select pixels";
             this.ButtonSelection.Click += new System.EventHandler(this.ButtonSelection_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(22, 6);
             // 
             // ButtonZoomIn
             // 
@@ -771,7 +789,7 @@
             this.ButtonZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomIn.Image")));
             this.ButtonZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomIn.Name = "ButtonZoomIn";
-            this.ButtonZoomIn.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomIn.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomIn.Text = "Zoom in";
             this.ButtonZoomIn.Click += new System.EventHandler(this.ButtonZoomIn_Click);
             // 
@@ -781,14 +799,14 @@
             this.ButtonZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomOut.Image")));
             this.ButtonZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomOut.Name = "ButtonZoomOut";
-            this.ButtonZoomOut.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomOut.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomOut.Text = "Zoom out";
             this.ButtonZoomOut.Click += new System.EventHandler(this.ButtonZoomOut_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(22, 6);
             // 
             // ButtonGrid
             // 
@@ -799,9 +817,25 @@
             this.ButtonGrid.Image = ((System.Drawing.Image)(resources.GetObject("ButtonGrid.Image")));
             this.ButtonGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonGrid.Name = "ButtonGrid";
-            this.ButtonGrid.Size = new System.Drawing.Size(30, 20);
+            this.ButtonGrid.Size = new System.Drawing.Size(22, 20);
             this.ButtonGrid.Text = "Grid";
             this.ButtonGrid.Click += new System.EventHandler(this.ButtonGrid_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(22, 6);
+            // 
+            // walkboxModeButton
+            // 
+            this.walkboxModeButton.CheckOnClick = true;
+            this.walkboxModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.walkboxModeButton.Image = ((System.Drawing.Image)(resources.GetObject("walkboxModeButton.Image")));
+            this.walkboxModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.walkboxModeButton.Name = "walkboxModeButton";
+            this.walkboxModeButton.Size = new System.Drawing.Size(22, 20);
+            this.walkboxModeButton.Text = "Edit walkboxes";
+            this.walkboxModeButton.Click += new System.EventHandler(this.walkboxModeButton_Click);
             // 
             // toolStripContainer1
             // 
@@ -810,7 +844,7 @@
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(688, 306);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(696, 306);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -830,8 +864,8 @@
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabRoom);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(502, 3);
+            this.tabControl1.Controls.Add(this.tabWalkbox);
+            this.tabControl1.Location = new System.Drawing.Point(510, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(186, 294);
@@ -979,35 +1013,172 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Room Name";
             // 
-            // tabPage2
+            // tabWalkbox
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(178, 268);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabWalkbox.Controls.Add(this.buttonDeleteWb);
+            this.tabWalkbox.Controls.Add(this.labelWBSelect);
+            this.tabWalkbox.Controls.Add(this.textBoxEPY);
+            this.tabWalkbox.Controls.Add(this.textBoxEPX);
+            this.tabWalkbox.Controls.Add(this.label8);
+            this.tabWalkbox.Controls.Add(this.textBoxSPY);
+            this.tabWalkbox.Controls.Add(this.textBoxSPX);
+            this.tabWalkbox.Controls.Add(this.label7);
+            this.tabWalkbox.Controls.Add(this.groupBox3);
+            this.tabWalkbox.Location = new System.Drawing.Point(4, 22);
+            this.tabWalkbox.Name = "tabWalkbox";
+            this.tabWalkbox.Padding = new System.Windows.Forms.Padding(3);
+            this.tabWalkbox.Size = new System.Drawing.Size(178, 268);
+            this.tabWalkbox.TabIndex = 1;
+            this.tabWalkbox.Text = "Walkboxes";
+            this.tabWalkbox.UseVisualStyleBackColor = true;
+            // 
+            // buttonDeleteWb
+            // 
+            this.buttonDeleteWb.Location = new System.Drawing.Point(52, 239);
+            this.buttonDeleteWb.Name = "buttonDeleteWb";
+            this.buttonDeleteWb.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteWb.TabIndex = 12;
+            this.buttonDeleteWb.Text = "Delete";
+            this.buttonDeleteWb.UseVisualStyleBackColor = true;
+            // 
+            // labelWBSelect
+            // 
+            this.labelWBSelect.AutoSize = true;
+            this.labelWBSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWBSelect.Location = new System.Drawing.Point(33, 12);
+            this.labelWBSelect.Name = "labelWBSelect";
+            this.labelWBSelect.Size = new System.Drawing.Size(107, 13);
+            this.labelWBSelect.TabIndex = 11;
+            this.labelWBSelect.Text = "Select a Walkbox";
+            this.labelWBSelect.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // textBoxEPY
+            // 
+            this.textBoxEPY.Location = new System.Drawing.Point(121, 62);
+            this.textBoxEPY.Name = "textBoxEPY";
+            this.textBoxEPY.Size = new System.Drawing.Size(35, 20);
+            this.textBoxEPY.TabIndex = 10;
+            // 
+            // textBoxEPX
+            // 
+            this.textBoxEPX.Location = new System.Drawing.Point(75, 62);
+            this.textBoxEPX.Name = "textBoxEPX";
+            this.textBoxEPX.Size = new System.Drawing.Size(35, 20);
+            this.textBoxEPX.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 65);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "End point:";
+            // 
+            // textBoxSPY
+            // 
+            this.textBoxSPY.Location = new System.Drawing.Point(121, 35);
+            this.textBoxSPY.Name = "textBoxSPY";
+            this.textBoxSPY.Size = new System.Drawing.Size(35, 20);
+            this.textBoxSPY.TabIndex = 7;
+            // 
+            // textBoxSPX
+            // 
+            this.textBoxSPX.Location = new System.Drawing.Point(75, 35);
+            this.textBoxSPX.Name = "textBoxSPX";
+            this.textBoxSPX.Size = new System.Drawing.Size(35, 20);
+            this.textBoxSPX.TabIndex = 6;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 38);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(58, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Start point:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.checkBoxRightCorner);
+            this.groupBox3.Controls.Add(this.checkBoxLeftCorner);
+            this.groupBox3.Controls.Add(this.checkBoxWalkable);
+            this.groupBox3.Controls.Add(this.textBoxElevation);
+            this.groupBox3.Controls.Add(this.textBoxZPlane);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Location = new System.Drawing.Point(6, 97);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(166, 128);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Properties";
+            // 
+            // textBoxElevation
+            // 
+            this.textBoxElevation.Location = new System.Drawing.Point(69, 99);
+            this.textBoxElevation.Name = "textBoxElevation";
+            this.textBoxElevation.Size = new System.Drawing.Size(52, 20);
+            this.textBoxElevation.TabIndex = 4;
+            // 
+            // textBoxZPlane
+            // 
+            this.textBoxZPlane.Location = new System.Drawing.Point(69, 76);
+            this.textBoxZPlane.Name = "textBoxZPlane";
+            this.textBoxZPlane.Size = new System.Drawing.Size(52, 20);
+            this.textBoxZPlane.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 102);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(51, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Elevation";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 83);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Z-plane";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // walkboxModeButton
+            // checkBoxRightCorner
             // 
-            this.walkboxModeButton.CheckOnClick = true;
-            this.walkboxModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.walkboxModeButton.Image = ((System.Drawing.Image)(resources.GetObject("walkboxModeButton.Image")));
-            this.walkboxModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.walkboxModeButton.Name = "walkboxModeButton";
-            this.walkboxModeButton.Size = new System.Drawing.Size(30, 20);
-            this.walkboxModeButton.Text = "Edit walkboxes";
-            this.walkboxModeButton.Click += new System.EventHandler(this.walkboxModeButton_Click);
+            this.checkBoxRightCorner.AutoSize = true;
+            this.checkBoxRightCorner.Location = new System.Drawing.Point(10, 35);
+            this.checkBoxRightCorner.Name = "checkBoxRightCorner";
+            this.checkBoxRightCorner.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxRightCorner.TabIndex = 10;
+            this.checkBoxRightCorner.Text = "Is right corner";
+            this.checkBoxRightCorner.UseVisualStyleBackColor = true;
             // 
-            // toolStripSeparator10
+            // checkBoxLeftCorner
             // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(30, 6);
+            this.checkBoxLeftCorner.AutoSize = true;
+            this.checkBoxLeftCorner.Location = new System.Drawing.Point(10, 52);
+            this.checkBoxLeftCorner.Name = "checkBoxLeftCorner";
+            this.checkBoxLeftCorner.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxLeftCorner.TabIndex = 9;
+            this.checkBoxLeftCorner.Text = "Is left corner";
+            this.checkBoxLeftCorner.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWalkable
+            // 
+            this.checkBoxWalkable.AutoSize = true;
+            this.checkBoxWalkable.Location = new System.Drawing.Point(10, 19);
+            this.checkBoxWalkable.Name = "checkBoxWalkable";
+            this.checkBoxWalkable.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxWalkable.TabIndex = 8;
+            this.checkBoxWalkable.Text = "Is walkable";
+            this.checkBoxWalkable.UseVisualStyleBackColor = true;
             // 
             // EditorMain
             // 
@@ -1046,6 +1217,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabWalkbox.ResumeLayout(false);
+            this.tabWalkbox.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1134,7 +1309,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabRoom;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabWalkbox;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1150,6 +1325,22 @@
         private System.Windows.Forms.CheckBox checkBoxPalette;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripButton walkboxModeButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox textBoxElevation;
+        private System.Windows.Forms.TextBox textBoxZPlane;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button buttonDeleteWb;
+        private System.Windows.Forms.Label labelWBSelect;
+        private System.Windows.Forms.TextBox textBoxEPY;
+        private System.Windows.Forms.TextBox textBoxEPX;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBoxSPY;
+        private System.Windows.Forms.TextBox textBoxSPX;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBoxRightCorner;
+        private System.Windows.Forms.CheckBox checkBoxLeftCorner;
+        private System.Windows.Forms.CheckBox checkBoxWalkable;
     }
 }
 

@@ -18,6 +18,7 @@ namespace OASIS_Room_Editor
             public int zPlane;
             public bool isRightCorner;
             public bool isLeftCorner;
+            public int Elevation;
         }
 
         public List<Rectangle> walkBoxes = new List<Rectangle>();
@@ -44,6 +45,7 @@ namespace OASIS_Room_Editor
             pr.zPlane = 0;
             pr.isRightCorner = false;
             pr.isLeftCorner = false;
+            pr.Elevation = 0;
                         
             wbProperties.Add(pr);
         }
@@ -90,6 +92,9 @@ namespace OASIS_Room_Editor
         {
             Rectangle r1 = walkBoxes[i];
             Rectangle r2 = walkBoxes[j];
+
+            if ((!wbProperties[i].isWalkable) || (!wbProperties[j].isWalkable))
+                return false;
 
             return Rectangle.Intersect(r1, r2) != Rectangle.Empty;
         }
