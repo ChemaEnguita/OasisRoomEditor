@@ -76,23 +76,6 @@ namespace OASIS_Room_Editor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            //theRoom.roomImage = new OricPicture(40, 200);// 768 / 6, 136);
-            //theRoom.roomImage.ReadHiresData("d:\\dbug_1337_logo.hir");
-
-            // For testing set alternating ink colors
-            /*for (int j = 0; j < theRoom.roomImage.nRows; j++)
-            {
-                theRoom.roomImage.SetInk(j % 8, 0, j);
-                theRoom.roomImage.SetPaper((j + 1) % 8, 1, j);
-            }
-            /*
-            HiresPictureBox.Height = (int)(theRoom.roomImage.nRows * ZoomLevel);
-            HiresPictureBox.Width= (int)(theRoom.roomImage.nScans*6 * ZoomLevel);
-            HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp;
-            HiresPictureBox.InterpolationMode = InterpolationMode.NearestNeighbor;
-            */
-
             // Start with the HiresPictureBox disabled
             HiresPictureBox.Enabled = false;
 
@@ -766,10 +749,14 @@ namespace OASIS_Room_Editor
                 // Create a new OricPicture object and ask it to load the file
                 this.Cursor = Cursors.WaitCursor;
 
+                // If there is no room, create one to fit, else just
+                // create the picture
                 if (theRoom == null)
                     theRoom = new OASISRoom(DS.picWidth / 6);
+                else
+                    theRoom.roomImage = new OricPicture(DS.picWidth/6, DS.picHeight);
 
-                theRoom.roomImage = new OricPicture(DS.picWidth/6, DS.picHeight);
+                // Tell the picture to load HIRES data
                 theRoom.roomImage.ReadHiresData(openFileDialog1.FileName);
 
                 // Call the common actions after reloading a file
@@ -809,8 +796,9 @@ namespace OASIS_Room_Editor
                 // the bitmap object
                 if (theRoom==null)
                     theRoom = new OASISRoom(s.Width / 6);
+                else
+                    theRoom.roomImage = new OricPicture(s.Width / 6, s.Height);
 
-                theRoom.roomImage = new OricPicture(s.Width / 6, s.Height);
                 theRoom.roomImage.ReadBMPData(bmp);
 
                 // Get rid of the bitmap object
@@ -884,7 +872,7 @@ namespace OASIS_Room_Editor
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
-            theRoom.roomImage.InsertColumnsRight(1);
+            theRoom.InsertColumnsRight(1);
             
             // Call the common actions after reloading an image
             ReloadActions();
@@ -896,7 +884,7 @@ namespace OASIS_Room_Editor
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
-            theRoom.roomImage.InsertColumnsLeft(1);
+            theRoom.InsertColumnsLeft(1);
             // Call the common actions after reloading an image
             ReloadActions();
             HiresPictureBox.Invalidate();
@@ -1032,6 +1020,7 @@ namespace OASIS_Room_Editor
                 theRoom.roomSize = theRoom.roomImage.nScans;
 
             UpdateTabRoomData();
+            UpdateTabWalkboxData();
         }
 
 
@@ -1091,6 +1080,39 @@ namespace OASIS_Room_Editor
                  HiresPictureBox.Invalidate();
              }
              */
+        }
+
+        private void UpdateTabWalkboxData()
+        {
+            if (SelectedWalkbox == -1)
+            {
+                // Disable walkbox editing data in tab
+                foreach (Control c in tabWalkbox.Controls)
+                    c.Enabled = false;
+                labelWBSelect.Text = "Select a Walkbox";
+            }
+            else
+            {
+                // Disable walkbox editing data in tab
+                foreach (Control c in tabWalkbox.Controls)
+                    c.Enabled = true;
+                // Set the data
+                labelWBSelect.Text = "Walkbox " + SelectedWalkbox.ToString();
+                Rectangle r = theRoom.walkBoxes.GetBox(SelectedWalkbox);
+                var prop = theRoom.walkBoxes.GetProperties(SelectedWalkbox);
+
+                textBoxSPX.Text = (r.Left / 6).ToString();
+                textBoxSPY.Text = (r.Top / 8).ToString();
+                textBoxEPX.Text = ((r.Right - 1) / 6).ToString();
+                textBoxEPY.Text = ((r.Bottom - 1) / 8).ToString();
+
+                textBoxZPlane.Text = prop.zPlane.ToString();
+                textBoxElevation.Text = prop.Elevation.ToString();
+
+                checkBoxWalkable.Checked = prop.isWalkable;
+                checkBoxLeftCorner.Checked = prop.isLeftCorner;
+                checkBoxRightCorner.Checked = prop.isRightCorner;
+            }
         }
 
         private void HiresPictureBox_Click(object sender, EventArgs e)
@@ -1158,36 +1180,10 @@ namespace OASIS_Room_Editor
                             while ((wb < theRoom.walkBoxes.GetNumBoxes()) && (!theRoom.walkBoxes.GetBox(wb).Contains(p)))
                                 wb++;
                             if (wb == theRoom.walkBoxes.GetNumBoxes())
-                            {
                                 SelectedWalkbox = -1;
-                                // Disable walkbox editing data in tab
-                                foreach (Control c in tabWalkbox.Controls)
-                                    c.Enabled = false;
-                                labelWBSelect.Text = "Select a Walkbox";
-                            }
                             else
-                            {
                                 SelectedWalkbox = wb;
-                                // Disable walkbox editing data in tab
-                                foreach (Control c in tabWalkbox.Controls)
-                                    c.Enabled = true;
-                                // Set the data
-                                labelWBSelect.Text = "Walkbox "+ wb.ToString();
-                                Rectangle r = theRoom.walkBoxes.GetBox(wb);
-                                var prop = theRoom.walkBoxes.GetProperties(wb);
-
-                                textBoxSPX.Text = (r.Left/6).ToString();
-                                textBoxSPY.Text = (r.Top/8).ToString();
-                                textBoxEPX.Text = ((r.Right-1)/6).ToString();
-                                textBoxEPY.Text = ((r.Bottom-1)/8).ToString();
-
-                                textBoxZPlane.Text = prop.zPlane.ToString();
-                                textBoxElevation.Text = prop.Elevation.ToString();
-
-                                checkBoxWalkable.Checked = prop.isWalkable;
-                                checkBoxLeftCorner.Checked = prop.isLeftCorner;
-                                checkBoxRightCorner.Checked = prop.isRightCorner;
-                            }
+                            UpdateTabWalkboxData();
                                 
                         }
                         else
@@ -1203,7 +1199,6 @@ namespace OASIS_Room_Editor
                     }
                     break;
             }
-
         }
 
         private void HiresPictureBox_MouseHover(object sender, EventArgs e)
@@ -1310,10 +1305,14 @@ namespace OASIS_Room_Editor
                 return;
             }
 
+            // Create a new room
             theRoom = new OASISRoom(dialogNewRoom.roomName, dialogNewRoom.roomID, dialogNewRoom.roomSize);
 
+            // No walkbox is selected
+            SelectedWalkbox = -1;
+
+            // Actions after loading a new room
             ReloadActions();
-            
         }
 
 

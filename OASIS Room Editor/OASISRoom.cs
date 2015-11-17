@@ -40,6 +40,20 @@ namespace OASIS_Room_Editor
         }
 
 
+        public void InsertColumnsLeft(int nCols)
+        {
+            roomImage.InsertColumnsLeft(nCols);
+            roomSize += nCols;
+            walkBoxes.MoveLeft(nCols);
+        }
+
+        public void InsertColumnsRight(int nCols)
+        {
+            roomImage.InsertColumnsRight(nCols);
+            roomSize += nCols;
+        }
+
+
         public RoomMemento CreateCheckPoint()
         {
             return new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint());

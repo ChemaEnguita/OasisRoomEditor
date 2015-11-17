@@ -87,7 +87,32 @@ namespace OASIS_Room_Editor
             else return false;
         }
 
-        
+        public void MoveLeft(int nCols)
+        {
+            //var tempList= new List<Rectangle>();
+            for (int i = 0; i < walkBoxes.Count; i++)
+            {
+                var r = walkBoxes[i];
+                r.Location = new Point(r.Left + (nCols * 6), r.Top);
+                //tempList.Add(r);
+                walkBoxes[i] = r;
+            }
+            //walkBoxes = tempList;
+        }
+
+        public void MoveRight(int nCols)
+        {
+            var tempList = new List<Rectangle>();
+            for (int i = 0; i < walkBoxes.Count; i++)
+            {
+                var r = walkBoxes[i];
+                r.Location = new Point(r.Left - (nCols * 6), r.Top);
+                tempList.Add(r);
+            }
+            walkBoxes = tempList;
+        }
+
+
         private bool areBoxesNeighbours(int i, int j)
         {
             Rectangle r1 = walkBoxes[i];
