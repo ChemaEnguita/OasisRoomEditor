@@ -134,15 +134,16 @@
             this.textBoxSPX = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBoxRightCorner = new System.Windows.Forms.CheckBox();
+            this.checkBoxLeftCorner = new System.Windows.Forms.CheckBox();
+            this.checkBoxWalkable = new System.Windows.Forms.CheckBox();
             this.textBoxElevation = new System.Windows.Forms.TextBox();
             this.textBoxZPlane = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.checkBoxRightCorner = new System.Windows.Forms.CheckBox();
-            this.checkBoxLeftCorner = new System.Windows.Forms.CheckBox();
-            this.checkBoxWalkable = new System.Windows.Forms.CheckBox();
+            this.buttonUpdateWB = new System.Windows.Forms.Button();
             this.StatusBar.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
@@ -1015,6 +1016,7 @@
             // 
             // tabWalkbox
             // 
+            this.tabWalkbox.Controls.Add(this.buttonUpdateWB);
             this.tabWalkbox.Controls.Add(this.buttonDeleteWb);
             this.tabWalkbox.Controls.Add(this.labelWBSelect);
             this.tabWalkbox.Controls.Add(this.textBoxEPY);
@@ -1034,12 +1036,13 @@
             // 
             // buttonDeleteWb
             // 
-            this.buttonDeleteWb.Location = new System.Drawing.Point(52, 239);
+            this.buttonDeleteWb.Location = new System.Drawing.Point(100, 239);
             this.buttonDeleteWb.Name = "buttonDeleteWb";
             this.buttonDeleteWb.Size = new System.Drawing.Size(75, 23);
             this.buttonDeleteWb.TabIndex = 12;
             this.buttonDeleteWb.Text = "Delete";
             this.buttonDeleteWb.UseVisualStyleBackColor = true;
+            this.buttonDeleteWb.Click += new System.EventHandler(this.buttonDeleteWb_Click);
             // 
             // labelWBSelect
             // 
@@ -1054,14 +1057,14 @@
             // 
             // textBoxEPY
             // 
-            this.textBoxEPY.Location = new System.Drawing.Point(121, 62);
+            this.textBoxEPY.Location = new System.Drawing.Point(121, 67);
             this.textBoxEPY.Name = "textBoxEPY";
             this.textBoxEPY.Size = new System.Drawing.Size(35, 20);
             this.textBoxEPY.TabIndex = 10;
             // 
             // textBoxEPX
             // 
-            this.textBoxEPX.Location = new System.Drawing.Point(75, 62);
+            this.textBoxEPX.Location = new System.Drawing.Point(75, 67);
             this.textBoxEPX.Name = "textBoxEPX";
             this.textBoxEPX.Size = new System.Drawing.Size(35, 20);
             this.textBoxEPX.TabIndex = 9;
@@ -1069,7 +1072,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 65);
+            this.label8.Location = new System.Drawing.Point(9, 70);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 13);
             this.label8.TabIndex = 8;
@@ -1077,14 +1080,14 @@
             // 
             // textBoxSPY
             // 
-            this.textBoxSPY.Location = new System.Drawing.Point(121, 35);
+            this.textBoxSPY.Location = new System.Drawing.Point(121, 42);
             this.textBoxSPY.Name = "textBoxSPY";
             this.textBoxSPY.Size = new System.Drawing.Size(35, 20);
             this.textBoxSPY.TabIndex = 7;
             // 
             // textBoxSPX
             // 
-            this.textBoxSPX.Location = new System.Drawing.Point(75, 35);
+            this.textBoxSPX.Location = new System.Drawing.Point(75, 42);
             this.textBoxSPX.Name = "textBoxSPX";
             this.textBoxSPX.Size = new System.Drawing.Size(35, 20);
             this.textBoxSPX.TabIndex = 6;
@@ -1092,7 +1095,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 38);
+            this.label7.Location = new System.Drawing.Point(10, 45);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 13);
             this.label7.TabIndex = 5;
@@ -1107,12 +1110,42 @@
             this.groupBox3.Controls.Add(this.textBoxZPlane);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(6, 97);
+            this.groupBox3.Location = new System.Drawing.Point(6, 93);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(166, 128);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Properties";
+            // 
+            // checkBoxRightCorner
+            // 
+            this.checkBoxRightCorner.AutoSize = true;
+            this.checkBoxRightCorner.Location = new System.Drawing.Point(10, 35);
+            this.checkBoxRightCorner.Name = "checkBoxRightCorner";
+            this.checkBoxRightCorner.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxRightCorner.TabIndex = 10;
+            this.checkBoxRightCorner.Text = "Is right corner";
+            this.checkBoxRightCorner.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxLeftCorner
+            // 
+            this.checkBoxLeftCorner.AutoSize = true;
+            this.checkBoxLeftCorner.Location = new System.Drawing.Point(10, 52);
+            this.checkBoxLeftCorner.Name = "checkBoxLeftCorner";
+            this.checkBoxLeftCorner.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxLeftCorner.TabIndex = 9;
+            this.checkBoxLeftCorner.Text = "Is left corner";
+            this.checkBoxLeftCorner.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWalkable
+            // 
+            this.checkBoxWalkable.AutoSize = true;
+            this.checkBoxWalkable.Location = new System.Drawing.Point(10, 19);
+            this.checkBoxWalkable.Name = "checkBoxWalkable";
+            this.checkBoxWalkable.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxWalkable.TabIndex = 8;
+            this.checkBoxWalkable.Text = "Is walkable";
+            this.checkBoxWalkable.UseVisualStyleBackColor = true;
             // 
             // textBoxElevation
             // 
@@ -1150,35 +1183,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // checkBoxRightCorner
+            // buttonUpdateWB
             // 
-            this.checkBoxRightCorner.AutoSize = true;
-            this.checkBoxRightCorner.Location = new System.Drawing.Point(10, 35);
-            this.checkBoxRightCorner.Name = "checkBoxRightCorner";
-            this.checkBoxRightCorner.Size = new System.Drawing.Size(90, 17);
-            this.checkBoxRightCorner.TabIndex = 10;
-            this.checkBoxRightCorner.Text = "Is right corner";
-            this.checkBoxRightCorner.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxLeftCorner
-            // 
-            this.checkBoxLeftCorner.AutoSize = true;
-            this.checkBoxLeftCorner.Location = new System.Drawing.Point(10, 52);
-            this.checkBoxLeftCorner.Name = "checkBoxLeftCorner";
-            this.checkBoxLeftCorner.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLeftCorner.TabIndex = 9;
-            this.checkBoxLeftCorner.Text = "Is left corner";
-            this.checkBoxLeftCorner.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxWalkable
-            // 
-            this.checkBoxWalkable.AutoSize = true;
-            this.checkBoxWalkable.Location = new System.Drawing.Point(10, 19);
-            this.checkBoxWalkable.Name = "checkBoxWalkable";
-            this.checkBoxWalkable.Size = new System.Drawing.Size(79, 17);
-            this.checkBoxWalkable.TabIndex = 8;
-            this.checkBoxWalkable.Text = "Is walkable";
-            this.checkBoxWalkable.UseVisualStyleBackColor = true;
+            this.buttonUpdateWB.Location = new System.Drawing.Point(6, 239);
+            this.buttonUpdateWB.Name = "buttonUpdateWB";
+            this.buttonUpdateWB.Size = new System.Drawing.Size(75, 23);
+            this.buttonUpdateWB.TabIndex = 13;
+            this.buttonUpdateWB.Text = "Update";
+            this.buttonUpdateWB.UseVisualStyleBackColor = true;
+            this.buttonUpdateWB.Click += new System.EventHandler(this.buttonUpdateWB_Click);
             // 
             // EditorMain
             // 
@@ -1341,6 +1354,7 @@
         private System.Windows.Forms.CheckBox checkBoxRightCorner;
         private System.Windows.Forms.CheckBox checkBoxLeftCorner;
         private System.Windows.Forms.CheckBox checkBoxWalkable;
+        private System.Windows.Forms.Button buttonUpdateWB;
     }
 }
 

@@ -112,6 +112,13 @@ namespace OASIS_Room_Editor
             walkBoxes = tempList;
         }
 
+        public void ChangeWalkbox(int index, Rectangle r)
+        {
+            if (index < walkBoxes.Count())
+            {
+                walkBoxes[index] = r;
+            }
+        }
 
         private bool areBoxesNeighbours(int i, int j)
         {

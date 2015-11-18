@@ -1367,6 +1367,59 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
         }
 
+        private void buttonUpdateWB_Click(object sender, EventArgs e)
+        {
+
+            Rectangle r=new Rectangle();
+            r.X = Int32.Parse(textBoxSPX.Text)*6;
+            r.Y = Int32.Parse(textBoxSPY.Text)*8;
+            r.Width  = (Int32.Parse(textBoxEPX.Text) + 1) * 6 - r.X;
+            r.Height = (Int32.Parse(textBoxEPY.Text) + 1) * 8 - r.Y;
+
+            if (r.X>theRoom.roomSize*6 || r.X<0 || r.Y > 16*8 || r.Y < 0 || r.Width<6 || r.Height<8)
+            {
+                MessageBox.Show ("Wrong coordinates", "Wrong parameter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            theRoom.walkBoxes.ChangeWalkbox(SelectedWalkbox, r);
+
+            WalkBoxManager.WalkBoxProperties p;
+
+            p.Elevation = Int32.Parse(textBoxElevation.Text);
+            if(p.Elevation < 0 || p.Elevation >17)
+            {
+                MessageBox.Show("Wrong value for elevation", "Wrong parameter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            p.zPlane = Int32.Parse(textBoxZPlane.Text);
+            if (p.zPlane < 0 || p.zPlane > 8)
+            {
+                MessageBox.Show("Wrong value for z-plane", "Wrong parameter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            p.isLeftCorner = checkBoxLeftCorner.Checked;
+            p.isRightCorner = checkBoxRightCorner.Checked;
+            p.isWalkable = checkBoxWalkable.Checked;
+
+            theRoom.walkBoxes.SetProperties(SelectedWalkbox, p);
+
+            UpdateTabWalkboxData();
+            HiresPictureBox.Invalidate();
+        }
+
+        private void buttonDeleteWb_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete the walkbox?",
+                "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                theRoom.walkBoxes.Remove(SelectedWalkbox);
+                SelectedWalkbox = -1;
+                UpdateTabWalkboxData();
+                HiresPictureBox.Invalidate();
+            }
+        }
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
