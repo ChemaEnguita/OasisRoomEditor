@@ -33,7 +33,6 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripScanLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.HiresPictureBox = new OASIS_Room_Editor.PixelBox();
             this.contextMenuAttributes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setPaperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paperBlackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,28 +124,26 @@
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabWalkbox = new System.Windows.Forms.TabPage();
+            this.numericUpDownEPY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownEPX = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownSPY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownSPX = new System.Windows.Forms.NumericUpDown();
+            this.buttonUpdateWB = new System.Windows.Forms.Button();
             this.buttonDeleteWb = new System.Windows.Forms.Button();
             this.labelWBSelect = new System.Windows.Forms.Label();
-            this.textBoxEPY = new System.Windows.Forms.TextBox();
-            this.textBoxEPX = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBoxSPY = new System.Windows.Forms.TextBox();
-            this.textBoxSPX = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBoxRightCorner = new System.Windows.Forms.CheckBox();
             this.checkBoxLeftCorner = new System.Windows.Forms.CheckBox();
             this.checkBoxWalkable = new System.Windows.Forms.CheckBox();
-            this.textBoxElevation = new System.Windows.Forms.TextBox();
-            this.textBoxZPlane = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.buttonUpdateWB = new System.Windows.Forms.Button();
+            this.numericUpDownZPlane = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownElevation = new System.Windows.Forms.NumericUpDown();
             this.StatusBar.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).BeginInit();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.MainMenuTools.SuspendLayout();
@@ -160,7 +157,13 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabWalkbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPX)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -187,32 +190,10 @@
             this.panel1.AutoScroll = true;
             this.panel1.AutoScrollMinSize = new System.Drawing.Size(1, 1);
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.HiresPictureBox);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(501, 294);
             this.panel1.TabIndex = 3;
-            // 
-            // HiresPictureBox
-            // 
-            this.HiresPictureBox.BackColor = System.Drawing.SystemColors.Control;
-            this.HiresPictureBox.ErrorImage = null;
-            this.HiresPictureBox.InitialImage = null;
-            this.HiresPictureBox.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.HiresPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.HiresPictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.HiresPictureBox.Name = "HiresPictureBox";
-            this.HiresPictureBox.Size = new System.Drawing.Size(497, 264);
-            this.HiresPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.HiresPictureBox.TabIndex = 2;
-            this.HiresPictureBox.TabStop = false;
-            this.HiresPictureBox.Click += new System.EventHandler(this.HiresPictureBox_Click);
-            this.HiresPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.HiresPictureBox_Paint);
-            this.HiresPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseDown);
-            this.HiresPictureBox.MouseLeave += new System.EventHandler(this.HiresPictureBox_MouseLeave);
-            this.HiresPictureBox.MouseHover += new System.EventHandler(this.HiresPictureBox_MouseHover);
-            this.HiresPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseMove);
-            this.HiresPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HiresPictureBox_MouseUp);
             // 
             // contextMenuAttributes
             // 
@@ -1016,14 +997,14 @@
             // 
             // tabWalkbox
             // 
+            this.tabWalkbox.Controls.Add(this.numericUpDownEPY);
+            this.tabWalkbox.Controls.Add(this.numericUpDownEPX);
+            this.tabWalkbox.Controls.Add(this.numericUpDownSPY);
+            this.tabWalkbox.Controls.Add(this.numericUpDownSPX);
             this.tabWalkbox.Controls.Add(this.buttonUpdateWB);
             this.tabWalkbox.Controls.Add(this.buttonDeleteWb);
             this.tabWalkbox.Controls.Add(this.labelWBSelect);
-            this.tabWalkbox.Controls.Add(this.textBoxEPY);
-            this.tabWalkbox.Controls.Add(this.textBoxEPX);
             this.tabWalkbox.Controls.Add(this.label8);
-            this.tabWalkbox.Controls.Add(this.textBoxSPY);
-            this.tabWalkbox.Controls.Add(this.textBoxSPX);
             this.tabWalkbox.Controls.Add(this.label7);
             this.tabWalkbox.Controls.Add(this.groupBox3);
             this.tabWalkbox.Location = new System.Drawing.Point(4, 22);
@@ -1033,6 +1014,44 @@
             this.tabWalkbox.TabIndex = 1;
             this.tabWalkbox.Text = "Walkboxes";
             this.tabWalkbox.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownEPY
+            // 
+            this.numericUpDownEPY.Location = new System.Drawing.Point(130, 68);
+            this.numericUpDownEPY.Name = "numericUpDownEPY";
+            this.numericUpDownEPY.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownEPY.TabIndex = 17;
+            // 
+            // numericUpDownEPX
+            // 
+            this.numericUpDownEPX.Location = new System.Drawing.Point(86, 68);
+            this.numericUpDownEPX.Name = "numericUpDownEPX";
+            this.numericUpDownEPX.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownEPX.TabIndex = 16;
+            // 
+            // numericUpDownSPY
+            // 
+            this.numericUpDownSPY.Location = new System.Drawing.Point(130, 42);
+            this.numericUpDownSPY.Name = "numericUpDownSPY";
+            this.numericUpDownSPY.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownSPY.TabIndex = 15;
+            // 
+            // numericUpDownSPX
+            // 
+            this.numericUpDownSPX.Location = new System.Drawing.Point(86, 42);
+            this.numericUpDownSPX.Name = "numericUpDownSPX";
+            this.numericUpDownSPX.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownSPX.TabIndex = 14;
+            // 
+            // buttonUpdateWB
+            // 
+            this.buttonUpdateWB.Location = new System.Drawing.Point(6, 239);
+            this.buttonUpdateWB.Name = "buttonUpdateWB";
+            this.buttonUpdateWB.Size = new System.Drawing.Size(75, 23);
+            this.buttonUpdateWB.TabIndex = 13;
+            this.buttonUpdateWB.Text = "Update";
+            this.buttonUpdateWB.UseVisualStyleBackColor = true;
+            this.buttonUpdateWB.Click += new System.EventHandler(this.buttonUpdateWB_Click);
             // 
             // buttonDeleteWb
             // 
@@ -1055,59 +1074,31 @@
             this.labelWBSelect.Text = "Select a Walkbox";
             this.labelWBSelect.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // textBoxEPY
-            // 
-            this.textBoxEPY.Location = new System.Drawing.Point(121, 67);
-            this.textBoxEPY.Name = "textBoxEPY";
-            this.textBoxEPY.Size = new System.Drawing.Size(35, 20);
-            this.textBoxEPY.TabIndex = 10;
-            // 
-            // textBoxEPX
-            // 
-            this.textBoxEPX.Location = new System.Drawing.Point(75, 67);
-            this.textBoxEPX.Name = "textBoxEPX";
-            this.textBoxEPX.Size = new System.Drawing.Size(35, 20);
-            this.textBoxEPX.TabIndex = 9;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 70);
+            this.label8.Location = new System.Drawing.Point(1, 70);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 13);
+            this.label8.Size = new System.Drawing.Size(81, 13);
             this.label8.TabIndex = 8;
-            this.label8.Text = "End point:";
-            // 
-            // textBoxSPY
-            // 
-            this.textBoxSPY.Location = new System.Drawing.Point(121, 42);
-            this.textBoxSPY.Name = "textBoxSPY";
-            this.textBoxSPY.Size = new System.Drawing.Size(35, 20);
-            this.textBoxSPY.TabIndex = 7;
-            // 
-            // textBoxSPX
-            // 
-            this.textBoxSPX.Location = new System.Drawing.Point(75, 42);
-            this.textBoxSPX.Name = "textBoxSPX";
-            this.textBoxSPX.Size = new System.Drawing.Size(35, 20);
-            this.textBoxSPX.TabIndex = 6;
+            this.label8.Text = "End point (X,Y):";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 45);
+            this.label7.Location = new System.Drawing.Point(1, 45);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(58, 13);
+            this.label7.Size = new System.Drawing.Size(84, 13);
             this.label7.TabIndex = 5;
-            this.label7.Text = "Start point:";
+            this.label7.Text = "Start point (X,Y):";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.numericUpDownElevation);
+            this.groupBox3.Controls.Add(this.numericUpDownZPlane);
             this.groupBox3.Controls.Add(this.checkBoxRightCorner);
             this.groupBox3.Controls.Add(this.checkBoxLeftCorner);
             this.groupBox3.Controls.Add(this.checkBoxWalkable);
-            this.groupBox3.Controls.Add(this.textBoxElevation);
-            this.groupBox3.Controls.Add(this.textBoxZPlane);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Location = new System.Drawing.Point(6, 93);
@@ -1147,24 +1138,10 @@
             this.checkBoxWalkable.Text = "Is walkable";
             this.checkBoxWalkable.UseVisualStyleBackColor = true;
             // 
-            // textBoxElevation
-            // 
-            this.textBoxElevation.Location = new System.Drawing.Point(69, 99);
-            this.textBoxElevation.Name = "textBoxElevation";
-            this.textBoxElevation.Size = new System.Drawing.Size(52, 20);
-            this.textBoxElevation.TabIndex = 4;
-            // 
-            // textBoxZPlane
-            // 
-            this.textBoxZPlane.Location = new System.Drawing.Point(69, 76);
-            this.textBoxZPlane.Name = "textBoxZPlane";
-            this.textBoxZPlane.Size = new System.Drawing.Size(52, 20);
-            this.textBoxZPlane.TabIndex = 3;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 102);
+            this.label6.Location = new System.Drawing.Point(23, 102);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(51, 13);
             this.label6.TabIndex = 2;
@@ -1173,7 +1150,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 83);
+            this.label5.Location = new System.Drawing.Point(23, 76);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 13);
             this.label5.TabIndex = 1;
@@ -1183,15 +1160,19 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // buttonUpdateWB
+            // numericUpDownZPlane
             // 
-            this.buttonUpdateWB.Location = new System.Drawing.Point(6, 239);
-            this.buttonUpdateWB.Name = "buttonUpdateWB";
-            this.buttonUpdateWB.Size = new System.Drawing.Size(75, 23);
-            this.buttonUpdateWB.TabIndex = 13;
-            this.buttonUpdateWB.Text = "Update";
-            this.buttonUpdateWB.UseVisualStyleBackColor = true;
-            this.buttonUpdateWB.Click += new System.EventHandler(this.buttonUpdateWB_Click);
+            this.numericUpDownZPlane.Location = new System.Drawing.Point(80, 74);
+            this.numericUpDownZPlane.Name = "numericUpDownZPlane";
+            this.numericUpDownZPlane.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownZPlane.TabIndex = 18;
+            // 
+            // numericUpDownElevation
+            // 
+            this.numericUpDownElevation.Location = new System.Drawing.Point(80, 100);
+            this.numericUpDownElevation.Name = "numericUpDownElevation";
+            this.numericUpDownElevation.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownElevation.TabIndex = 19;
             // 
             // EditorMain
             // 
@@ -1207,8 +1188,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.StatusBar.ResumeLayout(false);
             this.StatusBar.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HiresPictureBox)).EndInit();
             this.contextMenuAttributes.ResumeLayout(false);
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -1232,8 +1211,14 @@
             this.groupBox1.PerformLayout();
             this.tabWalkbox.ResumeLayout(false);
             this.tabWalkbox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPX)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1339,22 +1324,22 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripButton walkboxModeButton;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox textBoxElevation;
-        private System.Windows.Forms.TextBox textBoxZPlane;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonDeleteWb;
         private System.Windows.Forms.Label labelWBSelect;
-        private System.Windows.Forms.TextBox textBoxEPY;
-        private System.Windows.Forms.TextBox textBoxEPX;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBoxSPY;
-        private System.Windows.Forms.TextBox textBoxSPX;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBoxRightCorner;
         private System.Windows.Forms.CheckBox checkBoxLeftCorner;
         private System.Windows.Forms.CheckBox checkBoxWalkable;
         private System.Windows.Forms.Button buttonUpdateWB;
+        private System.Windows.Forms.NumericUpDown numericUpDownSPX;
+        private System.Windows.Forms.NumericUpDown numericUpDownEPY;
+        private System.Windows.Forms.NumericUpDown numericUpDownEPX;
+        private System.Windows.Forms.NumericUpDown numericUpDownSPY;
+        private System.Windows.Forms.NumericUpDown numericUpDownElevation;
+        private System.Windows.Forms.NumericUpDown numericUpDownZPlane;
     }
 }
 

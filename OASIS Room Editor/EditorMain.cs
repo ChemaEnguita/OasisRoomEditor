@@ -44,14 +44,31 @@ namespace OASIS_Room_Editor
         public EditorMain()
         {
             InitializeComponent();
-            // Make HiresPictureBox handle the MouseWheel event
+
+            // Add the PixelBox control for the Hires picture
+            HiresPictureBox = new PixelBox();
+            //HiresPictureBox.CreateControl();
+            HiresPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            HiresPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            this.panel1.Controls.Add(HiresPictureBox);
+
+
+            // Make HiresPictureBox handle the events
             this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
+            this.HiresPictureBox.Paint += HiresPictureBox_Paint;
+            this.HiresPictureBox.Click += HiresPictureBox_Click;
+            this.HiresPictureBox.MouseHover += HiresPictureBox_MouseHover;
+            this.HiresPictureBox.MouseDown += HiresPictureBox_MouseDown;
+            this.HiresPictureBox.MouseUp += HiresPictureBox_MouseUp;
+            this.HiresPictureBox.MouseLeave += HiresPictureBox_MouseLeave;
+            this.HiresPictureBox.MouseMove += HiresPictureBox_MouseMove;
         }
 
         private OASISRoom theRoom;                     // Holds the room information    
 
         private float ZoomLevel = 2;                    // Level of zoom
         private bool ShowGrid = true;                   // Is the grid showing?
+
         private Color GridColor= Color.MediumPurple;    // Default Grid color
         private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
         private bool WalkboxEditMode = false;           // Editing walkboxes?
@@ -78,7 +95,7 @@ namespace OASIS_Room_Editor
         {
             // Start with the HiresPictureBox disabled
             HiresPictureBox.Enabled = false;
-
+ 
             // Disable those menus which should not be enabled.
             toolsToolStripMenuItem.Enabled = false;
             editToolStripMenuItem.Enabled = false;
@@ -1101,13 +1118,13 @@ namespace OASIS_Room_Editor
                 Rectangle r = theRoom.walkBoxes.GetBox(SelectedWalkbox);
                 var prop = theRoom.walkBoxes.GetProperties(SelectedWalkbox);
 
-                textBoxSPX.Text = (r.Left / 6).ToString();
-                textBoxSPY.Text = (r.Top / 8).ToString();
-                textBoxEPX.Text = ((r.Right - 1) / 6).ToString();
-                textBoxEPY.Text = ((r.Bottom - 1) / 8).ToString();
+                numericUpDownSPX.Value = (r.Left / 6);
+                numericUpDownSPY.Value = (r.Top / 8);
+                numericUpDownEPX.Value = ((r.Right - 1) / 6);
+                numericUpDownEPY.Value = ((r.Bottom - 1) / 8);
 
-                textBoxZPlane.Text = prop.zPlane.ToString();
-                textBoxElevation.Text = prop.Elevation.ToString();
+                numericUpDownZPlane.Value = prop.zPlane;
+                numericUpDownElevation.Value = prop.Elevation;
 
                 checkBoxWalkable.Checked = prop.isWalkable;
                 checkBoxLeftCorner.Checked = prop.isLeftCorner;
@@ -1371,10 +1388,11 @@ namespace OASIS_Room_Editor
         {
 
             Rectangle r=new Rectangle();
-            r.X = Int32.Parse(textBoxSPX.Text)*6;
-            r.Y = Int32.Parse(textBoxSPY.Text)*8;
-            r.Width  = (Int32.Parse(textBoxEPX.Text) + 1) * 6 - r.X;
-            r.Height = (Int32.Parse(textBoxEPY.Text) + 1) * 8 - r.Y;
+            //r.X = Int32.Parse(textBoxSPX.Text)*6;
+            r.X = (int)(numericUpDownSPX.Value) * 6;
+            r.Y = (int)(numericUpDownSPY.Value) * 8;
+            r.Width  = ((int)(numericUpDownEPX.Value) + 1) * 6 - r.X;
+            r.Height = ((int)(numericUpDownEPY.Value) + 1) * 8 - r.Y;
 
             if (r.X>theRoom.roomSize*6 || r.X<0 || r.Y > 16*8 || r.Y < 0 || r.Width<6 || r.Height<8)
             {
@@ -1386,13 +1404,13 @@ namespace OASIS_Room_Editor
 
             WalkBoxManager.WalkBoxProperties p;
 
-            p.Elevation = Int32.Parse(textBoxElevation.Text);
+            p.Elevation = (int)(numericUpDownElevation.Value);
             if(p.Elevation < 0 || p.Elevation >17)
             {
                 MessageBox.Show("Wrong value for elevation", "Wrong parameter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            p.zPlane = Int32.Parse(textBoxZPlane.Text);
+            p.zPlane = (int)(numericUpDownZPlane.Value);
             if (p.zPlane < 0 || p.zPlane > 8)
             {
                 MessageBox.Show("Wrong value for z-plane", "Wrong parameter", MessageBoxButtons.OK, MessageBoxIcon.Error);
