@@ -484,8 +484,8 @@ namespace OASIS_Room_Editor
             if (bmp == null) return;
 
             // Read data
-            for (int line = 0; line < nRows; line++)
-                for (int x = 0; x < nScans * 6; x++)
+            for (int line = 0; line < bmp.Height; /*nRows*/ line++)
+                for (int x = 0; x < bmp.Width /*nScans * 6*/; x++)
                 {
                     if (bmp.GetPixel(x, line).GetBrightness() < threshold)
                         ClearPixel(x, line);

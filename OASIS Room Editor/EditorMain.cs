@@ -50,18 +50,18 @@ namespace OASIS_Room_Editor
             //HiresPictureBox.CreateControl();
             HiresPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             HiresPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            this.panel1.Controls.Add(HiresPictureBox);
+            panel1.Controls.Add(HiresPictureBox);
 
 
             // Make HiresPictureBox handle the events
-            this.HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
-            this.HiresPictureBox.Paint += HiresPictureBox_Paint;
-            this.HiresPictureBox.Click += HiresPictureBox_Click;
-            this.HiresPictureBox.MouseHover += HiresPictureBox_MouseHover;
-            this.HiresPictureBox.MouseDown += HiresPictureBox_MouseDown;
-            this.HiresPictureBox.MouseUp += HiresPictureBox_MouseUp;
-            this.HiresPictureBox.MouseLeave += HiresPictureBox_MouseLeave;
-            this.HiresPictureBox.MouseMove += HiresPictureBox_MouseMove;
+            HiresPictureBox.MouseWheel += HiresPictureBox_MouseWheel;
+            HiresPictureBox.Paint += HiresPictureBox_Paint;
+            HiresPictureBox.Click += HiresPictureBox_Click;
+            HiresPictureBox.MouseHover += HiresPictureBox_MouseHover;
+            HiresPictureBox.MouseDown += HiresPictureBox_MouseDown;
+            HiresPictureBox.MouseUp += HiresPictureBox_MouseUp;
+            HiresPictureBox.MouseLeave += HiresPictureBox_MouseLeave;
+            HiresPictureBox.MouseMove += HiresPictureBox_MouseMove;
         }
 
         private OASISRoom theRoom;                     // Holds the room information    
