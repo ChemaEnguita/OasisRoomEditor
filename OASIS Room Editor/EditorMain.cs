@@ -938,36 +938,52 @@ namespace OASIS_Room_Editor
 
         private void doRestoringState(RoomMemento m)
         {
-            if (m != null)
+            if (theRoom == null || m == null)
             {
-                // If the size of the image changes, we need to do more adjustments (due
-                // to zoom, etc.
-                var oldR = theRoom.roomImage.nRows;
-                var oldS = theRoom.roomImage.nScans;
-
-                theRoom.RestoreCheckPoint(m);
-
-                if ((theRoom.roomImage.nRows != oldR) || (theRoom.roomImage.nScans != oldS))
-                {
-                    ReloadActions();
-                }
-                else
-                {
-                    HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
-                    HiresPictureBox.Invalidate();
-                }
+                System.Media.SystemSounds.Asterisk.Play();
+                return;
             }
 
+            // If the size of the image changes, we need to do more adjustments (due
+            // to zoom, etc.
+            var oldR = theRoom.roomImage.nRows;
+            var oldS = theRoom.roomImage.nScans;
+
+            theRoom.RestoreCheckPoint(m);
+
+            if ((theRoom.roomImage.nRows != oldR) || (theRoom.roomImage.nScans != oldS))
+            {
+                ReloadActions();
+            }
+            else
+            {
+                HiresPictureBox.Image = theRoom.roomImage.theBitmap;// bmp; 
+                HiresPictureBox.Invalidate();
+                UpdateTabRoomData();
+            }
+            UpdateTabWalkboxData();
+            SelectedWalkbox = -1;
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (theRoom == null)
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+                return;
+            }
             RoomMemento m = undoRedo.Undo(theRoom.CreateCheckPoint());
             doRestoringState(m);
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (theRoom == null)
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+                return;
+            }
+
             RoomMemento m = undoRedo.Redo(theRoom.CreateCheckPoint());
             doRestoringState(m);
         }
@@ -1297,7 +1313,7 @@ namespace OASIS_Room_Editor
             if (theRoom != null)
             {
                 textBoxName.Text = theRoom.roomName;
-                textBoxID.Text = theRoom.roomID.ToString();
+                numericUpDownID.Value = theRoom.roomID;
                 textBoxSize.Text = theRoom.roomSize.ToString();
                 textBoxZPlanes.Text=theRoom.roomZPlanes.ToString();
                 labelRoomInfo.Text = "Press UPDATE to calculate\ntiles and image size";
@@ -1333,25 +1349,40 @@ namespace OASIS_Room_Editor
         }
 
 
-
-        private void textBoxName_TextChanged(object sender, EventArgs e)
-        {
-            // TODO: These are not creating checkpoints!!!
-            if (theRoom != null)
-                theRoom.roomName = textBoxName.Text;
-        }
-
-        private void textBoxID_TextChanged(object sender, EventArgs e)
+        private void textBoxName_Leave(object sender, EventArgs e)
         {
             if (theRoom != null)
             {
-                var id = Int32.Parse(textBoxID.Text);
+                if(theRoom.roomName!=textBoxName.Text)
+                {
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                    theRoom.roomName = textBoxName.Text;
+                }
+            }
+
+        }
+
+        private void textBoxName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                textBoxName_Leave(sender, e);
+        }
+
+
+
+        private void numericUpDownID_ValueChanged(object sender, EventArgs e)
+        {
+            if (theRoom != null)
+            {
+                var id = numericUpDownID.Value;
                 if (id >= 0 && id < 256)
-                    theRoom.roomID = id;
+                    theRoom.roomID = (int)(id);
                 else
-                    textBoxID.Text = theRoom.roomID.ToString();
+                    numericUpDownID.Value = theRoom.roomID;
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
             }
         }
+
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
@@ -1401,6 +1432,7 @@ namespace OASIS_Room_Editor
             }
 
             theRoom.walkBoxes.ChangeWalkbox(SelectedWalkbox, r);
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
 
             WalkBoxManager.WalkBoxProperties p;
 
@@ -1421,7 +1453,7 @@ namespace OASIS_Room_Editor
             p.isWalkable = checkBoxWalkable.Checked;
 
             theRoom.walkBoxes.SetProperties(SelectedWalkbox, p);
-
+    
             UpdateTabWalkboxData();
             HiresPictureBox.Invalidate();
         }
@@ -1432,6 +1464,7 @@ namespace OASIS_Room_Editor
                 "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 theRoom.walkBoxes.Remove(SelectedWalkbox);
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                 SelectedWalkbox = -1;
                 UpdateTabWalkboxData();
                 HiresPictureBox.Invalidate();
@@ -1493,6 +1526,7 @@ namespace OASIS_Room_Editor
                 {
                     //We are editing walkboxes. Just add it
                     theRoom.walkBoxes.Add(SelectedRect);
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                     // And mark selection as invalid: we don't want the user
                     // to edit, cut or delete...
                     SelectionValid = false;

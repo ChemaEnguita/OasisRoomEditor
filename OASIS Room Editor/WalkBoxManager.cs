@@ -199,5 +199,23 @@ namespace OASIS_Room_Editor
             }
         }
 
+        // Undo/redo following the memento pattern
+        public WalkBoxesMemento CreateCheckPoint()
+        {
+            return (new WalkBoxesMemento(walkBoxes, wbProperties));
+        }
+
+        public void RestoreCheckpoint(WalkBoxesMemento m)
+        {
+            walkBoxes.Clear(); wbProperties.Clear();
+            for (int i=0; i< m.walkBoxes.Count();i++)
+            {
+                walkBoxes.Add(m.walkBoxes[i]);
+                wbProperties.Add(m.wbProperties[i]);
+            }
+           // CreateWalkMatrix();
+        }
+
     }
+
 }

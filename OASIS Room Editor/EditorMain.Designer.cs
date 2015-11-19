@@ -117,9 +117,9 @@
             this.textBoxZPlanes = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownID = new System.Windows.Forms.NumericUpDown();
             this.textBoxSize = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -134,6 +134,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownElevation = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownZPlane = new System.Windows.Forms.NumericUpDown();
             this.checkBoxRightCorner = new System.Windows.Forms.CheckBox();
             this.checkBoxLeftCorner = new System.Windows.Forms.CheckBox();
             this.checkBoxWalkable = new System.Windows.Forms.CheckBox();
@@ -141,8 +143,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.numericUpDownZPlane = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownElevation = new System.Windows.Forms.NumericUpDown();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -156,14 +156,15 @@
             this.tabRoom.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).BeginInit();
             this.tabWalkbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPX)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -932,9 +933,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.numericUpDownID);
             this.groupBox1.Controls.Add(this.textBoxSize);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textBoxID);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(9, 42);
             this.groupBox1.Name = "groupBox1";
@@ -942,6 +943,14 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Details";
+            // 
+            // numericUpDownID
+            // 
+            this.numericUpDownID.Location = new System.Drawing.Point(84, 18);
+            this.numericUpDownID.Name = "numericUpDownID";
+            this.numericUpDownID.Size = new System.Drawing.Size(65, 20);
+            this.numericUpDownID.TabIndex = 6;
+            this.numericUpDownID.ValueChanged += new System.EventHandler(this.numericUpDownID_ValueChanged);
             // 
             // textBoxSize
             // 
@@ -960,14 +969,6 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Size (cols)";
             // 
-            // textBoxID
-            // 
-            this.textBoxID.Location = new System.Drawing.Point(83, 18);
-            this.textBoxID.Name = "textBoxID";
-            this.textBoxID.Size = new System.Drawing.Size(65, 20);
-            this.textBoxID.TabIndex = 7;
-            this.textBoxID.TextChanged += new System.EventHandler(this.textBoxID_TextChanged);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -984,7 +985,8 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(92, 20);
             this.textBoxName.TabIndex = 1;
-            this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
+            this.textBoxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxName_KeyDown);
+            this.textBoxName.Leave += new System.EventHandler(this.textBoxName_Leave);
             // 
             // label1
             // 
@@ -1108,6 +1110,20 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Properties";
             // 
+            // numericUpDownElevation
+            // 
+            this.numericUpDownElevation.Location = new System.Drawing.Point(80, 100);
+            this.numericUpDownElevation.Name = "numericUpDownElevation";
+            this.numericUpDownElevation.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownElevation.TabIndex = 19;
+            // 
+            // numericUpDownZPlane
+            // 
+            this.numericUpDownZPlane.Location = new System.Drawing.Point(80, 74);
+            this.numericUpDownZPlane.Name = "numericUpDownZPlane";
+            this.numericUpDownZPlane.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownZPlane.TabIndex = 18;
+            // 
             // checkBoxRightCorner
             // 
             this.checkBoxRightCorner.AutoSize = true;
@@ -1160,20 +1176,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // numericUpDownZPlane
-            // 
-            this.numericUpDownZPlane.Location = new System.Drawing.Point(80, 74);
-            this.numericUpDownZPlane.Name = "numericUpDownZPlane";
-            this.numericUpDownZPlane.Size = new System.Drawing.Size(40, 20);
-            this.numericUpDownZPlane.TabIndex = 18;
-            // 
-            // numericUpDownElevation
-            // 
-            this.numericUpDownElevation.Location = new System.Drawing.Point(80, 100);
-            this.numericUpDownElevation.Name = "numericUpDownElevation";
-            this.numericUpDownElevation.Size = new System.Drawing.Size(40, 20);
-            this.numericUpDownElevation.TabIndex = 19;
-            // 
             // EditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1209,6 +1211,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).EndInit();
             this.tabWalkbox.ResumeLayout(false);
             this.tabWalkbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEPY)).EndInit();
@@ -1217,8 +1220,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSPX)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1313,7 +1316,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBoxSize;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxID;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxZPlanes;
         private System.Windows.Forms.Label label4;
@@ -1340,6 +1342,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSPY;
         private System.Windows.Forms.NumericUpDown numericUpDownElevation;
         private System.Windows.Forms.NumericUpDown numericUpDownZPlane;
+        private System.Windows.Forms.NumericUpDown numericUpDownID;
     }
 }
 

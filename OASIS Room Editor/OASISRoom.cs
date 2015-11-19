@@ -56,15 +56,16 @@ namespace OASIS_Room_Editor
 
         public RoomMemento CreateCheckPoint()
         {
-            return new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint());
+            return new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint(), walkBoxes.CreateCheckPoint());
         }
 
         public void RestoreCheckPoint(RoomMemento memento)
         {
-            roomName = memento.roomName;
+            roomName = String.Copy(memento.roomName);
             roomID = memento.roomID;
             roomSize = memento.roomSize;
             roomImage.RestoreCheckPoint(memento.roomImage);
+            walkBoxes.RestoreCheckpoint(memento.walkBoxes);
         }
 
 

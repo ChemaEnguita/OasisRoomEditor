@@ -11,7 +11,7 @@ namespace OASIS_Room_Editor
     // <!summary>
     class RoomMemento
     {
-        public String roomName { get; set; }
+        public string roomName { get; set; }
         public int roomID { get; set; }
         public int roomZPlanes { get; set; }
         public int roomSize { get; set; }
@@ -19,12 +19,16 @@ namespace OASIS_Room_Editor
         // Picture data
         public  PictureMemento roomImage;
 
-        public RoomMemento(String name, int id, int size, PictureMemento image)
+        // Walkbox data
+        public WalkBoxesMemento walkBoxes;
+
+        public RoomMemento(string name, int id, int size, PictureMemento image, WalkBoxesMemento wb)
         {
-            roomName = name;
+            roomName = String.Copy(name);
             roomSize = size;
             roomID = id;
             roomImage = image;
+            walkBoxes = wb;
         }
     }
 }
