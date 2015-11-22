@@ -252,18 +252,29 @@ namespace OASIS_Room_Editor
                         Attributes[scan, line].CurrentPaper = cPaper;
                     }
                 }
+
+                // Create brushes for all the colors, trying to make this routine more
+                // efficient
+                SolidBrush[] oricBrushes=new SolidBrush[8];
+                for (int i=0; i<8; i++)
+                    oricBrushes[i] = new SolidBrush(ListColors[i]);
+
                 for (int k = 0; k < 6; k++)
                 {
                     // Do the actual drawing
                     var cb = isPixelInk[scan * 6 + k, line] ? cInk : cPaper;
                     cb = isInverse(scan, line) ? GetInverse(cb) : cb;
-                    Color brushColor = ListColors[cb];
-                    using (Brush b = new SolidBrush(brushColor))
+                    //Color brushColor = ListColors[cb];
+                    //using (Brush b = new SolidBrush(brushColor))
                     using (var g = Graphics.FromImage(theBitmap))
                     {
-                        g.FillRectangle(b, scan * 6 + k, line, 1, 1);
+                        g.FillRectangle(oricBrushes[cb], scan * 6 + k, line, 1, 1);
                     }
                 }
+                // Dispose the brushes
+                for (int i = 0; i < 8; i++)
+                    oricBrushes[i].Dispose();
+
             }
         }
 

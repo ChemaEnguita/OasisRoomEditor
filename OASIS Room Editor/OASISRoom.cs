@@ -54,9 +54,16 @@ namespace OASIS_Room_Editor
         }
 
 
-        public RoomMemento CreateCheckPoint()
+        public RoomMemento CreateCheckPoint(bool includeImage = true)
         {
-            return new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint(), walkBoxes.CreateCheckPoint());
+            RoomMemento m;
+
+            if (includeImage)
+                m= new RoomMemento(roomName, roomID, roomSize, roomImage.CreateCheckPoint(), walkBoxes.CreateCheckPoint());
+            else
+                m= new RoomMemento(roomName, roomID, roomSize, null, walkBoxes.CreateCheckPoint());
+
+            return m;
         }
 
         public void RestoreCheckPoint(RoomMemento memento)
@@ -64,7 +71,10 @@ namespace OASIS_Room_Editor
             roomName = String.Copy(memento.roomName);
             roomID = memento.roomID;
             roomSize = memento.roomSize;
-            roomImage.RestoreCheckPoint(memento.roomImage);
+
+            //Is an image included in the memento)?
+            if (memento.roomImage!= null)
+                roomImage.RestoreCheckPoint(memento.roomImage);
             walkBoxes.RestoreCheckpoint(memento.walkBoxes);
         }
 

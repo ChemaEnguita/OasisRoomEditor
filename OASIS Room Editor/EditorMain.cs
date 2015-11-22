@@ -1355,7 +1355,7 @@ namespace OASIS_Room_Editor
             {
                 if(theRoom.roomName!=textBoxName.Text)
                 {
-                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
                     theRoom.roomName = textBoxName.Text;
                 }
             }
@@ -1379,7 +1379,7 @@ namespace OASIS_Room_Editor
                     theRoom.roomID = (int)(id);
                 else
                     numericUpDownID.Value = theRoom.roomID;
-                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
             }
         }
 
@@ -1432,7 +1432,7 @@ namespace OASIS_Room_Editor
             }
 
             theRoom.walkBoxes.ChangeWalkbox(SelectedWalkbox, r);
-            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
 
             WalkBoxManager.WalkBoxProperties p;
 
@@ -1464,7 +1464,7 @@ namespace OASIS_Room_Editor
                 "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 theRoom.walkBoxes.Remove(SelectedWalkbox);
-                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
                 SelectedWalkbox = -1;
                 UpdateTabWalkboxData();
                 HiresPictureBox.Invalidate();
@@ -1525,8 +1525,8 @@ namespace OASIS_Room_Editor
                 if(WalkboxEditMode)
                 {
                     //We are editing walkboxes. Just add it
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
                     theRoom.walkBoxes.Add(SelectedRect);
-                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
                     // And mark selection as invalid: we don't want the user
                     // to edit, cut or delete...
                     SelectionValid = false;
