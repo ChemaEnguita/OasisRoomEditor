@@ -143,6 +143,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -394,6 +395,7 @@
             this.newRoomToolStripMenuItem,
             this.openRoomToolStripMenuItem,
             this.saveRoomToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
             this.toolStripSeparator3,
             this.importHIRESPictureToolStripMenuItem,
             this.importPictureFromFileToolStripMenuItem,
@@ -408,64 +410,70 @@
             // newRoomToolStripMenuItem
             // 
             this.newRoomToolStripMenuItem.Name = "newRoomToolStripMenuItem";
-            this.newRoomToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.newRoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newRoomToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.newRoomToolStripMenuItem.Text = "&New room...";
             this.newRoomToolStripMenuItem.Click += new System.EventHandler(this.newRoomToolStripMenuItem_Click);
             // 
             // openRoomToolStripMenuItem
             // 
             this.openRoomToolStripMenuItem.Name = "openRoomToolStripMenuItem";
-            this.openRoomToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.openRoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openRoomToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.openRoomToolStripMenuItem.Text = "&Open room...";
+            this.openRoomToolStripMenuItem.Click += new System.EventHandler(this.openRoomToolStripMenuItem_Click);
             // 
             // saveRoomToolStripMenuItem
             // 
             this.saveRoomToolStripMenuItem.Name = "saveRoomToolStripMenuItem";
-            this.saveRoomToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.saveRoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveRoomToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.saveRoomToolStripMenuItem.Text = "&Save room...";
+            this.saveRoomToolStripMenuItem.Click += new System.EventHandler(this.saveRoomToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(236, 6);
             // 
             // importHIRESPictureToolStripMenuItem
             // 
             this.importHIRESPictureToolStripMenuItem.Name = "importHIRESPictureToolStripMenuItem";
-            this.importHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.importHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.importHIRESPictureToolStripMenuItem.Text = "Import &HIRES picture...";
             this.importHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.importHIRESPictureToolStripMenuItem_Click);
             // 
             // importPictureFromFileToolStripMenuItem
             // 
             this.importPictureFromFileToolStripMenuItem.Name = "importPictureFromFileToolStripMenuItem";
-            this.importPictureFromFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.importPictureFromFileToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.importPictureFromFileToolStripMenuItem.Text = "&Import picture from file...";
             this.importPictureFromFileToolStripMenuItem.Click += new System.EventHandler(this.importPictureFromFileToolStripMenuItem_Click);
             // 
             // exportToHIRESPictureToolStripMenuItem
             // 
             this.exportToHIRESPictureToolStripMenuItem.Name = "exportToHIRESPictureToolStripMenuItem";
-            this.exportToHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportToHIRESPictureToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.exportToHIRESPictureToolStripMenuItem.Text = "Export to HIRES...";
             this.exportToHIRESPictureToolStripMenuItem.Click += new System.EventHandler(this.exportToHIRESPictureToolStripMenuItem_Click);
             // 
             // exportPictureToFileToolStripMenuItem
             // 
             this.exportPictureToFileToolStripMenuItem.Name = "exportPictureToFileToolStripMenuItem";
-            this.exportPictureToFileToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exportPictureToFileToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.exportPictureToFileToolStripMenuItem.Text = "Export picture to file...";
             this.exportPictureToFileToolStripMenuItem.Click += new System.EventHandler(this.exportPictureToFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(236, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -633,6 +641,7 @@
             this.nuevoToolStripButton.Name = "nuevoToolStripButton";
             this.nuevoToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.nuevoToolStripButton.Text = "&Nuevo";
+            this.nuevoToolStripButton.Click += new System.EventHandler(this.nuevoToolStripButton_Click);
             // 
             // abrirToolStripButton
             // 
@@ -642,6 +651,7 @@
             this.abrirToolStripButton.Name = "abrirToolStripButton";
             this.abrirToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.abrirToolStripButton.Text = "&Abrir";
+            this.abrirToolStripButton.Click += new System.EventHandler(this.abrirToolStripButton_Click);
             // 
             // guardarToolStripButton
             // 
@@ -651,6 +661,7 @@
             this.guardarToolStripButton.Name = "guardarToolStripButton";
             this.guardarToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.guardarToolStripButton.Text = "&Guardar";
+            this.guardarToolStripButton.Click += new System.EventHandler(this.guardarToolStripButton_Click);
             // 
             // imprimirToolStripButton
             // 
@@ -947,6 +958,11 @@
             // numericUpDownID
             // 
             this.numericUpDownID.Location = new System.Drawing.Point(84, 18);
+            this.numericUpDownID.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             this.numericUpDownID.Name = "numericUpDownID";
             this.numericUpDownID.Size = new System.Drawing.Size(65, 20);
             this.numericUpDownID.TabIndex = 6;
@@ -1020,6 +1036,11 @@
             // numericUpDownEPY
             // 
             this.numericUpDownEPY.Location = new System.Drawing.Point(130, 68);
+            this.numericUpDownEPY.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             this.numericUpDownEPY.Name = "numericUpDownEPY";
             this.numericUpDownEPY.Size = new System.Drawing.Size(40, 20);
             this.numericUpDownEPY.TabIndex = 17;
@@ -1027,6 +1048,11 @@
             // numericUpDownEPX
             // 
             this.numericUpDownEPX.Location = new System.Drawing.Point(86, 68);
+            this.numericUpDownEPX.Maximum = new decimal(new int[] {
+            768,
+            0,
+            0,
+            0});
             this.numericUpDownEPX.Name = "numericUpDownEPX";
             this.numericUpDownEPX.Size = new System.Drawing.Size(40, 20);
             this.numericUpDownEPX.TabIndex = 16;
@@ -1034,6 +1060,11 @@
             // numericUpDownSPY
             // 
             this.numericUpDownSPY.Location = new System.Drawing.Point(130, 42);
+            this.numericUpDownSPY.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             this.numericUpDownSPY.Name = "numericUpDownSPY";
             this.numericUpDownSPY.Size = new System.Drawing.Size(40, 20);
             this.numericUpDownSPY.TabIndex = 15;
@@ -1041,6 +1072,11 @@
             // numericUpDownSPX
             // 
             this.numericUpDownSPX.Location = new System.Drawing.Point(86, 42);
+            this.numericUpDownSPX.Maximum = new decimal(new int[] {
+            768,
+            0,
+            0,
+            0});
             this.numericUpDownSPX.Name = "numericUpDownSPX";
             this.numericUpDownSPX.Size = new System.Drawing.Size(40, 20);
             this.numericUpDownSPX.TabIndex = 14;
@@ -1175,6 +1211,15 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.saveAsToolStripMenuItem.Text = "Save room as...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // EditorMain
             // 
@@ -1343,6 +1388,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownElevation;
         private System.Windows.Forms.NumericUpDown numericUpDownZPlane;
         private System.Windows.Forms.NumericUpDown numericUpDownID;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }
 

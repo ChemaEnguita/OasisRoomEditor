@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -215,6 +216,48 @@ namespace OASIS_Room_Editor
             }
            // CreateWalkMatrix();
         }
+
+        // Save/load
+        public void SaveWalkboxes(BinaryWriter w)
+        {
+            w.Write(walkBoxes.Count);
+            for (int i = 0; i < walkBoxes.Count(); i++)
+            {
+                w.Write(walkBoxes[i].X);
+                w.Write(walkBoxes[i].Y);
+                w.Write(walkBoxes[i].Width);
+                w.Write(walkBoxes[i].Height);
+
+                w.Write(wbProperties[i].Elevation);
+                w.Write(wbProperties[i].isLeftCorner);
+                w.Write(wbProperties[i].isRightCorner);
+                w.Write(wbProperties[i].isWalkable);
+                w.Write(wbProperties[i].zPlane);
+            }
+        }
+
+        public void LoadWalkboxes(BinaryReader r)
+        {
+            walkBoxes.Clear();
+            wbProperties.Clear();
+
+            var num = r.ReadInt32();
+            for(int i=0; i< num;i++)
+            {
+                walkBoxes.Add(new Rectangle(r.ReadInt32(), r.ReadInt32(), r.ReadInt32(), r.ReadInt32()));
+
+                WalkBoxProperties p;
+                p.Elevation = r.ReadInt32();
+                p.isLeftCorner = r.ReadBoolean();
+                p.isRightCorner = r.ReadBoolean();
+                p.isWalkable = r.ReadBoolean();
+                p.zPlane = r.ReadInt32();
+
+                wbProperties.Add(p);
+            }
+
+        }
+
 
     }
 

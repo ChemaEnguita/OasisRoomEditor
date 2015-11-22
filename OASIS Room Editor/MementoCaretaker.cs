@@ -21,6 +21,16 @@ namespace OASIS_Room_Editor
             redoStack.Clear();
         }
 
+        public bool UndoEmpty()
+        {
+            return undoStack.IsEmpty();
+        }
+
+        public bool RedoEmpty()
+        {
+            return redoStack.IsEmpty();
+        }
+
         public RoomMemento Undo(RoomMemento current)
         {
             if (undoStack.Count != 0)

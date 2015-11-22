@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,12 @@ namespace OASIS_Room_Editor
 
         public OASISRoom(int size)
         {
-            roomImage = new OricPicture(size, 17*8);
+            if(size==0)
+            {
+                roomImage = null;
+            }
+            else
+                roomImage = new OricPicture(size, 17*8);
             roomName = "No name";
             roomID = 0;
             roomSize = size;
@@ -78,6 +84,58 @@ namespace OASIS_Room_Editor
             walkBoxes.RestoreCheckpoint(memento.walkBoxes);
         }
 
+
+        #region saving&loading
+
+        public void SaveOASISRoom(string fileName)
+        {
+            // Create the writer for data.
+            var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            BinaryWriter w = new BinaryWriter(fs);
+
+            w.Write(roomName);
+            w.Write(roomID);
+            w.Write(roomSize);
+            w.Write(roomZPlanes);
+            
+            if(roomImage!=null)
+            {
+                w.Write(roomImage.nRows);
+                w.Write(roomImage.nScans);
+                roomImage.WriteHiresData(w);
+            }
+
+            walkBoxes.SaveWalkboxes(w);
+            w.Close();
+
+        }
+
+
+        public void LoadOASISRoom(string fileName)
+        {
+            // Create the reader for data.
+            var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            BinaryReader r = new BinaryReader(fs);
+
+            roomName = r.ReadString();
+            roomID = r.ReadInt32();
+            roomSize = r.ReadInt32(); 
+            roomZPlanes = r.ReadInt32();
+
+            var imr = r.ReadInt32();
+            var ims= r.ReadInt32();
+
+            roomImage = new OricPicture(ims, imr);
+            roomImage.ReadHiresData(r);
+
+            walkBoxes.LoadWalkboxes(r);
+            
+            r.Close();
+
+        }
+
+
+        #endregion
 
     }
 }

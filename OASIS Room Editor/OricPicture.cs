@@ -430,7 +430,7 @@ namespace OASIS_Room_Editor
         }
 
         // Reads and decodes a HIRES image stored in a matrix b
-        public void ReadHiresData(byte[,] b)
+        public void DecodeHiresData(byte[,] b)
         {
             nRows = b.GetLength(1);
             nScans = b.GetLength(0);
@@ -461,6 +461,19 @@ namespace OASIS_Room_Editor
             ResetAllAttributes();
         }
 
+        // This has been split to use it in storing room data in a file
+        public void ReadHiresData(BinaryReader r)
+        {
+            var b = new byte[nScans, nRows];
+
+            // Read data
+            for (int line = 0; line < nRows; line++)
+                for (int scan = 0; scan < nScans; scan++)
+                    b[scan, line] = r.ReadByte();
+
+            DecodeHiresData(b);
+        }
+
         // Reads and decodes a HIRES image stored in a file
         public void ReadHiresData(string fileName)
         {
@@ -469,17 +482,9 @@ namespace OASIS_Room_Editor
             BinaryReader r = new BinaryReader(fs);
 
             // Create the matrix to hold the data
-            var b = new byte[nScans, nRows];
-
-            // Read data
-            for (int line = 0; line < nRows; line++)
-                for (int scan = 0; scan < nScans; scan++)
-                    b[scan,line] = r.ReadByte();
+            ReadHiresData(r);
             // Close the reader
             r.Close();
-
-            ReadHiresData(b);
-
         }
         
 
@@ -536,18 +541,25 @@ namespace OASIS_Room_Editor
             return b;
         }
 
-        public void ExportToHires(String fileName)
-        {
-            // Create the reader for data.
-            var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-            BinaryWriter w = new BinaryWriter(fs);
 
+        public void WriteHiresData (BinaryWriter w)
+        {
             var b = EncodeAsHires();
 
             // Write data
             for (int line = 0; line < nRows; line++)
                 for (int scan = 0; scan < nScans; scan++)
                     w.Write(b[scan, line]);
+        }
+
+        public void ExportToHires(String fileName)
+        {
+            // Create the writer for data.
+            var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            BinaryWriter w = new BinaryWriter(fs);
+
+            WriteHiresData(w);
+
             w.Close();
         }
 

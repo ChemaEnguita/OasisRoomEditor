@@ -91,6 +91,12 @@ namespace OASIS_Room_Editor
         // For multiple undo/redo using the memento design pattern
         MementoCaretaker undoRedo=new MementoCaretaker();
 
+        // Filename of loaded or saved to room.
+        private string roomFileName = "";
+
+        // Has the room info been changed and not saved?
+        private bool needsSaving = false;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             // Start with the HiresPictureBox disabled
@@ -310,6 +316,7 @@ namespace OASIS_Room_Editor
             var row = WhereClicked.Y;
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
             theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(scan, row), scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
@@ -323,6 +330,7 @@ namespace OASIS_Room_Editor
             if (theRoom.roomImage.isAttribute(scan, row))
             {
                 undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                needsSaving = true;
                 theRoom.roomImage.RemoveAttribute(scan, row);
                 HiresPictureBox.Invalidate(); // Trigger redraw of the control.
             }
@@ -337,6 +345,7 @@ namespace OASIS_Room_Editor
             if (!theRoom.roomImage.isAttribute(scan, row))
             {
                 undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                needsSaving = true;
 
                 for (int i = 0; i < 6; i++)
                     theRoom.roomImage.SetPixelToValue(scan * 6 + i, row, theRoom.roomImage.GetPixel(scan * 6 + i, row) == 0 ? 1 : 0);
@@ -350,6 +359,7 @@ namespace OASIS_Room_Editor
             var row = WhereClicked.Y;
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             theRoom.roomImage.SetPaper(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
@@ -401,6 +411,7 @@ namespace OASIS_Room_Editor
             var row = WhereClicked.Y;
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
             theRoom.roomImage.SetInk(color, scan, row);
             HiresPictureBox.Invalidate(); // Trigger redraw of the control.
         }
@@ -637,6 +648,7 @@ namespace OASIS_Room_Editor
             // Do the actual copy of the bitmap contents to the
             // Oric picture 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             using (var bmp = new Bitmap(PastePictureBox.Image))
             {
@@ -664,6 +676,7 @@ namespace OASIS_Room_Editor
             if (!SelectionValid) return;
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             for (int x = 0; x < SelectedRect.Width; x++)
                 for (int y = 0; y < SelectedRect.Height; y++)
@@ -721,7 +734,106 @@ namespace OASIS_Room_Editor
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Have we got something modified?
+            if (needsSaving)
+            {
+                var result = MessageBox.Show("Changes in room will be lost. Are you sure?", "There are unsaved changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No) return;
+            }
             this.Dispose();
+        }
+
+
+        // Load/save rooms
+
+        private void openRoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Have we got something modified?
+            if (needsSaving)
+            {
+                var result = MessageBox.Show("Room changes will be lost. Are you sure?", "Room has changed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No) return;
+            }
+            
+            // Open a dialog requesting the file
+            openFileDialog1.Filter = "OASIS room files (*.room)| *.ROOM";
+            openFileDialog1.Title = "Select an OASIS room file";
+            openFileDialog1.FileName = "";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                
+                if(theRoom==null)
+                {
+                    // Create a temporary room
+                    theRoom = new OASISRoom(0);
+                }
+                try {
+                    theRoom.LoadOASISRoom(openFileDialog1.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while reading room", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    theRoom = new OASISRoom(0);
+                    
+                }
+                finally
+                {
+                    roomFileName = openFileDialog1.FileName;
+                    needsSaving = false;
+                    // Call the common actions after reloading an image
+                    ReloadActions();
+                    this.Cursor = Cursors.Default;
+                }
+            }
+
+        }
+
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (theRoom == null) return;
+
+            // Open a dialog requesting the file
+            saveFileDialog1.Filter = "OASIS room files (*.room)| *.ROOM";
+            saveFileDialog1.Title = "Select an OASIS room file";
+            saveFileDialog1.FileName = "*.room";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                doSaving(saveFileDialog1.FileName);
+            }
+
+        }
+
+        private void doSaving(string filename)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            needsSaving = false;
+            try
+            {
+                theRoom.SaveOASISRoom(filename);
+            }
+            catch
+            {
+                MessageBox.Show("Error while saving room", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                needsSaving = true;
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void saveRoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (theRoom == null) return;
+
+            if (roomFileName == "")
+                saveAsToolStripMenuItem_Click(sender, e);
+            else
+                doSaving(roomFileName);
         }
 
 
@@ -863,6 +975,7 @@ namespace OASIS_Room_Editor
             }
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             var r = Math.Min(DAIC.Row2, theRoom.roomImage.nRows - 1);
             for (int i = DAIC.Row1; i <= r; i += 2)
@@ -888,6 +1001,7 @@ namespace OASIS_Room_Editor
         private void atTherightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             theRoom.InsertColumnsRight(1);
             
@@ -900,6 +1014,7 @@ namespace OASIS_Room_Editor
         private void atTheleftToolStripMenuItem_Click(object sender, EventArgs e)
         {
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             theRoom.InsertColumnsLeft(1);
             // Call the common actions after reloading an image
@@ -973,6 +1088,7 @@ namespace OASIS_Room_Editor
                 return;
             }
             RoomMemento m = undoRedo.Undo(theRoom.CreateCheckPoint());
+            needsSaving = true;
             doRestoringState(m);
         }
 
@@ -985,7 +1101,9 @@ namespace OASIS_Room_Editor
             }
 
             RoomMemento m = undoRedo.Redo(theRoom.CreateCheckPoint());
+            needsSaving = true;
             doRestoringState(m);
+
         }
 
 
@@ -1062,6 +1180,7 @@ namespace OASIS_Room_Editor
             int inix, iniy, nx, ny;
 
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
 
             if (SelectionValid)
             {
@@ -1174,6 +1293,7 @@ namespace OASIS_Room_Editor
                     // Pen sets/clears pixel depending on mouse button
                     // this is not confortable to use, and may need modification
                     undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                    needsSaving = true;
 
                     if (mouseEventArgs.Button == MouseButtons.Right)
                     {
@@ -1222,6 +1342,7 @@ namespace OASIS_Room_Editor
                         else
                         {
                             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                            needsSaving = true;
 
                             if (theRoom.roomImage.GetPixel(x, y) == 1)
                                 theRoom.roomImage.ClearPixel(x, y);
@@ -1323,9 +1444,9 @@ namespace OASIS_Room_Editor
         private void newRoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if(theRoom!=null)
+            if(theRoom!=null && needsSaving)
             {
-                var result = MessageBox.Show("Current room will be lost. Are you sure?", "A room already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var result = MessageBox.Show("Changes in room will be lost. Are you sure?", "There are unsaved changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.No)
                     return;
             }
@@ -1340,6 +1461,7 @@ namespace OASIS_Room_Editor
 
             // Create a new room
             theRoom = new OASISRoom(dialogNewRoom.roomName, dialogNewRoom.roomID, dialogNewRoom.roomSize);
+            needsSaving = true;
 
             // No walkbox is selected
             SelectedWalkbox = -1;
@@ -1356,6 +1478,7 @@ namespace OASIS_Room_Editor
                 if(theRoom.roomName!=textBoxName.Text)
                 {
                     undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+                    needsSaving = true;
                     theRoom.roomName = textBoxName.Text;
                 }
             }
@@ -1380,6 +1503,7 @@ namespace OASIS_Room_Editor
                 else
                     numericUpDownID.Value = theRoom.roomID;
                 undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+                needsSaving = true;
             }
         }
 
@@ -1433,6 +1557,7 @@ namespace OASIS_Room_Editor
 
             theRoom.walkBoxes.ChangeWalkbox(SelectedWalkbox, r);
             undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+            needsSaving = true;
 
             WalkBoxManager.WalkBoxProperties p;
 
@@ -1465,10 +1590,26 @@ namespace OASIS_Room_Editor
             {
                 theRoom.walkBoxes.Remove(SelectedWalkbox);
                 undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+                needsSaving = true;
                 SelectedWalkbox = -1;
                 UpdateTabWalkboxData();
                 HiresPictureBox.Invalidate();
             }
+        }
+
+        private void nuevoToolStripButton_Click(object sender, EventArgs e)
+        {
+            newRoomToolStripMenuItem_Click(sender, e);
+        }
+
+        private void abrirToolStripButton_Click(object sender, EventArgs e)
+        {
+            openRoomToolStripMenuItem_Click(sender, e);
+        }
+
+        private void guardarToolStripButton_Click(object sender, EventArgs e)
+        {
+            saveRoomToolStripMenuItem_Click(sender, e);
         }
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -1526,6 +1667,7 @@ namespace OASIS_Room_Editor
                 {
                     //We are editing walkboxes. Just add it
                     undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+                    needsSaving = true;
                     theRoom.walkBoxes.Add(SelectedRect);
                     // And mark selection as invalid: we don't want the user
                     // to edit, cut or delete...
