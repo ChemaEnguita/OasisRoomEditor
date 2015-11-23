@@ -126,6 +126,8 @@ namespace OASIS_Room_Editor
             Rectangle r1 = walkBoxes[i];
             Rectangle r2 = walkBoxes[j];
 
+
+            /* META: Maybe we should not consider walkability here, as it is checked in the engine!!! */
             if ((!wbProperties[i].isWalkable) || (!wbProperties[j].isWalkable))
                 return false;
 

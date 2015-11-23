@@ -135,6 +135,59 @@ namespace OASIS_Room_Editor
         }
 
 
+        public void ExportAsResource(string filename)
+        {
+            /* Exporting as resource implies the following format: 
+             - A header including type (1 byte), length (2 bytes), id (1 byte) 
+             - Data with the following contents:
+             - Number of columns
+             - Offset to tiles
+             - Number of zplanes
+             - Offset to zplane 1
+             ...
+             - Number of walkboxes
+             - Offset to walkbox data
+             - Offset to walkbox matrix
+             - Entry Script Offset
+             - Exit Script Offset
+             - Number of objects in room
+             - ID object 1
+             - ...
+             - Name (null-terminated string)
+
+            - Zplane1 tile map
+            - Zplane1 tile set
+            - ...
+
+            - Walkbox data, 5 bytes per box:
+              col-min, col-max, row-min, row-max, flags:
+                ;               76543210
+                ;			   	|||||\_/
+                ;			   	||||| |
+                ;			   	||||| +- z-plane
+                ;			   	|||||
+                ;			   	||||+- free
+                ;			   	|||+- free
+                ;			   	||+- left corner
+                ;			   	|+- right corner
+                ;				+- not walkable
+
+            - Walkbox matrix n x n bytes (n is number of walkboxes)
+
+
+            /*
+            .(
+            .byt RESOURCE_ROOM      
+            .word res_end-res_start + 4
+            .byt <ID>
+            res_start
+            .byt <resource data>
+            res_end
+            .)
+            */
+
+        }
+
         #endregion
 
     }
