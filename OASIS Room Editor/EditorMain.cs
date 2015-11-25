@@ -774,7 +774,7 @@ namespace OASIS_Room_Editor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error while reading room", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Loading error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     theRoom = new OASISRoom(0);
                     
                 }
