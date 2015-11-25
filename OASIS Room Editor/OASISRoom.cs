@@ -149,16 +149,28 @@ namespace OASIS_Room_Editor
         {
             TileSectioner ts = SectionInTiles();
 
-            System.IO.StreamWriter rf = new System.IO.StreamWriter(fileName, true); // true so it can append to a file
+            System.IO.StreamWriter rf = new System.IO.StreamWriter(fileName); // add 2nd param true so it can append to a file
 
-            rf.Write(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n");
-            rf.Write(String.Format("; Room: %s\n", roomName));
-            rf.Write(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n");
+            rf.Write(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\r\n");
+            rf.Write("; Room: "+roomName+ "\r\n");
+            rf.Write(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\r\n");
+
+            /*
+            Resources following XA are:
+             .(
+                .byt <TYPE>    
+                .word res_end-res_start + 4
+                .byt <ID>
+                res_start
+                .byt <resource data>
+                res_end
+            .)
+            */
 
             /* Exporting as resource implies the following format: 
              - A header including type (1 byte), length (2 bytes), id (1 byte) */
 
-            rf.Write(String.Format(".(\n.byt RESOURCE_ROOM\n.word res_end - res_start + 4\n.byt %d\nres_start\n", roomID));
+            rf.Write(String.Format(".(\r\r\n.byt RESOURCE_ROOM\r\r\n.word (res_end - res_start + 4)\r\r\n.byt {0:d}\r\r\nres_start\r\r\n", roomID));
 
             /*
              - Data with the following contents:
@@ -170,16 +182,16 @@ namespace OASIS_Room_Editor
              - Offset to zplane 1 tiles
              ... */
 
-            rf.Write("; No. columns, offset to tile map, offset to tiles\n");
-            rf.Write(String.Format(".byt %d, <(column_data-res_start), >(column_data-res_start), <(tiles_start-res_start), >(tiles_start-res_start)\n", roomSize));
+            rf.Write("; No. columns, offset to tile map, offset to tiles\r\n");
+            rf.Write(String.Format(".byt {0:d}, <(column_data-res_start), >(column_data-res_start), <(tiles_start-res_start), >(tiles_start-res_start)\r\n", roomSize-2));
 
             int roomNZplanes = 0;
-            rf.Write("; No. zplanes and offsets to zplanes\n");
-            rf.Write(String.Format(".byt %d\n", roomNZplanes));
+            rf.Write("; No. zplanes and offsets to zplanes\r\n");
+            rf.Write(String.Format(".byt {0:d}\r\n", roomNZplanes));
             for (int i = 0; i < roomNZplanes; i++)
             {
-                rf.Write(String.Format(".byt <(zplane%i_data-res_start), >(zplane%i_data-res_start)\n", i + 1));
-                rf.Write(String.Format(".byt <(zplane%i_tiles-res_start), >(zplane%i_tiles-res_start)\n", i + 1));
+                rf.Write(String.Format(".byt <(zplane{0:d}_data-res_start), >(zplane{0:d}_data-res_start)\r\n", i + 1));
+                rf.Write(String.Format(".byt <(zplane{0:d}_tiles-res_start), >(zplane{0:d}_tiles-res_start)\r\n", i + 1));
             }
 
             /*
@@ -187,8 +199,8 @@ namespace OASIS_Room_Editor
              - Offset to walkbox data
              - Offset to walkbox matrix */
 
-            rf.Write("; No. Walkboxes and offsets to wb data and matrix\n");
-            rf.Write(String.Format(".byt %d, <(wb_data-res_start), >(wb_data-res_start), <(wb_matrix-res_start), >(wb_matrix-res_start)\n", walkBoxes.GetNumBoxes()));
+            rf.Write("; No. Walkboxes and offsets to wb data and matrix\r\n");
+            rf.Write(String.Format(".byt {0:d}, <(wb_data-res_start), >(wb_data-res_start), <(wb_matrix-res_start), >(wb_matrix-res_start)\r\n", walkBoxes.GetNumBoxes()));
 
 
             /*
@@ -200,45 +212,45 @@ namespace OASIS_Room_Editor
              - ...
              - Name (null-terminated string) */
 
-            rf.Write("; Offset to palette\n");
-            rf.Write(String.Format(".byt <(palette-res_start), >(palette-res_start)\n"));
-            rf.Write("; Entry and exit scripts\n");
-            rf.Write(".byt %d, %d\n", 255, 255);
-            rf.Write("; Number of objects in the room and list of ids\n");
-            rf.Write(".byt %d\n", 0);
-            rf.Write("; Room name (null terminated)\n");
-            rf.Write(".asc \"%s\", 0\n", roomName);
+            rf.Write("; Offset to palette\r\n");
+            rf.Write(".byt <(palette-res_start), >(palette-res_start)\r\n");
+            rf.Write("; Entry and exit scripts\r\n");
+            rf.Write(String.Format(".byt {0:d}, {1:d}\r\n", 255, 255));
+            rf.Write("; Number of objects in the room and list of ids\r\n");
+            rf.Write(String.Format(".byt {0:d}\r\n", 0));
+            rf.Write("; Room name (null terminated)\r\n");
+            rf.Write(".asc \""+roomName+"\", 0\r\n");
 
             /*
             - Room tile map
             - Room tile set
             */
 
-            rf.Write("; Room tile map\n");
+            rf.Write("; Room tile map\r\n");
             rf.Write("column_data");
             for (int r = 0; r < ts.tileMap.GetLength(0); r++)
             {
-                rf.Write("\n.byt ");
+                rf.Write("\r\n.byt ");
                 for (int c = 0; c < ts.tileMap.GetLength(1); c++)
                 {
                     if (c > 0) rf.Write(", ");
-                    rf.Write(String.Format("%d", (int)(ts.tileMap[r, c])));
+                    rf.Write(String.Format("{0:D3}", (int)(ts.tileMap[r, c])));
                 }
             }
 
-            rf.Write("; Room tile set\n");
-            rf.Write("\n\ntiles_start\n");
-            for (int r = 0; r < ts.tileSet.Count(); r++)
+            rf.Write("\r\n\r\n; Room tile set\r\n");
+            rf.Write("\r\ntiles_start\r\n");
+            for (int r = 0+1; r < ts.tileSet.Count(); r++) // Tile 0 is not stored
             {
                 var tile = ts.tileSet[r];
-                rf.Write("\n.byt ");
+                rf.Write("\r\n.byt ");
                 for (int c = 0; c < 8; c++)
                 {
                     if (c > 0) rf.Write(", ");
-                    rf.Write(String.Format("%d", (int)(tile[c])));
+                    rf.Write(String.Format("${0:X2}", (int)(tile[c])));
                 }
 
-                rf.Write("\t; tile # %d", r);
+                rf.Write(String.Format("\t; tile #{0:d}", r));
             }
 
 
@@ -268,19 +280,9 @@ namespace OASIS_Room_Editor
 
             /*
             - Palette information 17*8*2 bytes
-
-            /*
-            .(
-            .byt RESOURCE_ROOM      
-            .word res_end-res_start + 4
-            .byt <ID>
-            res_start
-            .byt <resource data>
-            res_end
-            .)
             */
 
-            rf.Write("\nres_end\n,)\n");
+            rf.Write("\r\nres_end\r\n,)\r\n");
             rf.Close();
         }
         #endregion

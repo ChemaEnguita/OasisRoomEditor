@@ -1034,6 +1034,7 @@ namespace OASIS_Room_Editor
             s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
             MessageBox.Show(s, "Room picture information");*/
 
+            /*
             theRoom.walkBoxes.CreateWalkMatrix();
             String s="";
             int n = theRoom.walkBoxes.walkMatrix.GetLength(0);
@@ -1047,6 +1048,15 @@ namespace OASIS_Room_Editor
             }
 
             MessageBox.Show(s, "Walk matrix");
+            */
+
+            saveFileDialog1.Filter = "text files|*.s; *.txt; *.h";
+            saveFileDialog1.Title = "Select a file";
+            saveFileDialog1.FileName = "*.txt";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                theRoom.ExportAsResource(saveFileDialog1.FileName);
+
         }
 
 
