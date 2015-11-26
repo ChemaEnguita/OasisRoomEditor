@@ -61,6 +61,7 @@
             this.newRoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveRoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.importHIRESPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPictureFromFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,7 +144,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -430,6 +430,15 @@
             this.saveRoomToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.saveRoomToolStripMenuItem.Text = "&Save room...";
             this.saveRoomToolStripMenuItem.Click += new System.EventHandler(this.saveRoomToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.saveAsToolStripMenuItem.Text = "Save room as...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -1212,15 +1221,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.saveAsToolStripMenuItem.Text = "Save room as...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
             // EditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1232,6 +1232,7 @@
             this.MainMenuStrip = this.MainMenu;
             this.Name = "EditorMain";
             this.Text = "OASIS Room Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditorMain_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.StatusBar.ResumeLayout(false);
             this.StatusBar.PerformLayout();

@@ -732,14 +732,37 @@ namespace OASIS_Room_Editor
 
         #region MAIN MENU
 
+
+        private void EditorMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            /*System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
+            messageBoxCS.AppendFormat("{0} = {1}", "CloseReason", e.CloseReason);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "Cancel", e.Cancel);
+            messageBoxCS.AppendLine();
+            MessageBox.Show(messageBoxCS.ToString(), "FormClosing Event");
+            */
+
+            // Have we got something modified?
+            if (needsSaving)
+            {
+                var result = MessageBox.Show("Changes in room will be lost. Are you sure?", "There are unsaved changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
+                    e.Cancel=true;
+            }
+
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             // Have we got something modified?
             if (needsSaving)
             {
                 var result = MessageBox.Show("Changes in room will be lost. Are you sure?", "There are unsaved changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.No) return;
             }
+            */
             this.Dispose();
         }
 
@@ -814,10 +837,11 @@ namespace OASIS_Room_Editor
             try
             {
                 theRoom.SaveOASISRoom(filename);
+                roomFileName = filename;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error while saving room", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error while saving room", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 needsSaving = true;
             }
             finally
@@ -1598,8 +1622,8 @@ namespace OASIS_Room_Editor
             if (MessageBox.Show("Are you sure you want to delete the walkbox?",
                 "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                theRoom.walkBoxes.Remove(SelectedWalkbox);
                 undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(false));
+                theRoom.walkBoxes.Remove(SelectedWalkbox);
                 needsSaving = true;
                 SelectedWalkbox = -1;
                 UpdateTabWalkboxData();
@@ -1621,6 +1645,7 @@ namespace OASIS_Room_Editor
         {
             saveRoomToolStripMenuItem_Click(sender, e);
         }
+
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {

@@ -298,7 +298,10 @@ namespace OASIS_Room_Editor
                 flags |= p.zPlane & 0x7;
 
                 wbr = walkBoxes.GetBox(i);
-                rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.X, wbr.X + wbr.Width, wbr.Y, wbr.Y + wbr.Height, flags);
+                if(trim2Cols)
+                    rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left / 6 - 2, (wbr.Right - 1) / 6 - 2, wbr.Top / 8, (wbr.Bottom - 1) / 8, flags);
+                else
+                    rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left/6, (wbr.Right-1)/6, wbr.Top/8, (wbr.Bottom-1)/8, flags);
             }
 
             // Now the walk matrix
@@ -312,7 +315,7 @@ namespace OASIS_Room_Editor
                 s += "\t.byt ";
                 for (int j = 0; j < n; j++)
                 {
-                    s += walkBoxes.walkMatrix[i, j].ToString()+ (i==(n-1)?"":", ");
+                    s += walkBoxes.walkMatrix[i, j].ToString()+ (j==(n-1)?"":", ");
                 }
                 s += "\r\n";
             }
