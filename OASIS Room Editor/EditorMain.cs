@@ -947,10 +947,16 @@ namespace OASIS_Room_Editor
                 this.Cursor = Cursors.WaitCursor;
                 // Create a new OASISRoom Object and ask it to read the image data from 
                 // the bitmap object
+
+                int rs = s.Width / 6;
+
+                if ((s.Width % 6)>0)
+                    rs++;
+
                 if (theRoom==null)
-                    theRoom = new OASISRoom(s.Width / 6);
+                    theRoom = new OASISRoom(rs);
                 else
-                    theRoom.roomImage = new OricPicture(s.Width / 6, s.Height);
+                    theRoom.roomImage = new OricPicture(rs, s.Height);
 
                 theRoom.roomImage.ReadBMPData(bmp);
 

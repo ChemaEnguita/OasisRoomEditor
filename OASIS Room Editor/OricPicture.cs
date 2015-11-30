@@ -494,7 +494,7 @@ namespace OASIS_Room_Editor
         // Second param is the threshold (0-1) in brightness of a pixel to consider it ink or paper
         // but b&w pictures are expected.
         // Defaulted to 0.05, which seems to work ok.
-        public void ReadBMPData(Bitmap bmp, double threshold=0.05)
+        public void ReadBMPData(Bitmap bmp, double threshold=0.05*5)
         {
             // Some (maybe silly defensive programming here)
             if (bmp == null) return;
