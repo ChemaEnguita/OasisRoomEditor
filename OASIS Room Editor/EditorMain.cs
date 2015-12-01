@@ -86,6 +86,12 @@ namespace OASIS_Room_Editor
         private PixelBox PastePictureBox = null;    // PictureBox used for pasting
         private bool MovingPastedPic = false;       // Is the user moving the pasted clip?
 
+        // For copying attributes (now only inverse codes)
+
+        Attribute[,] copiedAttr;
+        bool attrValid = false;
+
+
         private Point MouseDownLocation;            // Location where the user pressed the mouse button to start dragging the clip
 
         // For multiple undo/redo using the memento design pattern
@@ -664,6 +670,15 @@ namespace OASIS_Room_Editor
                         if((p.X>0)&&(p.Y>0))
                             theRoom.roomImage.SetPixelToValue(p, val);
                     }
+
+                if(attrValid)
+                {
+                    for (int i = 0; i < bmp.Width/6; i++)
+                        for (int j = 0; j < bmp.Height; j++)
+                        {
+                           theRoom.roomImage.SetInverse(copiedAttr[i,j].isInverse, i+ini_x/6, j+ini_y);
+                        }
+                }
             }
             // Run the common actions for pasting or abort pasting (basically getting rid of
             // the picture box, invalidating, ...
@@ -725,6 +740,16 @@ namespace OASIS_Room_Editor
                 // And pass it to the clipboard
                 Clipboard.SetImage(bmpCopy);
             }
+
+            copiedAttr = new Attribute[SelectedRect.Width/6,SelectedRect.Height];
+            var sx = SelectedRect.X / 6;
+            var sy = SelectedRect.Y;
+            for (int x=0; x< SelectedRect.Width / 6;x++)
+                for(int y=0; y< SelectedRect.Height;y++)
+                {
+                    copiedAttr[x, y].isInverse = theRoom.roomImage.isInverse(x+sx, y+sy);
+                }
+            attrValid = true;
 
             SelectionValid = false;
             HiresPictureBox.Invalidate();
