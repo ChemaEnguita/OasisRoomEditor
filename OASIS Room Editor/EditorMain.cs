@@ -1677,6 +1677,33 @@ namespace OASIS_Room_Editor
             saveRoomToolStripMenuItem_Click(sender, e);
         }
 
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Check rectangle does not exceed the image boundaries
+            SelectedRect.Width = theRoom.roomImage.nScans * 6  ;
+            SelectedRect.Height = theRoom.roomImage.nRows;
+            SelectedRect.X = 0; SelectedRect.Y = 0;
+            SelectionValid = true;
+            HiresPictureBox.Invalidate();
+        }
+
+        private void inverseAllScansToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Inverse scans in selection
+            if(SelectionValid)
+            {
+                int send= (int)(SelectedRect.Right / 6);
+                if (SelectedRect.Right % 6 != 0)
+                    send++;
+
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                for (int r = SelectedRect.Top; r<SelectedRect.Bottom; r++)
+                    for(int s=(int)(SelectedRect.Left/6); s<send; s++)
+                        theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(s, r), s, r);
+                needsSaving = true;
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }
+        }
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
