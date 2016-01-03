@@ -68,6 +68,8 @@ namespace OASIS_Room_Editor
 
         private float ZoomLevel = 2;                    // Level of zoom
         private bool ShowGrid = true;                   // Is the grid showing?
+        private bool PasteWithAttrib = true;            // Cut and paste with attributes?
+
 
         private Color GridColor= Color.MediumPurple;    // Default Grid color
         private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
@@ -533,6 +535,11 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
         }
 
+        private void ButtonPasteWithAttrib_Click(object sender, EventArgs e)
+        {
+            PasteWithAttrib = !PasteWithAttrib;
+        }
+
 
         #endregion
 
@@ -671,12 +678,16 @@ namespace OASIS_Room_Editor
                             theRoom.roomImage.SetPixelToValue(p, val);
                     }
 
-                if(attrValid)
+                if(attrValid && PasteWithAttrib)
                 {
                     for (int i = 0; i < bmp.Width/6; i++)
                         for (int j = 0; j < bmp.Height; j++)
                         {
-                           theRoom.roomImage.SetInverse(copiedAttr[i,j].isInverse, i+ini_x/6, j+ini_y);
+                            theRoom.roomImage.SetInverse(copiedAttr[i,j].isInverse, i+ini_x/6, j+ini_y);
+                            if(copiedAttr[i,j].isInkAttribute)
+                                theRoom.roomImage.SetInk(copiedAttr[i, j].CurrentInk, i + ini_x / 6, j + ini_y);
+                            if (copiedAttr[i, j].isPaperAttribute)
+                                theRoom.roomImage.SetPaper(copiedAttr[i, j].CurrentPaper, i + ini_x / 6, j + ini_y);
                         }
                 }
             }
@@ -748,6 +759,10 @@ namespace OASIS_Room_Editor
                 for(int y=0; y< SelectedRect.Height;y++)
                 {
                     copiedAttr[x, y].isInverse = theRoom.roomImage.isInverse(x+sx, y+sy);
+                    copiedAttr[x, y].isInkAttribute = theRoom.roomImage.isInkAttribute(x + sx, y + sy);
+                    copiedAttr[x, y].isPaperAttribute = theRoom.roomImage.isPaperAttribute(x + sx, y + sy);
+                    copiedAttr[x, y].CurrentPaper = theRoom.roomImage.GetScanPaperCode(x + sx, y + sy);
+                    copiedAttr[x, y].CurrentInk = theRoom.roomImage.GetScanInkCode(x + sx, y + sy);
                 }
             attrValid = true;
 
