@@ -674,7 +674,7 @@ namespace OASIS_Room_Editor
                     {
                         var val = bmp.GetPixel(i, j).GetBrightness() > 0.2 ? 1 : 0;
                         var p = new Point(i + ini_x, j + ini_y);
-                        if((p.X>0)&&(p.Y>0))
+                        if((p.X>=0)&&(p.Y>=0))
                             theRoom.roomImage.SetPixelToValue(p, val);
                     }
 
