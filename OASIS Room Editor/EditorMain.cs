@@ -683,11 +683,14 @@ namespace OASIS_Room_Editor
                     for (int i = 0; i < bmp.Width/6; i++)
                         for (int j = 0; j < bmp.Height; j++)
                         {
-                            theRoom.roomImage.SetInverse(copiedAttr[i,j].isInverse, i+ini_x/6, j+ini_y);
-                            if(copiedAttr[i,j].isInkAttribute)
-                                theRoom.roomImage.SetInk(copiedAttr[i, j].CurrentInk, i + ini_x / 6, j + ini_y);
-                            if (copiedAttr[i, j].isPaperAttribute)
-                                theRoom.roomImage.SetPaper(copiedAttr[i, j].CurrentPaper, i + ini_x / 6, j + ini_y);
+                            if ((i + ini_x / 6) >= 0 && (j + ini_y) >= 0)
+                            {
+                                theRoom.roomImage.SetInverse(copiedAttr[i, j].isInverse, i + ini_x / 6, j + ini_y);
+                                if (copiedAttr[i, j].isInkAttribute)
+                                    theRoom.roomImage.SetInk(copiedAttr[i, j].CurrentInk, i + ini_x / 6, j + ini_y);
+                                if (copiedAttr[i, j].isPaperAttribute)
+                                    theRoom.roomImage.SetPaper(copiedAttr[i, j].CurrentPaper, i + ini_x / 6, j + ini_y);
+                            }
                         }
                 }
             }
@@ -1720,7 +1723,58 @@ namespace OASIS_Room_Editor
             }
         }
 
-        private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
+        private void mirrorImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int inix, iniy, nx, ny;
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
+
+            if (SelectionValid)
+            {
+                // Work only in the selected rectangle
+                inix = SelectedRect.Left;
+                iniy = SelectedRect.Top;
+                nx = inix + SelectedRect.Width;
+                ny = iniy + SelectedRect.Height;
+            }
+            else
+            {
+                // All image
+                inix = 0; iniy = 0;
+                nx = theRoom.roomImage.nScans * 6;
+                ny = theRoom.roomImage.nRows;
+            }
+
+            var im = (nx - inix) / 2 + inix;
+
+            for (int i = inix; i < im; i++)
+                for (int j = iniy; j < ny; j++)
+                {
+                    var oldval = theRoom.roomImage.GetPixel(i, j);
+                    theRoom.roomImage.SetPixelToValue(i, j, theRoom.roomImage.GetPixel(nx - i - 1 + inix, j));
+                    theRoom.roomImage.SetPixelToValue(nx - i - 1 + inix, j, oldval);
+                }
+
+            // Now mirror the attributes too...
+            inix = inix / 6;
+            im = im / 6;
+            nx = nx / 6;
+
+            for (int i = inix; i < im; i++)
+                for (int j = iniy; j < ny; j++)
+                {
+                    Attribute temp = theRoom.roomImage.Attributes[i, j];
+                    theRoom.roomImage.Attributes[i, j] = theRoom.roomImage.Attributes[nx-i-1+inix,j];
+                    theRoom.roomImage.Attributes[nx-i-1+inix, j] = temp;
+                }
+            theRoom.roomImage.ResetAllAttributes();
+            HiresPictureBox.Invalidate();
+        }
+
+  
+
+    private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;

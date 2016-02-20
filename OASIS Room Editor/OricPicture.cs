@@ -30,7 +30,7 @@ namespace OASIS_Room_Editor
         public readonly Color[] ListColors = new Color[] { Color.Black, Color.Red, Color.GreenYellow, Color.Yellow, Color.DarkBlue, Color.Magenta, Color.Cyan, Color.White };
         public int nScans { get; private set; }
         public int nRows { get; private set; }
-        private Attribute[,] Attributes;
+        public Attribute[,] Attributes { get; set; }
         private bool[,] isPixelInk;
         public Bitmap theBitmap { get; private set; }
 
