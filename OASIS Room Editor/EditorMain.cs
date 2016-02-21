@@ -1772,9 +1772,117 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
         }
 
-  
+        private void inverseOddLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Inverse odd scans in selection
+            if (SelectionValid)
+            {
+                int send = (int)(SelectedRect.Right / 6);
+                if (SelectedRect.Right % 6 != 0)
+                    send++;
 
-    private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                for (int r = SelectedRect.Top; r < SelectedRect.Bottom; r++)
+                    for (int s = (int)(SelectedRect.Left / 6); s < send; s++)
+                    {
+                        if(r%2 == 1) 
+                            theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(s, r), s, r);
+                    }
+                needsSaving = true;
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }
+        }
+
+        private void inverseEvenLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Inverse odd scans in selection
+            if (SelectionValid)
+            {
+                int send = (int)(SelectedRect.Right / 6);
+                if (SelectedRect.Right % 6 != 0)
+                    send++;
+
+                undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                for (int r = SelectedRect.Top; r < SelectedRect.Bottom; r++)
+                    for (int s = (int)(SelectedRect.Left / 6); s < send; s++)
+                    {
+                        if (r % 2 == 0)
+                            theRoom.roomImage.SetInverse(!theRoom.roomImage.isInverse(s, r), s, r);
+                    }
+                needsSaving = true;
+                HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+            }
+
+
+        }
+
+        private void flipOddScansToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int inix, iniy, nx, ny;
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
+
+            if (SelectionValid)
+            {
+                // Invert only in the selected rectangle
+                inix = SelectedRect.Left;
+                iniy = SelectedRect.Top;
+                nx = inix + SelectedRect.Width;
+                ny = iniy + SelectedRect.Height;
+            }
+            else
+            {
+                // Invert all image
+                inix = 0; iniy = 0;
+                nx = theRoom.roomImage.nScans * 6;
+                ny = theRoom.roomImage.nRows;
+            }
+
+            for (int i = inix; i < nx; i++)
+                for (int j = iniy; j < ny; j++)
+                {
+                    if(j%2 == 1)
+                        theRoom.roomImage.SetPixelToValue(i, j, theRoom.roomImage.GetPixel(i, j) == 0 ? 1 : 0);
+                }
+            HiresPictureBox.Invalidate();
+
+        }
+
+        private void flipEvenScansToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int inix, iniy, nx, ny;
+
+            undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+            needsSaving = true;
+
+            if (SelectionValid)
+            {
+                // Invert only in the selected rectangle
+                inix = SelectedRect.Left;
+                iniy = SelectedRect.Top;
+                nx = inix + SelectedRect.Width;
+                ny = iniy + SelectedRect.Height;
+            }
+            else
+            {
+                // Invert all image
+                inix = 0; iniy = 0;
+                nx = theRoom.roomImage.nScans * 6;
+                ny = theRoom.roomImage.nRows;
+            }
+
+            for (int i = inix; i < nx; i++)
+                for (int j = iniy; j < ny; j++)
+                {
+                    if(j%2 ==0)
+                        theRoom.roomImage.SetPixelToValue(i, j, theRoom.roomImage.GetPixel(i, j) == 0 ? 1 : 0);
+                }
+            HiresPictureBox.Invalidate();
+
+        }
+
+        private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;

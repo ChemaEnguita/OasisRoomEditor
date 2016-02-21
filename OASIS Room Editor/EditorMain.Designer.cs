@@ -82,6 +82,14 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.invertBitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inverseAllScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.mirrorImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipBitsInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipOddScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipEvenScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inverseScansInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inverseOddLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inverseEvenLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertColumnsToTheRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atTherightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,8 +156,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.mirrorImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -505,10 +512,13 @@
             this.toolStripSeparator8,
             this.selectAllToolStripMenuItem,
             this.toolStripSeparator12,
-            this.invertBitsToolStripMenuItem,
-            this.inverseAllScansToolStripMenuItem,
+            this.mirrorImageToolStripMenuItem,
             this.toolStripSeparator11,
-            this.mirrorImageToolStripMenuItem});
+            this.invertBitsToolStripMenuItem,
+            this.flipBitsInToolStripMenuItem,
+            this.toolStripSeparator13,
+            this.inverseScansInToolStripMenuItem,
+            this.inverseAllScansToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -599,6 +609,73 @@
             this.inverseAllScansToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.inverseAllScansToolStripMenuItem.Text = "&Inverse all scans";
             this.inverseAllScansToolStripMenuItem.Click += new System.EventHandler(this.inverseAllScansToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(192, 6);
+            // 
+            // mirrorImageToolStripMenuItem
+            // 
+            this.mirrorImageToolStripMenuItem.Name = "mirrorImageToolStripMenuItem";
+            this.mirrorImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mirrorImageToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.mirrorImageToolStripMenuItem.Text = "Mirror image";
+            this.mirrorImageToolStripMenuItem.Click += new System.EventHandler(this.mirrorImageToolStripMenuItem_Click);
+            // 
+            // flipBitsInToolStripMenuItem
+            // 
+            this.flipBitsInToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.flipOddScansToolStripMenuItem,
+            this.flipEvenScansToolStripMenuItem});
+            this.flipBitsInToolStripMenuItem.Name = "flipBitsInToolStripMenuItem";
+            this.flipBitsInToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.flipBitsInToolStripMenuItem.Text = "F&lip bits in...";
+            // 
+            // flipOddScansToolStripMenuItem
+            // 
+            this.flipOddScansToolStripMenuItem.Name = "flipOddScansToolStripMenuItem";
+            this.flipOddScansToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.flipOddScansToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.flipOddScansToolStripMenuItem.Text = "Odd scans";
+            this.flipOddScansToolStripMenuItem.Click += new System.EventHandler(this.flipOddScansToolStripMenuItem_Click);
+            // 
+            // flipEvenScansToolStripMenuItem
+            // 
+            this.flipEvenScansToolStripMenuItem.Name = "flipEvenScansToolStripMenuItem";
+            this.flipEvenScansToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.F)));
+            this.flipEvenScansToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.flipEvenScansToolStripMenuItem.Text = "Even scans";
+            this.flipEvenScansToolStripMenuItem.Click += new System.EventHandler(this.flipEvenScansToolStripMenuItem_Click);
+            // 
+            // inverseScansInToolStripMenuItem
+            // 
+            this.inverseScansInToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inverseOddLinesToolStripMenuItem,
+            this.inverseEvenLinesToolStripMenuItem});
+            this.inverseScansInToolStripMenuItem.Name = "inverseScansInToolStripMenuItem";
+            this.inverseScansInToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.inverseScansInToolStripMenuItem.Text = "I&nverse scans in...";
+            // 
+            // inverseOddLinesToolStripMenuItem
+            // 
+            this.inverseOddLinesToolStripMenuItem.Name = "inverseOddLinesToolStripMenuItem";
+            this.inverseOddLinesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.inverseOddLinesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.inverseOddLinesToolStripMenuItem.Text = "Odd lines";
+            this.inverseOddLinesToolStripMenuItem.Click += new System.EventHandler(this.inverseOddLinesToolStripMenuItem_Click);
+            // 
+            // inverseEvenLinesToolStripMenuItem
+            // 
+            this.inverseEvenLinesToolStripMenuItem.Name = "inverseEvenLinesToolStripMenuItem";
+            this.inverseEvenLinesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.I)));
+            this.inverseEvenLinesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.inverseEvenLinesToolStripMenuItem.Text = "Even lines";
+            this.inverseEvenLinesToolStripMenuItem.Click += new System.EventHandler(this.inverseEvenLinesToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -1267,18 +1344,10 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // toolStripSeparator11
+            // toolStripSeparator13
             // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(192, 6);
-            // 
-            // mirrorImageToolStripMenuItem
-            // 
-            this.mirrorImageToolStripMenuItem.Name = "mirrorImageToolStripMenuItem";
-            this.mirrorImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mirrorImageToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.mirrorImageToolStripMenuItem.Text = "Mirror image";
-            this.mirrorImageToolStripMenuItem.Click += new System.EventHandler(this.mirrorImageToolStripMenuItem_Click);
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(192, 6);
             // 
             // EditorMain
             // 
@@ -1455,6 +1524,13 @@
         private System.Windows.Forms.ToolStripButton ButtonPasteWithAttrib;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem mirrorImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flipBitsInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flipOddScansToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flipEvenScansToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inverseScansInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inverseOddLinesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inverseEvenLinesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
     }
 }
 
