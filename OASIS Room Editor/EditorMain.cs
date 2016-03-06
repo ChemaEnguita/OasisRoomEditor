@@ -88,6 +88,9 @@ namespace OASIS_Room_Editor
         private PixelBox PastePictureBox = null;    // PictureBox used for pasting
         private bool MovingPastedPic = false;       // Is the user moving the pasted clip?
 
+        private bool DrawingWithPen = false;        // If the user is drawing with the pencil 
+        private bool DrawingInk = false;            // If the user is drawing with ink or paper color
+
         // For copying attributes (now only inverse codes)
 
         Attribute[,] copiedAttr;
@@ -1372,24 +1375,29 @@ namespace OASIS_Room_Editor
             // Act depending on the tool selected
             switch (CurrentTool)
             {
+                /*
                 case DrawTools.Pen:
-                    // Pen sets/clears pixel depending on mouse button
-                    // this is not confortable to use, and may need modification
-                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-                    needsSaving = true;
-
-                    if (mouseEventArgs.Button == MouseButtons.Right)
+                    if(!DrawingWithPen)
                     {
-                        theRoom.roomImage.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                    }
-                    else
-                    {
-                        theRoom.roomImage.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
-                    }
+                        // Pen sets/clears pixel depending on mouse button
+                        // this is not confortable to use, and may need modification
+                        undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                        needsSaving = true;
 
-                    
-                    HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                        if (mouseEventArgs.Button == MouseButtons.Right)
+                        {
+                            theRoom.roomImage.ClearPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                        }
+                        else
+                        {
+                            theRoom.roomImage.SetPixel((int)(mouseEventArgs.X / ZoomLevel), (int)(mouseEventArgs.Y / ZoomLevel));
+                        }
+
+
+                        HiresPictureBox.Invalidate(); // Trigger redraw of the control.
+                    }
                     break;
+                */
                 case DrawTools.Cursor:
                     // Cursor toggles pixels with left button or shows context menu with
                     // right button. Works quite nicely for basic editting
@@ -1448,6 +1456,9 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
+            if ((e.Button != MouseButtons.Left) && (e.Button != MouseButtons.Right))
+                return;
+
             // button down
             switch (CurrentTool)
             {
@@ -1461,9 +1472,18 @@ namespace OASIS_Room_Editor
                     HiresPictureBox.Capture = true;
                     SelectingPixels = true;
                  break;
+                case DrawTools.Pen:
+                    // If the tool is the pencil, take note that we
+                    // want to draw, and if we are using ink or paper
+                    DrawingWithPen = true;
+                    if (e.Button == MouseButtons.Left)
+                        DrawingInk = true;
+                    else
+                        DrawingInk = false;
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                    needsSaving = true;
+                    break;
             }
-
-
         }
 
         private void HiresPictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -1504,6 +1524,14 @@ namespace OASIS_Room_Editor
                 toolStripScanLabel.Text = "Pixel: (" + x + "," + y + ") Scan: " + x / 6 + " Tile: (" + x / 6 + "," + y / 8 + ")";
             }
 
+            if(DrawingWithPen)
+            {
+                if( (x>0)&&(x<(theRoom.roomImage.nScans*6)) && (y>0) && (y<theRoom.roomImage.nRows))
+                {
+                    theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
+                    HiresPictureBox.Invalidate();
+                }
+            }
             StatusBar.Update();
         }
 
@@ -1545,6 +1573,7 @@ namespace OASIS_Room_Editor
             // Create a new room
             theRoom = new OASISRoom(dialogNewRoom.roomName, dialogNewRoom.roomID, dialogNewRoom.roomSize);
             needsSaving = true;
+            roomFileName = "";
 
             // No walkbox is selected
             SelectedWalkbox = -1;
@@ -1887,7 +1916,21 @@ namespace OASIS_Room_Editor
             var mouseEventArgs = e as MouseEventArgs;
             if (mouseEventArgs == null) return;
 
-            // Button up... If we were selecting an area, it is done
+            // Button up... 
+
+            if (DrawingWithPen)
+            {
+                var x = (int)(e.X / ZoomLevel);
+                var y = (int)(e.Y / ZoomLevel);
+                if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
+                {
+                    theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
+                    HiresPictureBox.Invalidate();
+                }
+                DrawingWithPen = false;
+            }
+
+            //If we were selecting an area, it is done
             if (SelectingPixels)
             {
                 HiresPictureBox.Capture = false;
