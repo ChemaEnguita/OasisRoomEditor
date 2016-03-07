@@ -75,9 +75,9 @@ namespace OASIS_Room_Editor
         private Color MiniGridColor= Color.OrangeRed;   // Default color for the mini grid
         private bool WalkboxEditMode = false;           // Editing walkboxes?
         private int SelectedWalkbox = -1;               // Selected walkbox in editing mode. -1 if none
-        
+
         // Possible drawing tools and current one selected from the toolbar
-        enum DrawTools {Cursor, Pen, Line, SelectPixels, SelectAttributes}    
+        enum DrawTools { Cursor, Pen, Line, Rect, Ellipse, SelectPixels, SelectAttributes }
         private DrawTools CurrentTool = DrawTools.Cursor;
 
         Point WhereClicked;                         // Position the user clicked on the picture
@@ -93,6 +93,8 @@ namespace OASIS_Room_Editor
 
         private Bitmap tmpCanvas;                   // Temporal bitmap for drawing lines, circles,...
         private bool DrawingLine = false;           // If the user is drawing a line
+        private bool DrawingRect = false;           // If the user is drawing a rectangle
+        private bool DrawingEllipse = false;        // If the user is drawing an Ellipse
 
 
         // For copying attributes (now only inverse codes)
@@ -144,7 +146,7 @@ namespace OASIS_Room_Editor
                 return;
 
             // If drawing a line, draw it:
-            if (DrawingLine)
+            if (DrawingLine || DrawingRect || DrawingEllipse)
             {
                 /* We create a canvas with the image, so we can draw on it without
                 really modificating the original picture */
@@ -152,7 +154,13 @@ namespace OASIS_Room_Editor
                 using (var p = new Pen(Color.LightGray, 1 ))
                 using (var graphics = Graphics.FromImage(tmpCanvas))
                 {
-                    graphics.DrawLine(p, startDrag.X/ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X/ZoomLevel, endDrag.Y/ZoomLevel);
+                    if (DrawingLine)
+                        graphics.DrawLine(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X / ZoomLevel, endDrag.Y / ZoomLevel);
+                    if (DrawingRect)
+                        graphics.DrawRectangle(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, (endDrag.X - startDrag.X) / ZoomLevel, (endDrag.Y - startDrag.Y) / ZoomLevel);
+                    if (DrawingEllipse)
+                        graphics.DrawEllipse(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, (endDrag.X - startDrag.X) / ZoomLevel, (endDrag.Y - startDrag.Y) / ZoomLevel);
+
                     e.Graphics.DrawImage(tmpCanvas, 0, 0, tmpCanvas.Width * ZoomLevel, tmpCanvas.Height * ZoomLevel);
                 }
 
@@ -171,7 +179,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel > 4)
                 DrawAttribLabels(e.Graphics);
 
-              // If there is a valid selection, draw the selection rectangle
+            // If there is a valid selection, draw the selection rectangle
             // This handles when the user dragged to select a picture area
             if (SelectionValid)
             {
@@ -506,6 +514,19 @@ namespace OASIS_Room_Editor
             CurrentTool = DrawTools.Line;
             HiresPictureBox.Cursor = Cursors.Cross; /* new Cursor(GetType(), "PtSelect.cur");*/
         }
+
+        private void ButtonRect_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Rect;
+            HiresPictureBox.Cursor = Cursors.Cross;
+        }
+
+        private void ButtonEllipse_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Ellipse;
+            HiresPictureBox.Cursor = Cursors.Cross;
+        }
+
 
         private void ButtonSelection_Click(object sender, EventArgs e)
         {
@@ -1487,13 +1508,25 @@ namespace OASIS_Room_Editor
             switch (CurrentTool)
             {
                 case DrawTools.Line:
+                case DrawTools.Ellipse:
+                case DrawTools.Rect:
                     // Drawing lines
                     startDrag = new Point(e.X, e.Y);
                     endDrag = new Point(e.X, e.Y);
-                    //WhereClicked.X = (int)(e.X / ZoomLevel);
-                    //WhereClicked.Y = (int)(e.Y / ZoomLevel);
                     HiresPictureBox.Capture = true;
-                    DrawingLine = true;
+                    switch(CurrentTool)
+                    {
+                        case DrawTools.Line:
+                            DrawingLine = true;
+                            break;
+
+                        case DrawTools.Rect:
+                            DrawingRect = true;
+                            break;
+                        case DrawTools.Ellipse:
+                            DrawingEllipse = true;
+                            break;
+                    }
                     if (e.Button == MouseButtons.Left)
                         DrawingInk = true;
                     else
@@ -1578,19 +1611,9 @@ namespace OASIS_Room_Editor
                 }
             }
 
-           
-            if (DrawingLine)
+
+            if (DrawingLine || DrawingRect || DrawingEllipse)
             {
-                /*
-                using (var g = Graphics.FromImage(HiresPictureBox.Image))
-                {
-                    Point dst = ((Control)sender).PointToScreen(endDrag);
-                    Point org = ((Control)sender).PointToScreen(startDrag);
-                    ControlPaint.DrawReversibleLine(org,dst,this.BackColor);
-                    endDrag = new Point(e.X, e.Y);
-                    dst = ((Control)sender).PointToScreen(endDrag);
-                    ControlPaint.DrawReversibleLine(org, dst, this.BackColor);
-                }*/
                 endDrag = new Point(e.X, e.Y);
                 HiresPictureBox.Invalidate();
             }
@@ -1975,7 +1998,7 @@ namespace OASIS_Room_Editor
 
         }
 
-
+ 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
@@ -2051,10 +2074,8 @@ namespace OASIS_Room_Editor
                 HiresPictureBox.Invalidate();
             }
             
-            if(DrawingLine)
+            if(DrawingLine || DrawingRect || DrawingEllipse)
             {
-                DrawingLine = false;
-
                 bool oops=false;
                 if (!oops)
                 {
@@ -2069,9 +2090,17 @@ namespace OASIS_Room_Editor
                     using (var p = new Pen(Color.LightGray, 1 /*ZoomLevel*/))
                     using (var graphics = Graphics.FromImage(tmpCanvas))
                     {
-                        graphics.DrawLine(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X / ZoomLevel, endDrag.Y / ZoomLevel);
+                        if(DrawingLine)
+                            graphics.DrawLine(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X / ZoomLevel, endDrag.Y / ZoomLevel);
+                        if (DrawingRect)
+                            graphics.DrawRectangle(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, (endDrag.X-startDrag.X) / ZoomLevel, (endDrag.Y-startDrag.Y) / ZoomLevel);
+                        if (DrawingEllipse)
+                            graphics.DrawEllipse(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, (endDrag.X - startDrag.X) / ZoomLevel, (endDrag.Y - startDrag.Y) / ZoomLevel);
                     }
 
+                    DrawingLine = false;
+                    DrawingRect = false;
+                    DrawingEllipse = false;
 
                     int val = DrawingInk ? 1 : 0;
                     for (int i = 0; i < tmpCanvas.Width; i++)

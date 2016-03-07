@@ -18,7 +18,7 @@ namespace OASIS_Room_Editor
             boxColumn.Text = "0";
             boxRowStart.Text = "0";
             boxRowEnd.Text = "199";
-            comboBoxAttr1.SelectedIndex = 2;
+            comboBoxAttr1.SelectedIndex = 3;
             comboBoxAttr2.SelectedIndex = 6;
             checkInverse1.Checked = false;
             checkInverse2.Checked = false;

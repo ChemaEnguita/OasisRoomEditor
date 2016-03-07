@@ -274,6 +274,21 @@
         YBgaAmVSAzAwAAA3K1KcWkGarwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="ButtonRect.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA+SURBVDhPY6AKSElJ+b9582aSMVQ7xAAnJyeSMFYDQDQx
+        GKcBKII4wKgBI8MAQhivAaRgDANIxSgGkA8YGABbpTSDz5TDrwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="ButtonEllipse.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABWSURBVDhPY6AJ2Lx58390DJUiDECKnZycMDBRhqSkpIAV
+        g2h0TNAQQorwyhNlAxDgVDdqAAQQMoQoS5AVoWNiXAgGMEPQMUgcqoQwAClGx1CpQQcYGACplsTh+LfX
+        pAAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="ButtonSelection.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
