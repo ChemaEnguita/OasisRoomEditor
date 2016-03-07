@@ -77,7 +77,7 @@ namespace OASIS_Room_Editor
         private int SelectedWalkbox = -1;               // Selected walkbox in editing mode. -1 if none
         
         // Possible drawing tools and current one selected from the toolbar
-        enum DrawTools {Cursor, Pen, SelectPixels, SelectAttributes}    
+        enum DrawTools {Cursor, Pen, Line, SelectPixels, SelectAttributes}    
         private DrawTools CurrentTool = DrawTools.Cursor;
 
         Point WhereClicked;                         // Position the user clicked on the picture
@@ -90,6 +90,10 @@ namespace OASIS_Room_Editor
 
         private bool DrawingWithPen = false;        // If the user is drawing with the pencil 
         private bool DrawingInk = false;            // If the user is drawing with ink or paper color
+
+        private Bitmap tmpCanvas;                   // Temporal bitmap for drawing lines, circles,...
+        private bool DrawingLine = false;           // If the user is drawing a line
+
 
         // For copying attributes (now only inverse codes)
 
@@ -139,6 +143,21 @@ namespace OASIS_Room_Editor
             if (theRoom == null)
                 return;
 
+            // If drawing a line, draw it:
+            if (DrawingLine)
+            {
+                /* We create a canvas with the image, so we can draw on it without
+                really modificating the original picture */
+                tmpCanvas = new Bitmap(HiresPictureBox.Image);
+                using (var p = new Pen(Color.LightGray, 1 ))
+                using (var graphics = Graphics.FromImage(tmpCanvas))
+                {
+                    graphics.DrawLine(p, startDrag.X/ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X/ZoomLevel, endDrag.Y/ZoomLevel);
+                    e.Graphics.DrawImage(tmpCanvas, 0, 0, tmpCanvas.Width * ZoomLevel, tmpCanvas.Height * ZoomLevel);
+                }
+
+            }
+
             // If the grid is showing, just draw it.
             // If zoom level is beyond 8 also draw the mini grid
             if (ShowGrid)
@@ -152,7 +171,7 @@ namespace OASIS_Room_Editor
             if (ZoomLevel > 4)
                 DrawAttribLabels(e.Graphics);
 
-            // If there is a valid selection, draw the selection rectangle
+              // If there is a valid selection, draw the selection rectangle
             // This handles when the user dragged to select a picture area
             if (SelectionValid)
             {
@@ -479,9 +498,14 @@ namespace OASIS_Room_Editor
         private void ButtonPen_Click(object sender, EventArgs e)
         {
             CurrentTool = DrawTools.Pen;
-            HiresPictureBox.Cursor = Cursors.Hand;
+            HiresPictureBox.Cursor = new Cursor(GetType(), "MyPen.cur");
         }
 
+        private void ButtonLine_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.Line;
+            HiresPictureBox.Cursor = Cursors.Cross; /* new Cursor(GetType(), "PtSelect.cur");*/
+        }
 
         private void ButtonSelection_Click(object sender, EventArgs e)
         {
@@ -1462,13 +1486,26 @@ namespace OASIS_Room_Editor
             // button down
             switch (CurrentTool)
             {
+                case DrawTools.Line:
+                    // Drawing lines
+                    startDrag = new Point(e.X, e.Y);
+                    endDrag = new Point(e.X, e.Y);
+                    //WhereClicked.X = (int)(e.X / ZoomLevel);
+                    //WhereClicked.Y = (int)(e.Y / ZoomLevel);
+                    HiresPictureBox.Capture = true;
+                    DrawingLine = true;
+                    if (e.Button == MouseButtons.Left)
+                        DrawingInk = true;
+                    else
+                        DrawingInk = false;
+                    break;
                 case DrawTools.SelectPixels:
                     // If the tool is the selection, take note of 
                     // everything and capture the mouse
                     startDrag = new Point(e.X,e.Y);
                     endDrag = new Point(e.X, e.Y);
-                    WhereClicked.X = (int)(mouseEventArgs.X / ZoomLevel);
-                    WhereClicked.Y = (int)(mouseEventArgs.Y / ZoomLevel);
+                    WhereClicked.X = (int)(e.X / ZoomLevel);
+                    WhereClicked.Y = (int)(e.Y / ZoomLevel);
                     HiresPictureBox.Capture = true;
                     SelectingPixels = true;
                  break;
@@ -1480,7 +1517,15 @@ namespace OASIS_Room_Editor
                         DrawingInk = true;
                     else
                         DrawingInk = false;
+
                     undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                    var x = (int)(e.X / ZoomLevel);
+                    var y = (int)(e.Y / ZoomLevel);
+                    if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
+                    {
+                        theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
+                        HiresPictureBox.Invalidate();
+                    }
                     needsSaving = true;
                     break;
             }
@@ -1532,6 +1577,25 @@ namespace OASIS_Room_Editor
                     HiresPictureBox.Invalidate();
                 }
             }
+
+           
+            if (DrawingLine)
+            {
+                /*
+                using (var g = Graphics.FromImage(HiresPictureBox.Image))
+                {
+                    Point dst = ((Control)sender).PointToScreen(endDrag);
+                    Point org = ((Control)sender).PointToScreen(startDrag);
+                    ControlPaint.DrawReversibleLine(org,dst,this.BackColor);
+                    endDrag = new Point(e.X, e.Y);
+                    dst = ((Control)sender).PointToScreen(endDrag);
+                    ControlPaint.DrawReversibleLine(org, dst, this.BackColor);
+                }*/
+                endDrag = new Point(e.X, e.Y);
+                HiresPictureBox.Invalidate();
+            }
+            
+
             StatusBar.Update();
         }
 
@@ -1911,6 +1975,7 @@ namespace OASIS_Room_Editor
 
         }
 
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
@@ -1920,13 +1985,6 @@ namespace OASIS_Room_Editor
 
             if (DrawingWithPen)
             {
-                var x = (int)(e.X / ZoomLevel);
-                var y = (int)(e.Y / ZoomLevel);
-                if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
-                {
-                    theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
-                    HiresPictureBox.Invalidate();
-                }
                 DrawingWithPen = false;
             }
 
@@ -1992,6 +2050,46 @@ namespace OASIS_Room_Editor
                 // Trigger redraw of picture
                 HiresPictureBox.Invalidate();
             }
+            
+            if(DrawingLine)
+            {
+                DrawingLine = false;
+
+                bool oops=false;
+                if (!oops)
+                {
+                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint(true));
+                    needsSaving = true;
+                    /* Draw the pixels over the Oric image */
+                    /* For this we will create a new canvas over which we will only
+                    paint the line. Then we iterate through it checking for pixels set and draw
+                    them (as 1s or 0s, depending on the DrawingInk variable. */
+
+                    tmpCanvas = new Bitmap(HiresPictureBox.Image.Width, HiresPictureBox.Image.Height);
+                    using (var p = new Pen(Color.LightGray, 1 /*ZoomLevel*/))
+                    using (var graphics = Graphics.FromImage(tmpCanvas))
+                    {
+                        graphics.DrawLine(p, startDrag.X / ZoomLevel, startDrag.Y / ZoomLevel, endDrag.X / ZoomLevel, endDrag.Y / ZoomLevel);
+                    }
+
+
+                    int val = DrawingInk ? 1 : 0;
+                    for (int i = 0; i < tmpCanvas.Width; i++)
+                        for (int j = 0; j < tmpCanvas.Height; j++)
+                        {
+                            if(tmpCanvas.GetPixel(i, j).GetBrightness() > 0)
+                            {
+                                var p = new Point(i, j);
+                                if ((p.X >= 0) && (p.Y >= 0))
+                                    theRoom.roomImage.SetPixelToValue(p, val);
+                            }
+                        }
+
+                    HiresPictureBox.Invalidate();
+                }
+
+            }
+
 
         }
 

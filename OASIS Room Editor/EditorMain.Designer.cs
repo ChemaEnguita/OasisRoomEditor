@@ -87,10 +87,10 @@
             this.flipOddScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flipEvenScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.inverseAllScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inverseScansInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inverseOddLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inverseEvenLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.inverseAllScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertColumnsToTheRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atTherightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,6 +157,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ButtonLine = new System.Windows.Forms.ToolStripButton();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -647,6 +648,14 @@
             this.toolStripSeparator13.Name = "toolStripSeparator13";
             this.toolStripSeparator13.Size = new System.Drawing.Size(192, 6);
             // 
+            // inverseAllScansToolStripMenuItem
+            // 
+            this.inverseAllScansToolStripMenuItem.Name = "inverseAllScansToolStripMenuItem";
+            this.inverseAllScansToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.inverseAllScansToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.inverseAllScansToolStripMenuItem.Text = "&Inverse all scans";
+            this.inverseAllScansToolStripMenuItem.Click += new System.EventHandler(this.inverseAllScansToolStripMenuItem_Click);
+            // 
             // inverseScansInToolStripMenuItem
             // 
             this.inverseScansInToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -673,14 +682,6 @@
             this.inverseEvenLinesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.inverseEvenLinesToolStripMenuItem.Text = "Even lines";
             this.inverseEvenLinesToolStripMenuItem.Click += new System.EventHandler(this.inverseEvenLinesToolStripMenuItem_Click);
-            // 
-            // inverseAllScansToolStripMenuItem
-            // 
-            this.inverseAllScansToolStripMenuItem.Name = "inverseAllScansToolStripMenuItem";
-            this.inverseAllScansToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.inverseAllScansToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.inverseAllScansToolStripMenuItem.Text = "&Inverse all scans";
-            this.inverseAllScansToolStripMenuItem.Click += new System.EventHandler(this.inverseAllScansToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -732,7 +733,7 @@
             // 
             this.sectionInTilesToolStripMenuItem.Name = "sectionInTilesToolStripMenuItem";
             this.sectionInTilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.sectionInTilesToolStripMenuItem.Text = "&Section in tiles...";
+            this.sectionInTilesToolStripMenuItem.Text = "&Export as Resource...";
             this.sectionInTilesToolStripMenuItem.Click += new System.EventHandler(this.sectionInTilesToolStripMenuItem_Click);
             // 
             // MainMenuTools
@@ -850,6 +851,7 @@
             this.DrawingTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ButtonCursor,
             this.ButtonPen,
+            this.ButtonLine,
             this.ButtonSelection,
             this.toolStripSeparator4,
             this.ButtonZoomIn,
@@ -862,7 +864,7 @@
             this.DrawingTools.Location = new System.Drawing.Point(0, 18);
             this.DrawingTools.Name = "DrawingTools";
             this.DrawingTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.DrawingTools.Size = new System.Drawing.Size(24, 213);
+            this.DrawingTools.Size = new System.Drawing.Size(24, 236);
             this.DrawingTools.TabIndex = 2;
             this.DrawingTools.Text = "Drawing Tools";
             // 
@@ -882,7 +884,7 @@
             this.ButtonPen.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPen.Image")));
             this.ButtonPen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonPen.Name = "ButtonPen";
-            this.ButtonPen.Size = new System.Drawing.Size(22, 20);
+            this.ButtonPen.Size = new System.Drawing.Size(30, 20);
             this.ButtonPen.Text = "Pen";
             this.ButtonPen.Click += new System.EventHandler(this.ButtonPen_Click);
             // 
@@ -1349,6 +1351,17 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // ButtonLine
+            // 
+            this.ButtonLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonLine.Image = ((System.Drawing.Image)(resources.GetObject("ButtonLine.Image")));
+            this.ButtonLine.ImageTransparentColor = System.Drawing.Color.White;
+            this.ButtonLine.Name = "ButtonLine";
+            this.ButtonLine.Size = new System.Drawing.Size(30, 20);
+            this.ButtonLine.Text = "Line";
+            this.ButtonLine.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.ButtonLine.Click += new System.EventHandler(this.ButtonLine_Click);
+            // 
             // EditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1531,6 +1544,7 @@
         private System.Windows.Forms.ToolStripMenuItem inverseOddLinesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inverseEvenLinesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripButton ButtonLine;
     }
 }
 

@@ -267,6 +267,13 @@
         HcIH0LXEEDKG79B9UnoBZqu/zU4L4CIAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="ButtonLine.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAsSURBVDhPYxg8YPPmzf+hTNJBSkrKfycnp/+jhiDAqCGY
+        YBgaAmVSAzAwAAA3K1KcWkGarwAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="ButtonSelection.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
