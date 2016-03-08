@@ -328,29 +328,33 @@ namespace OASIS_Room_Editor
         // Set inverse
         public void SetInverse(bool value, int scan, int line)
         {
-            // Set the scan as Inverse
-            Attributes[scan, line].isInverse = value;
+            try {
+                // Set the scan as Inverse
+                Attributes[scan, line].isInverse = value;
 
-            // Repaint the pixels
-            var cInk = Attributes[scan, line].CurrentInk;
-            var cPaper = Attributes[scan, line].CurrentPaper;
+                // Repaint the pixels
+                var cInk = Attributes[scan, line].CurrentInk;
+                var cPaper = Attributes[scan, line].CurrentPaper;
 
-            if (value)
-            {
-                cInk = GetInverse(cInk);
-                cPaper = GetInverse(cPaper);
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                // Do the actual drawing
-                Color brushColor = ListColors[isPixelInk[scan * 6 + i, line] ? cInk : cPaper];
-                using (Brush b = new SolidBrush(brushColor))
-                using (var g = Graphics.FromImage(theBitmap))
+                if (value)
                 {
-                    g.FillRectangle(b, scan * 6 + i, line, 1, 1);
+                    cInk = GetInverse(cInk);
+                    cPaper = GetInverse(cPaper);
+                }
+
+                for (int i = 0; i < 6; i++)
+                {
+                    // Do the actual drawing
+                    Color brushColor = ListColors[isPixelInk[scan * 6 + i, line] ? cInk : cPaper];
+                    using (Brush b = new SolidBrush(brushColor))
+                    using (var g = Graphics.FromImage(theBitmap))
+                    {
+                        g.FillRectangle(b, scan * 6 + i, line, 1, 1);
+                    }
                 }
             }
+            catch(Exception e)
+            { }
         }
 
         // Remove the attribute 

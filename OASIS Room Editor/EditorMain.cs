@@ -728,8 +728,8 @@ namespace OASIS_Room_Editor
 
                 if(attrValid && PasteWithAttrib)
                 {
-                    for (int i = 0; i < bmp.Width/6; i++)
-                        for (int j = 0; j < bmp.Height; j++)
+                    for (int i = 0; i < bmp.Width/6-1; i++)
+                        for (int j = 0; j < bmp.Height-1; j++)
                         {
                             if ((i + ini_x / 6) >= 0 && (j + ini_y) >= 0)
                             {
