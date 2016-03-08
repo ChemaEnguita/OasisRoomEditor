@@ -726,10 +726,10 @@ namespace OASIS_Room_Editor
                             theRoom.roomImage.SetPixelToValue(p, val);
                     }
 
-                if(attrValid && PasteWithAttrib)
+                if(attrValid && PasteWithAttrib && copiedAttr.GetLength(0)== bmp.Width / 6 && copiedAttr.GetLength(1)==bmp.Height)
                 {
-                    for (int i = 0; i < bmp.Width/6-1; i++)
-                        for (int j = 0; j < bmp.Height-1; j++)
+                    for (int i = 0; i < bmp.Width/6; i++)
+                        for (int j = 0; j < bmp.Height; j++)
                         {
                             if ((i + ini_x / 6) >= 0 && (j + ini_y) >= 0)
                             {
