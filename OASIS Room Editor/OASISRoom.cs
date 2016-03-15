@@ -135,19 +135,19 @@ namespace OASIS_Room_Editor
         }
 
 
-        private TileSectioner SectionInTiles(bool trim=true)
+        private TileSectioner SectionInTiles(bool trim1=true, bool trim2=true)
         {
             var ts = new TileSectioner();
 
             var p = roomImage.EncodeAsHires();
-            ts.doSection(p, trim);
+            ts.doSection(p, trim1, trim2);
 
             return ts;
         }
 
-        public void ExportAsResource(string fileName, bool trim2Cols=true, bool includePalette=false)
+        public void ExportAsResource(string fileName, bool trimCol1=true, bool trimCol2=true, bool includePalette=false)
         {
-            TileSectioner ts = SectionInTiles(trim2Cols);
+            TileSectioner ts = SectionInTiles(trimCol1, trimCol2);
 
             System.IO.StreamWriter rf = new System.IO.StreamWriter(fileName); // add 2nd param true so it can append to a file
 
@@ -287,7 +287,11 @@ namespace OASIS_Room_Editor
             int flags;
             WalkBoxManager.WalkBoxProperties p;
             Rectangle wbr;
-            
+            int skip = 0;
+
+            if (trimCol1) skip++;
+            if (trimCol2) skip++;
+
             for(int i=0; i < walkBoxes.GetNumBoxes(); i++)
             {
                 p= walkBoxes.GetProperties(i);
@@ -298,10 +302,12 @@ namespace OASIS_Room_Editor
                 flags |= p.zPlane & 0x7;
 
                 wbr = walkBoxes.GetBox(i);
-                if(trim2Cols)
-                    rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left / 6 - 2, (wbr.Right - 1) / 6 - 2, wbr.Top / 8, (wbr.Bottom - 1) / 8, flags);
-                else
-                    rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left/6, (wbr.Right-1)/6, wbr.Top/8, (wbr.Bottom-1)/8, flags);
+                /* if(trim2Cols)
+                     rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left / 6 - 2, (wbr.Right - 1) / 6 - 2, wbr.Top / 8, (wbr.Bottom - 1) / 8, flags);
+                 else
+                     rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left/6, (wbr.Right-1)/6, wbr.Top/8, (wbr.Bottom-1)/8, flags);
+                */
+                rf.WriteLine("\t.byt {0:D3}, {1:D3}, {2:D3}, {3:D3}, ${4:x2}", wbr.Left / 6 - skip, (wbr.Right - 1) / 6 - skip, wbr.Top / 8, (wbr.Bottom - 1) / 8, flags);
             }
 
             // Now the walk matrix
@@ -327,7 +333,25 @@ namespace OASIS_Room_Editor
             - Palette information 17*8*2 bytes
             */
 
-            rf.WriteLine("\r\nres_end\r\n.)");
+            if(includePalette)
+            {
+                rf.WriteLine("; Palette Information is stored as one column only for now...");
+                rf.WriteLine("; Palette");
+                rf.WriteLine("palette");
+
+                for (int i = 0; i < 17 * 8; i++)
+                {
+                    if (i % 16 == 0)
+                        s += ".byt ";
+                    s += roomImage.GetScanInkCode(0, i);
+                    if (i % 16 != 15)
+                        s += ", ";
+                    else
+                        s += "\r\n";
+                }
+                rf.WriteLine(s);
+            }
+            rf.WriteLine("\r\n\r\nres_end\r\n.)");
             rf.Close();
         }
         #endregion

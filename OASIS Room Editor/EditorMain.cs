@@ -1143,21 +1143,10 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
         }
 
-        private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showWalkMatrixToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*var ts = new TileSectioner();
-
-            var p = theRoom.roomImage.EncodeAsHires();
-            ts.doSection(p, checkBoxPalette.Checked);
-            // Tell the user the number of tiles
-            String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
-            s += "\nNumber of tiles: " + ts.tileSet.Count;
-            s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
-            MessageBox.Show(s, "Room picture information");*/
-
-            /*
             theRoom.walkBoxes.CreateWalkMatrix();
-            String s="";
+            String s = "";
             int n = theRoom.walkBoxes.walkMatrix.GetLength(0);
             for (int i = 0; i < n; i++)
             {
@@ -1169,14 +1158,25 @@ namespace OASIS_Room_Editor
             }
 
             MessageBox.Show(s, "Walk matrix");
-            */
+
+        }
+        private void sectionInTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool b1 = checkBoxPalette.Checked;
+            bool b2 = checkBoxPalette2.Checked;
+
+            if(b2 && !b1)
+            {
+                MessageBox.Show("Cannot set second column only as palette. Setting the first two columns.", "Warning");
+                b1 = true; b2 = true;
+            }
 
             saveFileDialog1.Filter = "text files|*.s; *.txt; *.h";
             saveFileDialog1.Title = "Select a file";
             saveFileDialog1.FileName = "*.txt";
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                theRoom.ExportAsResource(saveFileDialog1.FileName);
+                theRoom.ExportAsResource(saveFileDialog1.FileName, b1, b2, checkBoxExportToRes.Checked);
 
         }
 
@@ -1712,11 +1712,20 @@ namespace OASIS_Room_Editor
             var ts = new TileSectioner();
 
             var p = theRoom.roomImage.EncodeAsHires();
-            ts.doSection(p, checkBoxPalette.Checked);
+
+            bool b1 = checkBoxPalette.Checked;
+            bool b2 = checkBoxPalette2.Checked;
+
+            if (b2 && !b1)
+            {
+                MessageBox.Show("Cannot set second column only as palette. Setting the first two columns.", "Warning");
+                b1 = true; b2 = true;
+            }
+            ts.doSection(p, b1, b2);
             // Tell the user the number of tiles
             String s = "Size of room: " + ts.tileMap.GetLength(0) + "x" + ts.tileMap.GetLength(1);
             s += "\nNumber of tiles: " + ts.tileSet.Count;
-            s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8) + " bytes";
+            s += "\nMemory usage: " + (ts.tileMap.GetLength(0) * ts.tileMap.GetLength(1) + ts.tileSet.Count * 8 + (checkBoxExportToRes.Checked?17*8:0) )+ " bytes";
             labelRoomInfo.Text = s;
 
         }
@@ -1998,7 +2007,8 @@ namespace OASIS_Room_Editor
 
         }
 
- 
+
+
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;

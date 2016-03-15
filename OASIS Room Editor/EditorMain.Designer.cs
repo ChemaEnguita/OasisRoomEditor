@@ -113,6 +113,8 @@
             this.ButtonCursor = new System.Windows.Forms.ToolStripButton();
             this.ButtonPen = new System.Windows.Forms.ToolStripButton();
             this.ButtonLine = new System.Windows.Forms.ToolStripButton();
+            this.ButtonRect = new System.Windows.Forms.ToolStripButton();
+            this.ButtonEllipse = new System.Windows.Forms.ToolStripButton();
             this.ButtonSelection = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ButtonZoomIn = new System.Windows.Forms.ToolStripButton();
@@ -158,8 +160,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.ButtonRect = new System.Windows.Forms.ToolStripButton();
-            this.ButtonEllipse = new System.Windows.Forms.ToolStripButton();
+            this.checkBoxPalette2 = new System.Windows.Forms.CheckBox();
+            this.showWalkMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBoxExportToRes = new System.Windows.Forms.CheckBox();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -182,6 +186,7 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -691,6 +696,7 @@
             this.insertColumnsToTheRightToolStripMenuItem,
             this.aICHelperToolStripMenuItem,
             this.toolStripSeparator9,
+            this.showWalkMatrixToolStripMenuItem,
             this.sectionInTilesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
@@ -708,15 +714,15 @@
             // atTherightToolStripMenuItem
             // 
             this.atTherightToolStripMenuItem.Name = "atTherightToolStripMenuItem";
-            this.atTherightToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.atTherightToolStripMenuItem.Text = "At the &right";
+            this.atTherightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.atTherightToolStripMenuItem.Text = "On the &right";
             this.atTherightToolStripMenuItem.Click += new System.EventHandler(this.atTherightToolStripMenuItem_Click);
             // 
             // atTheleftToolStripMenuItem
             // 
             this.atTheleftToolStripMenuItem.Name = "atTheleftToolStripMenuItem";
-            this.atTheleftToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.atTheleftToolStripMenuItem.Text = "At the &left";
+            this.atTheleftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.atTheleftToolStripMenuItem.Text = "On the &left";
             this.atTheleftToolStripMenuItem.Click += new System.EventHandler(this.atTheleftToolStripMenuItem_Click);
             // 
             // aICHelperToolStripMenuItem
@@ -878,7 +884,7 @@
             this.ButtonCursor.Image = ((System.Drawing.Image)(resources.GetObject("ButtonCursor.Image")));
             this.ButtonCursor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonCursor.Name = "ButtonCursor";
-            this.ButtonCursor.Size = new System.Drawing.Size(30, 20);
+            this.ButtonCursor.Size = new System.Drawing.Size(22, 20);
             this.ButtonCursor.Text = "Cursor";
             this.ButtonCursor.Click += new System.EventHandler(this.ButtonCursor_Click);
             // 
@@ -888,7 +894,7 @@
             this.ButtonPen.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPen.Image")));
             this.ButtonPen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonPen.Name = "ButtonPen";
-            this.ButtonPen.Size = new System.Drawing.Size(30, 20);
+            this.ButtonPen.Size = new System.Drawing.Size(22, 20);
             this.ButtonPen.Text = "Pen";
             this.ButtonPen.Click += new System.EventHandler(this.ButtonPen_Click);
             // 
@@ -898,10 +904,30 @@
             this.ButtonLine.Image = ((System.Drawing.Image)(resources.GetObject("ButtonLine.Image")));
             this.ButtonLine.ImageTransparentColor = System.Drawing.Color.White;
             this.ButtonLine.Name = "ButtonLine";
-            this.ButtonLine.Size = new System.Drawing.Size(30, 20);
+            this.ButtonLine.Size = new System.Drawing.Size(22, 20);
             this.ButtonLine.Text = "Line";
             this.ButtonLine.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.ButtonLine.Click += new System.EventHandler(this.ButtonLine_Click);
+            // 
+            // ButtonRect
+            // 
+            this.ButtonRect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonRect.Image = ((System.Drawing.Image)(resources.GetObject("ButtonRect.Image")));
+            this.ButtonRect.ImageTransparentColor = System.Drawing.Color.White;
+            this.ButtonRect.Name = "ButtonRect";
+            this.ButtonRect.Size = new System.Drawing.Size(22, 20);
+            this.ButtonRect.Text = "Rectangle";
+            this.ButtonRect.Click += new System.EventHandler(this.ButtonRect_Click);
+            // 
+            // ButtonEllipse
+            // 
+            this.ButtonEllipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonEllipse.Image = ((System.Drawing.Image)(resources.GetObject("ButtonEllipse.Image")));
+            this.ButtonEllipse.ImageTransparentColor = System.Drawing.Color.White;
+            this.ButtonEllipse.Name = "ButtonEllipse";
+            this.ButtonEllipse.Size = new System.Drawing.Size(22, 20);
+            this.ButtonEllipse.Text = "Ellipse";
+            this.ButtonEllipse.Click += new System.EventHandler(this.ButtonEllipse_Click);
             // 
             // ButtonSelection
             // 
@@ -909,14 +935,14 @@
             this.ButtonSelection.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSelection.Image")));
             this.ButtonSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonSelection.Name = "ButtonSelection";
-            this.ButtonSelection.Size = new System.Drawing.Size(30, 20);
+            this.ButtonSelection.Size = new System.Drawing.Size(22, 20);
             this.ButtonSelection.Text = "Select pixels";
             this.ButtonSelection.Click += new System.EventHandler(this.ButtonSelection_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(22, 6);
             // 
             // ButtonZoomIn
             // 
@@ -924,7 +950,7 @@
             this.ButtonZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomIn.Image")));
             this.ButtonZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomIn.Name = "ButtonZoomIn";
-            this.ButtonZoomIn.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomIn.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomIn.Text = "Zoom in";
             this.ButtonZoomIn.Click += new System.EventHandler(this.ButtonZoomIn_Click);
             // 
@@ -934,14 +960,14 @@
             this.ButtonZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("ButtonZoomOut.Image")));
             this.ButtonZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonZoomOut.Name = "ButtonZoomOut";
-            this.ButtonZoomOut.Size = new System.Drawing.Size(30, 20);
+            this.ButtonZoomOut.Size = new System.Drawing.Size(22, 20);
             this.ButtonZoomOut.Text = "Zoom out";
             this.ButtonZoomOut.Click += new System.EventHandler(this.ButtonZoomOut_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(22, 6);
             // 
             // ButtonGrid
             // 
@@ -952,7 +978,7 @@
             this.ButtonGrid.Image = ((System.Drawing.Image)(resources.GetObject("ButtonGrid.Image")));
             this.ButtonGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonGrid.Name = "ButtonGrid";
-            this.ButtonGrid.Size = new System.Drawing.Size(30, 20);
+            this.ButtonGrid.Size = new System.Drawing.Size(22, 20);
             this.ButtonGrid.Text = "Grid";
             this.ButtonGrid.Click += new System.EventHandler(this.ButtonGrid_Click);
             // 
@@ -965,14 +991,14 @@
             this.ButtonPasteWithAttrib.Image = ((System.Drawing.Image)(resources.GetObject("ButtonPasteWithAttrib.Image")));
             this.ButtonPasteWithAttrib.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ButtonPasteWithAttrib.Name = "ButtonPasteWithAttrib";
-            this.ButtonPasteWithAttrib.Size = new System.Drawing.Size(30, 20);
+            this.ButtonPasteWithAttrib.Size = new System.Drawing.Size(22, 20);
             this.ButtonPasteWithAttrib.Text = "Cut&Paste with attributes";
             this.ButtonPasteWithAttrib.Click += new System.EventHandler(this.ButtonPasteWithAttrib_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(22, 6);
             // 
             // walkboxModeButton
             // 
@@ -981,7 +1007,7 @@
             this.walkboxModeButton.Image = ((System.Drawing.Image)(resources.GetObject("walkboxModeButton.Image")));
             this.walkboxModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.walkboxModeButton.Name = "walkboxModeButton";
-            this.walkboxModeButton.Size = new System.Drawing.Size(30, 20);
+            this.walkboxModeButton.Size = new System.Drawing.Size(22, 20);
             this.walkboxModeButton.Text = "Edit walkboxes";
             this.walkboxModeButton.Click += new System.EventHandler(this.walkboxModeButton_Click);
             // 
@@ -1037,12 +1063,14 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBoxPalette2);
             this.groupBox2.Controls.Add(this.checkBoxPalette);
             this.groupBox2.Controls.Add(this.buttonUpdate);
             this.groupBox2.Controls.Add(this.labelRoomInfo);
-            this.groupBox2.Location = new System.Drawing.Point(9, 148);
+            this.groupBox2.Controls.Add(this.groupBox4);
+            this.groupBox2.Location = new System.Drawing.Point(9, 119);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(161, 114);
+            this.groupBox2.Size = new System.Drawing.Size(161, 149);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Information";
@@ -1052,16 +1080,16 @@
             this.checkBoxPalette.AutoSize = true;
             this.checkBoxPalette.Checked = true;
             this.checkBoxPalette.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxPalette.Location = new System.Drawing.Point(15, 62);
+            this.checkBoxPalette.Location = new System.Drawing.Point(13, 81);
             this.checkBoxPalette.Name = "checkBoxPalette";
-            this.checkBoxPalette.Size = new System.Drawing.Size(134, 17);
+            this.checkBoxPalette.Size = new System.Drawing.Size(50, 17);
             this.checkBoxPalette.TabIndex = 2;
-            this.checkBoxPalette.Text = "Cols 1 and 2 as palette";
+            this.checkBoxPalette.Text = "Col 1";
             this.checkBoxPalette.UseVisualStyleBackColor = true;
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(43, 85);
+            this.buttonUpdate.Location = new System.Drawing.Point(43, 122);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
             this.buttonUpdate.TabIndex = 1;
@@ -1072,7 +1100,7 @@
             // labelRoomInfo
             // 
             this.labelRoomInfo.AutoSize = true;
-            this.labelRoomInfo.Location = new System.Drawing.Point(6, 18);
+            this.labelRoomInfo.Location = new System.Drawing.Point(6, 17);
             this.labelRoomInfo.Name = "labelRoomInfo";
             this.labelRoomInfo.Size = new System.Drawing.Size(141, 26);
             this.labelRoomInfo.TabIndex = 0;
@@ -1081,7 +1109,7 @@
             // 
             // textBoxZPlanes
             // 
-            this.textBoxZPlanes.Location = new System.Drawing.Point(93, 114);
+            this.textBoxZPlanes.Location = new System.Drawing.Point(92, 90);
             this.textBoxZPlanes.Name = "textBoxZPlanes";
             this.textBoxZPlanes.ReadOnly = true;
             this.textBoxZPlanes.Size = new System.Drawing.Size(65, 20);
@@ -1090,7 +1118,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 117);
+            this.label4.Location = new System.Drawing.Point(21, 93);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 10;
@@ -1102,16 +1130,16 @@
             this.groupBox1.Controls.Add(this.textBoxSize);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(9, 42);
+            this.groupBox1.Location = new System.Drawing.Point(9, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(161, 100);
+            this.groupBox1.Size = new System.Drawing.Size(161, 90);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Details";
             // 
             // numericUpDownID
             // 
-            this.numericUpDownID.Location = new System.Drawing.Point(84, 18);
+            this.numericUpDownID.Location = new System.Drawing.Point(84, 12);
             this.numericUpDownID.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1124,7 +1152,7 @@
             // 
             // textBoxSize
             // 
-            this.textBoxSize.Location = new System.Drawing.Point(83, 44);
+            this.textBoxSize.Location = new System.Drawing.Point(83, 37);
             this.textBoxSize.Name = "textBoxSize";
             this.textBoxSize.ReadOnly = true;
             this.textBoxSize.Size = new System.Drawing.Size(65, 20);
@@ -1133,7 +1161,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 47);
+            this.label3.Location = new System.Drawing.Point(11, 40);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 8;
@@ -1142,7 +1170,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 21);
+            this.label2.Location = new System.Drawing.Point(11, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 6;
@@ -1151,7 +1179,7 @@
             // textBoxName
             // 
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxName.Location = new System.Drawing.Point(78, 12);
+            this.textBoxName.Location = new System.Drawing.Point(78, 6);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(92, 20);
             this.textBoxName.TabIndex = 1;
@@ -1161,7 +1189,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 15);
+            this.label1.Location = new System.Drawing.Point(6, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 0;
@@ -1366,25 +1394,46 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // ButtonRect
+            // checkBoxPalette2
             // 
-            this.ButtonRect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonRect.Image = ((System.Drawing.Image)(resources.GetObject("ButtonRect.Image")));
-            this.ButtonRect.ImageTransparentColor = System.Drawing.Color.White;
-            this.ButtonRect.Name = "ButtonRect";
-            this.ButtonRect.Size = new System.Drawing.Size(30, 20);
-            this.ButtonRect.Text = "Rectangle";
-            this.ButtonRect.Click += new System.EventHandler(this.ButtonRect_Click);
+            this.checkBoxPalette2.AutoSize = true;
+            this.checkBoxPalette2.Checked = true;
+            this.checkBoxPalette2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxPalette2.Location = new System.Drawing.Point(13, 98);
+            this.checkBoxPalette2.Name = "checkBoxPalette2";
+            this.checkBoxPalette2.Size = new System.Drawing.Size(50, 17);
+            this.checkBoxPalette2.TabIndex = 3;
+            this.checkBoxPalette2.Text = "Col 2";
+            this.checkBoxPalette2.UseVisualStyleBackColor = true;
             // 
-            // ButtonEllipse
+            // showWalkMatrixToolStripMenuItem
             // 
-            this.ButtonEllipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonEllipse.Image = ((System.Drawing.Image)(resources.GetObject("ButtonEllipse.Image")));
-            this.ButtonEllipse.ImageTransparentColor = System.Drawing.Color.White;
-            this.ButtonEllipse.Name = "ButtonEllipse";
-            this.ButtonEllipse.Size = new System.Drawing.Size(30, 20);
-            this.ButtonEllipse.Text = "Ellipse";
-            this.ButtonEllipse.Click += new System.EventHandler(this.ButtonEllipse_Click);
+            this.showWalkMatrixToolStripMenuItem.Name = "showWalkMatrixToolStripMenuItem";
+            this.showWalkMatrixToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.showWalkMatrixToolStripMenuItem.Text = "Show Walk &Matrix...";
+            this.showWalkMatrixToolStripMenuItem.Click += new System.EventHandler(this.showWalkMatrixToolStripMenuItem_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.checkBoxExportToRes);
+            this.groupBox4.Location = new System.Drawing.Point(6, 62);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(149, 58);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Palette: ";
+            // 
+            // checkBoxExportToRes
+            // 
+            this.checkBoxExportToRes.AutoSize = true;
+            this.checkBoxExportToRes.Checked = true;
+            this.checkBoxExportToRes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxExportToRes.Location = new System.Drawing.Point(60, 26);
+            this.checkBoxExportToRes.Name = "checkBoxExportToRes";
+            this.checkBoxExportToRes.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxExportToRes.TabIndex = 5;
+            this.checkBoxExportToRes.Text = "Export to res";
+            this.checkBoxExportToRes.UseVisualStyleBackColor = true;
             // 
             // EditorMain
             // 
@@ -1433,6 +1482,8 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1571,6 +1622,10 @@
         private System.Windows.Forms.ToolStripButton ButtonLine;
         private System.Windows.Forms.ToolStripButton ButtonRect;
         private System.Windows.Forms.ToolStripButton ButtonEllipse;
+        private System.Windows.Forms.CheckBox checkBoxPalette2;
+        private System.Windows.Forms.ToolStripMenuItem showWalkMatrixToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox checkBoxExportToRes;
     }
 }
 
