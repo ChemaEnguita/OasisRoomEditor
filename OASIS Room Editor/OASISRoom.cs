@@ -335,6 +335,7 @@ namespace OASIS_Room_Editor
 
             if(includePalette)
             {
+                s = "";
                 rf.WriteLine("; Palette Information is stored as one column only for now...");
                 rf.WriteLine("; Palette");
                 rf.WriteLine("palette");
