@@ -345,7 +345,9 @@ namespace OASIS_Room_Editor
                         s += ".byt ";
                     s += roomImage.GetScanInkCode(0, i);
                     if (i % 16 != 15)
-                        s += ", ";
+                    {
+                      if (i < (17 * 8 - 1)) s += ", ";
+                    }
                     else
                         s += "\r\n";
                 }
