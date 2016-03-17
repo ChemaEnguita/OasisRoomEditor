@@ -182,8 +182,12 @@ namespace OASIS_Room_Editor
              - Offset to zplane 1 tiles
              ... */
 
+            var ncols = roomSize;
+            if (trimCol1) ncols--;
+            if (trimCol2) ncols--;
+
             rf.WriteLine("; No. columns, offset to tile map, offset to tiles");
-            rf.WriteLine(String.Format("\t.byt {0:d}, <(column_data-res_start), >(column_data-res_start), <(tiles_start-res_start), >(tiles_start-res_start)", roomSize-2));
+            rf.WriteLine(String.Format("\t.byt {0:d}, <(column_data-res_start), >(column_data-res_start), <(tiles_start-res_start), >(tiles_start-res_start)", ncols));
 
             int roomNZplanes = 0;
             rf.WriteLine("; No. zplanes and offsets to zplanes");
