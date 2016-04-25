@@ -97,6 +97,7 @@
             this.atTheleftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aICHelperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.showWalkMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sectionInTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuTools = new System.Windows.Forms.ToolStrip();
             this.nuevoToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -128,9 +129,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabRoom = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxPalette2 = new System.Windows.Forms.CheckBox();
             this.checkBoxPalette = new System.Windows.Forms.CheckBox();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.labelRoomInfo = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBoxExportToRes = new System.Windows.Forms.CheckBox();
             this.textBoxZPlanes = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -160,10 +164,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.checkBoxPalette2 = new System.Windows.Forms.CheckBox();
-            this.showWalkMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBoxExportToRes = new System.Windows.Forms.CheckBox();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -176,6 +176,7 @@
             this.tabControl1.SuspendLayout();
             this.tabRoom.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).BeginInit();
             this.tabWalkbox.SuspendLayout();
@@ -186,7 +187,6 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -714,14 +714,14 @@
             // atTherightToolStripMenuItem
             // 
             this.atTherightToolStripMenuItem.Name = "atTherightToolStripMenuItem";
-            this.atTherightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.atTherightToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.atTherightToolStripMenuItem.Text = "On the &right";
             this.atTherightToolStripMenuItem.Click += new System.EventHandler(this.atTherightToolStripMenuItem_Click);
             // 
             // atTheleftToolStripMenuItem
             // 
             this.atTheleftToolStripMenuItem.Name = "atTheleftToolStripMenuItem";
-            this.atTheleftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.atTheleftToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.atTheleftToolStripMenuItem.Text = "On the &left";
             this.atTheleftToolStripMenuItem.Click += new System.EventHandler(this.atTheleftToolStripMenuItem_Click);
             // 
@@ -736,6 +736,13 @@
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(219, 6);
+            // 
+            // showWalkMatrixToolStripMenuItem
+            // 
+            this.showWalkMatrixToolStripMenuItem.Name = "showWalkMatrixToolStripMenuItem";
+            this.showWalkMatrixToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.showWalkMatrixToolStripMenuItem.Text = "Show Walk &Matrix...";
+            this.showWalkMatrixToolStripMenuItem.Click += new System.EventHandler(this.showWalkMatrixToolStripMenuItem_Click);
             // 
             // sectionInTilesToolStripMenuItem
             // 
@@ -1075,6 +1082,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Information";
             // 
+            // checkBoxPalette2
+            // 
+            this.checkBoxPalette2.AutoSize = true;
+            this.checkBoxPalette2.Location = new System.Drawing.Point(13, 98);
+            this.checkBoxPalette2.Name = "checkBoxPalette2";
+            this.checkBoxPalette2.Size = new System.Drawing.Size(50, 17);
+            this.checkBoxPalette2.TabIndex = 3;
+            this.checkBoxPalette2.Text = "Col 2";
+            this.checkBoxPalette2.UseVisualStyleBackColor = true;
+            // 
             // checkBoxPalette
             // 
             this.checkBoxPalette.AutoSize = true;
@@ -1106,6 +1123,28 @@
             this.labelRoomInfo.TabIndex = 0;
             this.labelRoomInfo.Text = "Press UPDATE to calculate \r\ntiles and image size";
             this.labelRoomInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.checkBoxExportToRes);
+            this.groupBox4.Location = new System.Drawing.Point(6, 62);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(149, 58);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Palette: ";
+            // 
+            // checkBoxExportToRes
+            // 
+            this.checkBoxExportToRes.AutoSize = true;
+            this.checkBoxExportToRes.Checked = true;
+            this.checkBoxExportToRes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxExportToRes.Location = new System.Drawing.Point(60, 26);
+            this.checkBoxExportToRes.Name = "checkBoxExportToRes";
+            this.checkBoxExportToRes.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxExportToRes.TabIndex = 5;
+            this.checkBoxExportToRes.Text = "Export to res";
+            this.checkBoxExportToRes.UseVisualStyleBackColor = true;
             // 
             // textBoxZPlanes
             // 
@@ -1394,47 +1433,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // checkBoxPalette2
-            // 
-            this.checkBoxPalette2.AutoSize = true;
-            this.checkBoxPalette2.Checked = true;
-            this.checkBoxPalette2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxPalette2.Location = new System.Drawing.Point(13, 98);
-            this.checkBoxPalette2.Name = "checkBoxPalette2";
-            this.checkBoxPalette2.Size = new System.Drawing.Size(50, 17);
-            this.checkBoxPalette2.TabIndex = 3;
-            this.checkBoxPalette2.Text = "Col 2";
-            this.checkBoxPalette2.UseVisualStyleBackColor = true;
-            // 
-            // showWalkMatrixToolStripMenuItem
-            // 
-            this.showWalkMatrixToolStripMenuItem.Name = "showWalkMatrixToolStripMenuItem";
-            this.showWalkMatrixToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.showWalkMatrixToolStripMenuItem.Text = "Show Walk &Matrix...";
-            this.showWalkMatrixToolStripMenuItem.Click += new System.EventHandler(this.showWalkMatrixToolStripMenuItem_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.checkBoxExportToRes);
-            this.groupBox4.Location = new System.Drawing.Point(6, 62);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(149, 58);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Palette: ";
-            // 
-            // checkBoxExportToRes
-            // 
-            this.checkBoxExportToRes.AutoSize = true;
-            this.checkBoxExportToRes.Checked = true;
-            this.checkBoxExportToRes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxExportToRes.Location = new System.Drawing.Point(60, 26);
-            this.checkBoxExportToRes.Name = "checkBoxExportToRes";
-            this.checkBoxExportToRes.Size = new System.Drawing.Size(85, 17);
-            this.checkBoxExportToRes.TabIndex = 5;
-            this.checkBoxExportToRes.Text = "Export to res";
-            this.checkBoxExportToRes.UseVisualStyleBackColor = true;
-            // 
             // EditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1469,6 +1467,8 @@
             this.tabRoom.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).EndInit();
@@ -1482,8 +1482,6 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
