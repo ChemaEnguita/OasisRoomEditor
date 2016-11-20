@@ -77,7 +77,7 @@ namespace OASIS_Room_Editor
         private int SelectedWalkbox = -1;               // Selected walkbox in editing mode. -1 if none
 
         // Possible drawing tools and current one selected from the toolbar
-        enum DrawTools { Cursor, Pen, Line, Rect, Ellipse, SelectPixels, SelectAttributes }
+        enum DrawTools { Cursor, Pen, Line, Rect, Ellipse, SelectPixels, SelectAttributes, FloodFill }
         private DrawTools CurrentTool = DrawTools.Cursor;
 
         Point WhereClicked;                         // Position the user clicked on the picture
@@ -101,6 +101,9 @@ namespace OASIS_Room_Editor
 
         Attribute[,] copiedAttr;
         bool attrValid = false;
+
+        // For flood fill
+        bool[,] fillVisited;
 
 
         private Point MouseDownLocation;            // Location where the user pressed the mouse button to start dragging the clip
@@ -528,6 +531,13 @@ namespace OASIS_Room_Editor
         }
 
 
+        private void ButtonFill_Click(object sender, EventArgs e)
+        {
+            CurrentTool = DrawTools.FloodFill;
+            HiresPictureBox.Cursor = Cursors.UpArrow;
+
+        }
+
         private void ButtonSelection_Click(object sender, EventArgs e)
         {
             CurrentTool = DrawTools.SelectPixels;
@@ -820,6 +830,63 @@ namespace OASIS_Room_Editor
             SelectionValid = false;
             HiresPictureBox.Invalidate();
         }
+
+
+        private bool ColorMatch(int x, int y, int pixelval)
+        {
+            if (fillVisited[x, y]) return false;
+            return (theRoom.roomImage.GetPixel(x,y)==pixelval);
+        }
+
+        private void SetPixelFill(Point p)
+        {
+            theRoom.roomImage.SetPixelToValue(p, (p.X & 1) == 0 ? 1 : 0);
+            fillVisited[p.X, p.Y] = true;
+        }
+
+        void FloodFill(Point pt, int targetVal)
+        {
+            Queue<Point> q = new Queue<Point>();
+            q.Enqueue(pt);
+            var sizeX = theRoom.roomImage.nScans*6;
+            var sizeY = theRoom.roomImage.nRows;
+
+            fillVisited = new bool[sizeX, sizeY];
+
+            for (int i = 0; i < sizeX; i++)
+                for (int j = 0; j < sizeY; j++)
+                    fillVisited[i, j] = false;
+
+            while (q.Count > 0)
+            {
+                Point n = q.Dequeue();
+                if (!ColorMatch(n.X, n.Y, targetVal))
+                    continue;
+                Point w = n, e = new Point(n.X + 1, n.Y);
+                while ((w.X >= 0) && ColorMatch(w.X, w.Y, targetVal))
+                {
+                    //bmp.SetPixel(w.X, w.Y, replacementColor);
+                    SetPixelFill(w);
+                    if ((w.Y > 0) && ColorMatch(w.X, w.Y - 1, targetVal))
+                        q.Enqueue(new Point(w.X, w.Y - 1));
+                    if ((w.Y < sizeY - 1) && ColorMatch(w.X, w.Y + 1, targetVal))
+                        q.Enqueue(new Point(w.X, w.Y + 1));
+                    w.X--;
+                }
+                while ((e.X <= sizeX - 1) && ColorMatch(e.X, e.Y, targetVal))
+                {
+                    //bmp.SetPixel(e.X, e.Y, replacementColor);
+                    SetPixelFill(e);
+                    if ((e.Y > 0) && ColorMatch(e.X, e.Y - 1, targetVal))
+                        q.Enqueue(new Point(e.X, e.Y - 1));
+                    if ((e.Y < sizeY - 1) && ColorMatch(e.X, e.Y + 1, targetVal))
+                        q.Enqueue(new Point(e.X, e.Y + 1));
+                    e.X++;
+                }
+            }
+        }
+
+
 
         #region MAIN MENU
 
@@ -1514,7 +1581,7 @@ namespace OASIS_Room_Editor
                     startDrag = new Point(e.X, e.Y);
                     endDrag = new Point(e.X, e.Y);
                     HiresPictureBox.Capture = true;
-                    switch(CurrentTool)
+                    switch (CurrentTool)
                     {
                         case DrawTools.Line:
                             DrawingLine = true;
@@ -1535,32 +1602,51 @@ namespace OASIS_Room_Editor
                 case DrawTools.SelectPixels:
                     // If the tool is the selection, take note of 
                     // everything and capture the mouse
-                    startDrag = new Point(e.X,e.Y);
+                    startDrag = new Point(e.X, e.Y);
                     endDrag = new Point(e.X, e.Y);
                     WhereClicked.X = (int)(e.X / ZoomLevel);
                     WhereClicked.Y = (int)(e.Y / ZoomLevel);
                     HiresPictureBox.Capture = true;
                     SelectingPixels = true;
-                 break;
-                case DrawTools.Pen:
-                    // If the tool is the pencil, take note that we
-                    // want to draw, and if we are using ink or paper
-                    DrawingWithPen = true;
-                    if (e.Button == MouseButtons.Left)
-                        DrawingInk = true;
-                    else
-                        DrawingInk = false;
-
-                    undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
-                    var x = (int)(e.X / ZoomLevel);
-                    var y = (int)(e.Y / ZoomLevel);
-                    if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
-                    {
-                        theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
-                        HiresPictureBox.Invalidate();
-                    }
-                    needsSaving = true;
                     break;
+                case DrawTools.Pen:
+                    {
+                        // If the tool is the pencil, take note that we
+                        // want to draw, and if we are using ink or paper
+                        DrawingWithPen = true;
+                        if (e.Button == MouseButtons.Left)
+                            DrawingInk = true;
+                        else
+                            DrawingInk = false;
+
+                        undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                        var x = (int)(e.X / ZoomLevel);
+                        var y = (int)(e.Y / ZoomLevel);
+                        if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
+                        {
+                            theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
+                            HiresPictureBox.Invalidate();
+                        }
+                        needsSaving = true;
+                        break;
+                    }
+                case DrawTools.FloodFill:
+                    {
+                        // If the tool is the bucket
+                        // perform a flood fill with current
+                        // pattern
+                        undoRedo.NewCheckPoint(theRoom.CreateCheckPoint());
+                        var x = (int)(e.X / ZoomLevel);
+                        var y = (int)(e.Y / ZoomLevel);
+                        if ((x > 0) && (x < (theRoom.roomImage.nScans * 6)) && (y > 0) && (y < theRoom.roomImage.nRows))
+                        {
+                            //theRoom.roomImage.SetPixelToValue(x, y, DrawingInk ? 1 : 0);
+                            FloodFill(new Point(x, y), theRoom.roomImage.GetPixel(x, y));
+                            HiresPictureBox.Invalidate();
+                        }
+                        needsSaving = true;
+                        break;
+                    }
             }
         }
 
@@ -2006,8 +2092,6 @@ namespace OASIS_Room_Editor
             HiresPictureBox.Invalidate();
 
         }
-
-
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
         {

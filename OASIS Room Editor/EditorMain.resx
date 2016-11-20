@@ -297,6 +297,18 @@
         TwEAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="ButtonFill.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFISURBVDhPjVMxboNAEOQJeULewgtS8gB6WqeLZELpiNIR
+        XVzHBVVc4CYuXF0K+lAkaSguEQLKDbPes44DRxlpdHhvZ25vDJ6Ltm1vmqZ577qOQDyjJtt/A411XVMU
+        ReT7PhPPqP3LBKdBEIYhFUVBx+ORWZYlptF9319L6zwwMk6FOM9zWixuab1+pDi+Z6NhX2mtr6R9CmNg
+        1sPrgb71D3P3sqMsy3iSWRMUXYPN0+ZsACr1ZkyUyE4QsXINgiCgz48vFq9WD8zt85avM4R6J3JOf487
+        uwbgchmzAcxMDSEjcBbbo1dVNVoNYYIw7Ro0E4MkSXg8rHbzHM8GAMbBWHONlzgyQCA4ea7RJbLCOjIA
+        hoJK03QisOkGLdITJAt9yUTE/FfLuzA2AMz7gOvYmRgx9vFR4cpYRTYFGuxPevi9h1i2LXjeL1QL/1nY
+        SkPpAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="ButtonZoomIn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
