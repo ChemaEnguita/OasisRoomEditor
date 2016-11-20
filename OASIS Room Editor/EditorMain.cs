@@ -840,7 +840,15 @@ namespace OASIS_Room_Editor
 
         private void SetPixelFill(Point p)
         {
-            theRoom.roomImage.SetPixelToValue(p, (p.X & 1) == 0 ? 1 : 0);
+            //theRoom.roomImage.SetPixelToValue(p, (p.X & 1) == 0 ? 1 : 0);
+            Bitmap bmp = new Bitmap(selectedPattern.Image);
+            Color c = bmp.GetPixel(p.X % 6*4, p.Y % 8*4);
+            int set;
+            if( (c.ToArgb() & 0xffffff) == 0x000000)
+                set = 0;
+            else
+                set = 1; 
+            theRoom.roomImage.SetPixelToValue(p, set);
             fillVisited[p.X, p.Y] = true;
         }
 
@@ -2091,6 +2099,31 @@ namespace OASIS_Room_Editor
                 }
             HiresPictureBox.Invalidate();
 
+        }
+
+        private void patternBlack_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = patternBlack.Image;
+        }
+
+        private void pattern2_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern2.Image;
+        }
+
+        private void pattern3_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern3.Image;
+        }
+
+        private void pattern4_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern4.Image;
+        }
+
+        private void pattern5_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern5.Image;
         }
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)

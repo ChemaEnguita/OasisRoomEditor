@@ -353,6 +353,76 @@
         MpzH7gGrsnu3AnqwjOnvFLATA5ymAeeL+QXODA5HXnUiswAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="pattern5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //////8A////AP///wD///8ADw8PAA8PDwAPDw8ADw8PAP///wD///8A////AP///wAPDw8ADw8PAA8P
+        DwAPDw8A////AP///wD///8A////AA8PDwAPDw8ADw8PAA8PDwD///8A////AP///wD///8ADw8PAA8P
+        DwAPDw8ADw8PAA==
+</value>
+  </data>
+  <data name="pattern5.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //+oAAAAVAAAAKgAAABUAAAAqAAAAFQAAACoAAAAVAAAAA==
+</value>
+  </data>
+  <data name="pattern4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8PDw8ADw8PAA8PDwAPDw8A////AP///wD///8A////AA8PDwAPDw8ADw8PAA8PDwD///8A////AP//
+        /wD///8ADw8PAA8PDwAPDw8ADw8PAP///wD///8A////AP///wAPDw8ADw8PAA8PDwAPDw8A////AP//
+        /wD///8A////AA==
+</value>
+  </data>
+  <data name="pattern4.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //+oAAAAVAAAAKgAAABUAAAAqAAAAFQAAACoAAAAVAAAAA==
+</value>
+  </data>
+  <data name="pattern3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAA8PDwAPDw8ADw8PAA8PDwAAAAAAAAAAAAAAAAAAAAAADw8PAA8PDwAPDw
+        8ADw8PAAAAAAAAAAAAAAAAAAAAAAAPDw8ADw8PAA8PDwAPDw8AAAAAAAAAAAAAAAAAAAAAAA8PDwAPDw
+        8ADw8PAA8PDwAA==
+</value>
+  </data>
+  <data name="pattern3.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //+oAAAAVAAAAKgAAABUAAAAqAAAAFQAAACoAAAAVAAAAA==
+</value>
+  </data>
+  <data name="pattern2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        ///w8PAA8PDwAPDw8ADw8PAAAAAAAAAAAAAAAAAAAAAAAPDw8ADw8PAA8PDwAPDw8AAAAAAAAAAAAAAA
+        AAAAAAAA8PDwAPDw8ADw8PAA8PDwAAAAAAAAAAAAAAAAAAAAAADw8PAA8PDwAPDw8ADw8PAAAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern2.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //+oAAAAVAAAAKgAAABUAAAAqAAAAFQAAACoAAAAVAAAAA==
+</value>
+  </data>
+  <data name="patternBlack.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="patternBlack.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>783, 17</value>
   </metadata>
