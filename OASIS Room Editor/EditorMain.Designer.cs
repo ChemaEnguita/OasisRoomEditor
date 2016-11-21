@@ -164,14 +164,25 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.pattern12 = new System.Windows.Forms.PictureBox();
+            this.pattern11 = new System.Windows.Forms.PictureBox();
+            this.pattern10 = new System.Windows.Forms.PictureBox();
+            this.pattern9 = new System.Windows.Forms.PictureBox();
+            this.pattern8 = new System.Windows.Forms.PictureBox();
+            this.pattern7 = new System.Windows.Forms.PictureBox();
             this.pattern5 = new System.Windows.Forms.PictureBox();
             this.pattern4 = new System.Windows.Forms.PictureBox();
             this.pattern3 = new System.Windows.Forms.PictureBox();
-            this.selectedPattern = new System.Windows.Forms.PictureBox();
             this.pattern2 = new System.Windows.Forms.PictureBox();
             this.patternBlack = new System.Windows.Forms.PictureBox();
+            this.selectedPattern = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.patternL1 = new System.Windows.Forms.PictureBox();
+            this.patternL2 = new System.Windows.Forms.PictureBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.StatusBar.SuspendLayout();
             this.contextMenuAttributes.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -196,12 +207,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.selectedPattern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patternBlack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedPattern)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.patternL1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.patternL2)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -1459,12 +1480,10 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.pattern5);
-            this.tabPage1.Controls.Add(this.pattern4);
-            this.tabPage1.Controls.Add(this.pattern3);
+            this.tabPage1.Controls.Add(this.groupBox6);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.selectedPattern);
-            this.tabPage1.Controls.Add(this.pattern2);
-            this.tabPage1.Controls.Add(this.patternBlack);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -1473,78 +1492,228 @@
             this.tabPage1.Text = "Fill Patterns";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 235);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(89, 13);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Current selection:";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.pattern12);
+            this.groupBox5.Controls.Add(this.pattern11);
+            this.groupBox5.Controls.Add(this.pattern10);
+            this.groupBox5.Controls.Add(this.pattern9);
+            this.groupBox5.Controls.Add(this.pattern8);
+            this.groupBox5.Controls.Add(this.pattern7);
+            this.groupBox5.Controls.Add(this.pattern5);
+            this.groupBox5.Controls.Add(this.pattern4);
+            this.groupBox5.Controls.Add(this.pattern3);
+            this.groupBox5.Controls.Add(this.pattern2);
+            this.groupBox5.Controls.Add(this.patternBlack);
+            this.groupBox5.Location = new System.Drawing.Point(9, 8);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(168, 143);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Single-tile";
+            // 
+            // pattern12
+            // 
+            this.pattern12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern12.Image = ((System.Drawing.Image)(resources.GetObject("pattern12.Image")));
+            this.pattern12.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern12.InitialImage")));
+            this.pattern12.Location = new System.Drawing.Point(7, 96);
+            this.pattern12.Name = "pattern12";
+            this.pattern12.Size = new System.Drawing.Size(28, 36);
+            this.pattern12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern12.TabIndex = 9;
+            this.pattern12.TabStop = false;
+            this.pattern12.Click += new System.EventHandler(this.pattern12_Click);
+            // 
+            // pattern11
+            // 
+            this.pattern11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern11.Image = ((System.Drawing.Image)(resources.GetObject("pattern11.Image")));
+            this.pattern11.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern11.InitialImage")));
+            this.pattern11.Location = new System.Drawing.Point(128, 55);
+            this.pattern11.Name = "pattern11";
+            this.pattern11.Size = new System.Drawing.Size(28, 36);
+            this.pattern11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern11.TabIndex = 8;
+            this.pattern11.TabStop = false;
+            this.pattern11.Click += new System.EventHandler(this.pattern11_Click);
+            // 
+            // pattern10
+            // 
+            this.pattern10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern10.Image = ((System.Drawing.Image)(resources.GetObject("pattern10.Image")));
+            this.pattern10.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern10.InitialImage")));
+            this.pattern10.Location = new System.Drawing.Point(97, 55);
+            this.pattern10.Name = "pattern10";
+            this.pattern10.Size = new System.Drawing.Size(28, 36);
+            this.pattern10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern10.TabIndex = 8;
+            this.pattern10.TabStop = false;
+            this.pattern10.Click += new System.EventHandler(this.pattern10_Click);
+            // 
+            // pattern9
+            // 
+            this.pattern9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern9.Image = ((System.Drawing.Image)(resources.GetObject("pattern9.Image")));
+            this.pattern9.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern9.InitialImage")));
+            this.pattern9.Location = new System.Drawing.Point(67, 55);
+            this.pattern9.Name = "pattern9";
+            this.pattern9.Size = new System.Drawing.Size(28, 36);
+            this.pattern9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern9.TabIndex = 8;
+            this.pattern9.TabStop = false;
+            this.pattern9.Click += new System.EventHandler(this.pattern9_Click);
+            // 
+            // pattern8
+            // 
+            this.pattern8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern8.Image = ((System.Drawing.Image)(resources.GetObject("pattern8.Image")));
+            this.pattern8.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern8.InitialImage")));
+            this.pattern8.Location = new System.Drawing.Point(37, 55);
+            this.pattern8.Name = "pattern8";
+            this.pattern8.Size = new System.Drawing.Size(28, 36);
+            this.pattern8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern8.TabIndex = 7;
+            this.pattern8.TabStop = false;
+            this.pattern8.Click += new System.EventHandler(this.pattern8_Click);
+            // 
+            // pattern7
+            // 
+            this.pattern7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pattern7.Image = ((System.Drawing.Image)(resources.GetObject("pattern7.Image")));
+            this.pattern7.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern7.InitialImage")));
+            this.pattern7.Location = new System.Drawing.Point(7, 55);
+            this.pattern7.Name = "pattern7";
+            this.pattern7.Size = new System.Drawing.Size(28, 36);
+            this.pattern7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pattern7.TabIndex = 6;
+            this.pattern7.TabStop = false;
+            this.pattern7.Click += new System.EventHandler(this.pattern7_Click);
+            // 
             // pattern5
             // 
-            this.pattern5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pattern5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pattern5.Image = ((System.Drawing.Image)(resources.GetObject("pattern5.Image")));
             this.pattern5.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern5.InitialImage")));
-            this.pattern5.Location = new System.Drawing.Point(127, 6);
+            this.pattern5.Location = new System.Drawing.Point(128, 17);
             this.pattern5.Name = "pattern5";
-            this.pattern5.Size = new System.Drawing.Size(24, 32);
+            this.pattern5.Size = new System.Drawing.Size(28, 36);
+            this.pattern5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pattern5.TabIndex = 5;
             this.pattern5.TabStop = false;
             this.pattern5.Click += new System.EventHandler(this.pattern5_Click);
             // 
             // pattern4
             // 
-            this.pattern4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pattern4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pattern4.Image = ((System.Drawing.Image)(resources.GetObject("pattern4.Image")));
             this.pattern4.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern4.InitialImage")));
-            this.pattern4.Location = new System.Drawing.Point(97, 6);
+            this.pattern4.Location = new System.Drawing.Point(98, 17);
             this.pattern4.Name = "pattern4";
-            this.pattern4.Size = new System.Drawing.Size(24, 32);
+            this.pattern4.Size = new System.Drawing.Size(28, 36);
+            this.pattern4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pattern4.TabIndex = 4;
             this.pattern4.TabStop = false;
             this.pattern4.Click += new System.EventHandler(this.pattern4_Click);
             // 
             // pattern3
             // 
-            this.pattern3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pattern3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pattern3.Image = ((System.Drawing.Image)(resources.GetObject("pattern3.Image")));
             this.pattern3.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern3.InitialImage")));
-            this.pattern3.Location = new System.Drawing.Point(67, 6);
+            this.pattern3.Location = new System.Drawing.Point(68, 17);
             this.pattern3.Name = "pattern3";
-            this.pattern3.Size = new System.Drawing.Size(24, 32);
+            this.pattern3.Size = new System.Drawing.Size(28, 36);
+            this.pattern3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pattern3.TabIndex = 3;
             this.pattern3.TabStop = false;
             this.pattern3.Click += new System.EventHandler(this.pattern3_Click);
             // 
-            // selectedPattern
-            // 
-            this.selectedPattern.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.selectedPattern.Location = new System.Drawing.Point(67, 75);
-            this.selectedPattern.Name = "selectedPattern";
-            this.selectedPattern.Size = new System.Drawing.Size(24, 32);
-            this.selectedPattern.TabIndex = 2;
-            this.selectedPattern.TabStop = false;
-            // 
             // pattern2
             // 
-            this.pattern2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pattern2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pattern2.Image = ((System.Drawing.Image)(resources.GetObject("pattern2.Image")));
             this.pattern2.InitialImage = ((System.Drawing.Image)(resources.GetObject("pattern2.InitialImage")));
-            this.pattern2.Location = new System.Drawing.Point(36, 6);
+            this.pattern2.Location = new System.Drawing.Point(37, 17);
             this.pattern2.Name = "pattern2";
-            this.pattern2.Size = new System.Drawing.Size(24, 32);
+            this.pattern2.Size = new System.Drawing.Size(28, 36);
+            this.pattern2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pattern2.TabIndex = 1;
             this.pattern2.TabStop = false;
             this.pattern2.Click += new System.EventHandler(this.pattern2_Click);
             // 
             // patternBlack
             // 
-            this.patternBlack.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.patternBlack.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.patternBlack.Image = ((System.Drawing.Image)(resources.GetObject("patternBlack.Image")));
             this.patternBlack.InitialImage = ((System.Drawing.Image)(resources.GetObject("patternBlack.InitialImage")));
-            this.patternBlack.Location = new System.Drawing.Point(6, 6);
+            this.patternBlack.Location = new System.Drawing.Point(7, 17);
             this.patternBlack.Name = "patternBlack";
-            this.patternBlack.Size = new System.Drawing.Size(24, 32);
+            this.patternBlack.Size = new System.Drawing.Size(28, 36);
+            this.patternBlack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.patternBlack.TabIndex = 0;
             this.patternBlack.TabStop = false;
             this.patternBlack.Click += new System.EventHandler(this.patternBlack_Click);
             // 
+            // selectedPattern
+            // 
+            this.selectedPattern.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.selectedPattern.Location = new System.Drawing.Point(106, 230);
+            this.selectedPattern.Name = "selectedPattern";
+            this.selectedPattern.Size = new System.Drawing.Size(24, 32);
+            this.selectedPattern.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.selectedPattern.TabIndex = 2;
+            this.selectedPattern.TabStop = false;
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // patternL1
+            // 
+            this.patternL1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.patternL1.Image = ((System.Drawing.Image)(resources.GetObject("patternL1.Image")));
+            this.patternL1.InitialImage = ((System.Drawing.Image)(resources.GetObject("patternL1.InitialImage")));
+            this.patternL1.Location = new System.Drawing.Point(5, 14);
+            this.patternL1.Name = "patternL1";
+            this.patternL1.Size = new System.Drawing.Size(28, 36);
+            this.patternL1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.patternL1.TabIndex = 10;
+            this.patternL1.TabStop = false;
+            this.patternL1.Click += new System.EventHandler(this.patternL1_Click);
+            // 
+            // patternL2
+            // 
+            this.patternL2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.patternL2.Image = ((System.Drawing.Image)(resources.GetObject("patternL2.Image")));
+            this.patternL2.InitialImage = ((System.Drawing.Image)(resources.GetObject("patternL2.InitialImage")));
+            this.patternL2.Location = new System.Drawing.Point(39, 14);
+            this.patternL2.Name = "patternL2";
+            this.patternL2.Size = new System.Drawing.Size(28, 36);
+            this.patternL2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.patternL2.TabIndex = 11;
+            this.patternL2.TabStop = false;
+            this.patternL2.Click += new System.EventHandler(this.patternL2_Click);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.patternL2);
+            this.groupBox6.Controls.Add(this.patternL1);
+            this.groupBox6.Location = new System.Drawing.Point(11, 158);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(165, 66);
+            this.groupBox6.TabIndex = 12;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Multi-tile";
             // 
             // EditorMain
             // 
@@ -1596,12 +1765,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownElevation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZPlane)).EndInit();
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pattern7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.selectedPattern)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pattern2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.patternBlack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedPattern)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.patternL1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.patternL2)).EndInit();
+            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1752,6 +1933,17 @@
         private System.Windows.Forms.PictureBox pattern5;
         private System.Windows.Forms.PictureBox pattern4;
         private System.Windows.Forms.PictureBox pattern3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.PictureBox pattern11;
+        private System.Windows.Forms.PictureBox pattern10;
+        private System.Windows.Forms.PictureBox pattern9;
+        private System.Windows.Forms.PictureBox pattern8;
+        private System.Windows.Forms.PictureBox pattern7;
+        private System.Windows.Forms.PictureBox pattern12;
+        private System.Windows.Forms.PictureBox patternL2;
+        private System.Windows.Forms.PictureBox patternL1;
+        private System.Windows.Forms.GroupBox groupBox6;
     }
 }
 

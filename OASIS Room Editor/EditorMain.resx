@@ -353,6 +353,130 @@
         MpzH7gGrsnu3AnqwjOnvFLATA5ymAeeL+QXODA5HXnUiswAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="patternL2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk0+AgAAAAAAAD4AAAAoAAAAMAAAAEAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //////////8AAP///////wAA////////AAD///////8AAP8P/w//DwAA/w//D/8PAAD/D/8P/w8AAP8P
+        /w//DwAA////////AAD///////8AAP///////wAA////////AAAP/w//D/8AAA//D/8P/wAAD/8P/w//
+        AAAP/w//D/8AAP///////wAA////////AAD///////8AAP///////wAA/w//D/8PAAD/D/8P/w8AAP8P
+        /w//DwAA/w//D/8PAAD///////8AAP///////wAA////////AAD///////8AAA//D/8P/wAAD/8P/w//
+        AAAP/w//D/8AAA//D/8P/wAA////////AAD///////8AAP///////wAA////////AAD/D/8P/w8AAP8P
+        /w//DwAA/w//D/8PAAD/D/8P/w8AAP///////wAA////////AAD///////8AAP///////wAAD/8P/w//
+        AAAP/w//D/8AAA//D/8P/wAAD/8P/w//AAD///////8AAP///////wAA////////AAD///////8AAP8P
+        /w//DwAA/w//D/8PAAD/D/8P/w8AAP8P/w//DwAA////////AAD///////8AAP///////wAA////////
+        AAAP/w//D/8AAA//D/8P/wAAD/8P/w//AAAP/w//D/8AAA==
+</value>
+  </data>
+  <data name="patternL2.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="patternL1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk0+AgAAAAAAAD4AAAAoAAAAMAAAAEAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8P/w//D/8AAA//D/8P/wAAD/8P/w//AAAP/w//D/8AAP///////wAA////////AAD///////8AAP//
+        /////wAA/w//D/8PAAD/D/8P/w8AAP8P/w//DwAA/w//D/8PAAD///////8AAP///////wAA////////
+        AAD///////8AAA//D/8P/wAAD/8P/w//AAAP/w//D/8AAA//D/8P/wAA////////AAD///////8AAP//
+        /////wAA////////AAD/D/8P/w8AAP8P/w//DwAA/w//D/8PAAD/D/8P/w8AAP///////wAA////////
+        AAD///////8AAP///////wAAD/8P/w//AAAP/w//D/8AAA//D/8P/wAAD/8P/w//AAD///////8AAP//
+        /////wAA////////AAD///////8AAP8P/w//DwAA/w//D/8PAAD/D/8P/w8AAP8P/w//DwAA////////
+        AAD///////8AAP///////wAA////////AAAP/w//D/8AAA//D/8P/wAAD/8P/w//AAAP/w//D/8AAP//
+        /////wAA////////AAD///////8AAP///////wAA/w//D/8PAAD/D/8P/w8AAP8P/w//DwAA/w//D/8P
+        AAD///////8AAP///////wAA////////AAD///////8AAA==
+</value>
+  </data>
+  <data name="patternL1.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern12.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        ///w8PAA8PDwAPDw8ADw8PAADw8PAA8PDwAPDw8ADw8PAPDw8ADw8PAA8PDwAPDw8AAPDw8ADw8PAA8P
+        DwAPDw8A8PDwAPDw8ADw8PAA8PDwAA8PDwAPDw8ADw8PAA8PDwDw8PAA8PDwAPDw8ADw8PAADw8PAA8P
+        DwAPDw8ADw8PAA==
+</value>
+  </data>
+  <data name="pattern12.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern11.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8PDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8P
+        DwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8PDwAPDw8ADw8PAA8P
+        DwAPDw8ADw8PAA==
+</value>
+  </data>
+  <data name="pattern11.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern10.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //////8A////AP///wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wAAAAAAAAAAAAAA
+        AAAAAAAA////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8AAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern10.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern9.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAD///8A////AP//
+        /wD///8AAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAA////AP//
+        /wD///8A////AA==
+</value>
+  </data>
+  <data name="pattern9.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AD/8AAA//AAAP/wAAD/8A//AAAP/wAAD/8AAA//AAAAAP/wAAD/8AAA//AAAP/wD/8AAA//AAAP/w
+        AAD/8AAAAA//AAAP/wAAD/8AAA//AP/wAAD/8AAA//AAAP/wAAAAD/8AAA//AAAP/wAAD/8A//AAAP/w
+        AAD/8AAA//AAAA==
+</value>
+  </data>
+  <data name="pattern8.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
+  <data name="pattern7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A////AA==
+</value>
+  </data>
+  <data name="pattern7.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk1eAAAAAAAAAD4AAAAoAAAABgAAAAgAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////
+        //8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
   <data name="pattern5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         Qk2+AAAAAAAAAD4AAAAoAAAAGAAAACAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAA////

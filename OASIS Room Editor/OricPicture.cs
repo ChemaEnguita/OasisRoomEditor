@@ -11,7 +11,7 @@ namespace OASIS_Room_Editor
 {
     // <summary>
     // Class holding attribute information in a HIRES Oric picture
-    // Much better using a structure to gain speed.
+    // Much better to use a structure to gain speed.
     // <!summary>
 
     struct Attribute

@@ -104,7 +104,7 @@ namespace OASIS_Room_Editor
 
         // For flood fill
         bool[,] fillVisited;
-
+        bool BigFillPattern;
 
         private Point MouseDownLocation;            // Location where the user pressed the mouse button to start dragging the clip
 
@@ -138,6 +138,10 @@ namespace OASIS_Room_Editor
                 c.Enabled = false;
             foreach (Control c in tabRoom.Controls)
                 c.Enabled = false;
+
+            // Select default fill pattern
+            selectedPattern.Image = patternBlack.Image;
+            BigFillPattern = false;
         }
 
         
@@ -534,7 +538,7 @@ namespace OASIS_Room_Editor
         private void ButtonFill_Click(object sender, EventArgs e)
         {
             CurrentTool = DrawTools.FloodFill;
-            HiresPictureBox.Cursor = Cursors.UpArrow;
+            HiresPictureBox.Cursor = new Cursor(GetType(), "FloodFill.cur");
 
         }
 
@@ -842,7 +846,11 @@ namespace OASIS_Room_Editor
         {
             //theRoom.roomImage.SetPixelToValue(p, (p.X & 1) == 0 ? 1 : 0);
             Bitmap bmp = new Bitmap(selectedPattern.Image);
-            Color c = bmp.GetPixel(p.X % 6*4, p.Y % 8*4);
+            Color c;
+            if(BigFillPattern)
+                c = bmp.GetPixel(p.X % 12 * 4, p.Y % 16 * 4);
+            else
+                c = bmp.GetPixel(p.X % 6 * 4, p.Y % 8 * 4);
             int set;
             if( (c.ToArgb() & 0xffffff) == 0x000000)
                 set = 0;
@@ -1955,7 +1963,11 @@ namespace OASIS_Room_Editor
                 inix = SelectedRect.Left;
                 iniy = SelectedRect.Top;
                 nx = inix + SelectedRect.Width;
+                if (nx > theRoom.roomImage.nScans * 6)
+                    nx = theRoom.roomImage.nScans * 6;
                 ny = iniy + SelectedRect.Height;
+                if (ny > theRoom.roomImage.nRows)
+                    ny = theRoom.roomImage.nRows;
             }
             else
             {
@@ -2104,26 +2116,79 @@ namespace OASIS_Room_Editor
         private void patternBlack_Click(object sender, EventArgs e)
         {
             selectedPattern.Image = patternBlack.Image;
+            BigFillPattern = false;
         }
 
         private void pattern2_Click(object sender, EventArgs e)
         {
             selectedPattern.Image = pattern2.Image;
+            BigFillPattern = false;
         }
 
         private void pattern3_Click(object sender, EventArgs e)
         {
             selectedPattern.Image = pattern3.Image;
+            BigFillPattern = false;
         }
 
         private void pattern4_Click(object sender, EventArgs e)
         {
             selectedPattern.Image = pattern4.Image;
+            BigFillPattern = false;
         }
 
         private void pattern5_Click(object sender, EventArgs e)
         {
             selectedPattern.Image = pattern5.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern7_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern7.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern8_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern8.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern9_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern9.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern10_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern10.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern11_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern11.Image;
+            BigFillPattern = false;
+        }
+
+        private void pattern12_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = pattern12.Image;
+            BigFillPattern = false;
+        }
+
+        private void patternL1_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = patternL1.Image;
+            BigFillPattern = true;
+        }
+
+        private void patternL2_Click(object sender, EventArgs e)
+        {
+            selectedPattern.Image = patternL2.Image;
+            BigFillPattern = true;
         }
 
         private void HiresPictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -2179,10 +2244,10 @@ namespace OASIS_Room_Editor
                 }
 
                 // Check rectangle does not exceed the image boundaries
-                if (SelectedRect.Width > theRoom.roomImage.nScans * 6 - 1)
-                    SelectedRect.Width = theRoom.roomImage.nScans * 6 - 1;
-                if (SelectedRect.Height > theRoom.roomImage.nRows - 1)
-                    SelectedRect.Height = theRoom.roomImage.nRows - 1;
+                if ( (SelectedRect.Right) > theRoom.roomImage.nScans * 6 - 1)
+                    SelectedRect.Width = theRoom.roomImage.nScans * 6 - SelectedRect.X;
+                if ((SelectedRect.Bottom) > theRoom.roomImage.nRows - 1)
+                    SelectedRect.Height = theRoom.roomImage.nRows - SelectedRect.Y;
 
                 if(WalkboxEditMode)
                 {

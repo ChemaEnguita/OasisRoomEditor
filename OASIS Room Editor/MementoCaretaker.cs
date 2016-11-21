@@ -12,8 +12,8 @@ namespace OASIS_Room_Editor
 
     class MementoCaretaker
     {
-        private DropOutStack<RoomMemento> undoStack =new DropOutStack<RoomMemento>(50);
-        private DropOutStack<RoomMemento> redoStack=new DropOutStack<RoomMemento>(50);
+        private DropOutStack<RoomMemento> undoStack =new DropOutStack<RoomMemento>(80);
+        private DropOutStack<RoomMemento> redoStack=new DropOutStack<RoomMemento>(80);
 
         public void Clear()
         {
